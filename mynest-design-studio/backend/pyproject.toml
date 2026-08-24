@@ -1,0 +1,29 @@
+# Development tooling configuration for the MyNest Design Studio backend.
+# Runtime dependencies live in requirements.txt; dev tools in requirements-dev.txt.
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["app", "tests"]
+
+[tool.ruff.lint]
+# A small, sensible rule set — not an exhaustive linter:
+#   E/W = pycodestyle, F = pyflakes, I = import sorting,
+#   UP  = pyupgrade,  B = common bug patterns.
+select = ["E", "W", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+# Treat the backend package as first-party so its imports group separately.
+known-first-party = ["app"]
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI's dependency/param helpers are called in argument defaults by design.
+extend-immutable-calls = ["fastapi.File", "fastapi.Form", "fastapi.Depends", "fastapi.Query"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+files = ["app"]
+strict = true

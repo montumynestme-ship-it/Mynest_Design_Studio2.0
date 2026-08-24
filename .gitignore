@@ -1,0 +1,48 @@
+# ── Secrets / env ────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials/
+serviceAccount*.json
+firebase*.json
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+*.sqlite3
+*.db
+
+# ── Node / frontend ──────────────────────────────────────────
+node_modules/
+dist/
+build/
+.next/
+.vite/
+*.local
+
+# ── Model caches / large binaries ────────────────────────────
+.cache/
+.huggingface/
+*.ckpt
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS / editor ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

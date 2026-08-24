@@ -1,0 +1,4 @@
+# Local storage for this phase — do not commit user data.
+floor_plans/
+generations/
+projects.json
