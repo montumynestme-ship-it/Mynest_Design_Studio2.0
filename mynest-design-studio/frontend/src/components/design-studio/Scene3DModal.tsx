@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Download, Pencil, X } from 'lucide-react';
 import RoomScene3D, { type CameraPreset } from './RoomScene3D';
 import RoomSection2D from './RoomSection2D';
-import { computeMpp, fetchScene, type Scene, type SceneRoom } from '../../lib/scene';
+import { computeMpp, fetchScene, isWebGLAvailable, type Scene, type SceneRoom } from '../../lib/scene';
 
 interface Scene3DModalProps {
   planId: string;
@@ -32,6 +32,10 @@ export default function Scene3DModal({ planId, onClose }: Scene3DModalProps) {
   const [preset, setPreset] = useState<CameraPreset>('perspective');
   const [reloadKey, setReloadKey] = useState(0);
   const stageRef = useRef<HTMLDivElement>(null);
+  // Detect WebGL ONCE so an environment that blocks/disables it (GPU blocklist, browser
+  // policy, software-rendering off) shows a clear message instead of crashing when the
+  // Three.js <Canvas> fails to create a context. Distinct from a backend/scene error.
+  const webglOk = useMemo(() => isWebGLAvailable(), []);
 
   useEffect(() => {
     let active = true;
@@ -159,7 +163,17 @@ export default function Scene3DModal({ planId, onClose }: Scene3DModalProps) {
                 </span>
               </div>
               <div ref={stageRef} className="gallery__pane-content scene3d__stage" style={{ minHeight: 380 }}>
-                <RoomScene3D room={combined} walls={scene.walls} wallColors={scene.wall_colors} mpp={mpp} preset={preset} ceiling={false} />
+                {webglOk ? (
+                  <RoomScene3D room={combined} walls={scene.walls} wallColors={scene.wall_colors} mpp={mpp} preset={preset} ceiling={false} />
+                ) : (
+                  <div className="scene3d__error" role="alert">
+                    <span>
+                      3D preview unavailable — WebGL is disabled or not supported by this browser/GPU.
+                      Enable hardware acceleration (or use a WebGL-capable browser) to view the 3D model.
+                      The exact 2D floor plan on the left is unaffected.
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

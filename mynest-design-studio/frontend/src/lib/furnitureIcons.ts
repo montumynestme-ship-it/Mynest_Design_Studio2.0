@@ -16,6 +16,7 @@ export const FURNITURE_ICON_NAME: Record<string, string> = {
   'kitchen-base': 'kitchen-base',
   chimney: 'chimney',
   door: 'door',
+  window: 'window',
   console: 'console',
   partition: 'partition',
   'shoe-rack': 'shoe-rack',

@@ -1,0 +1,20 @@
+{
+  "name": "mynest-design-studio",
+  "version": "1.0.0",
+  "description": "MyNest Design Studio is an interior-design workspace that will take a floor plan through deterministic 2D geometry, furniture layout, design versioning, and AI photorealistic visualization — while keeping the floor-plan geometry as the single source of truth (AI is only a visualizer, never authoritative for geometry).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2"
+  }
+}

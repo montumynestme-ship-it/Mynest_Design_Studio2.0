@@ -1,4 +1,4 @@
-from collections.abc import Iterator
+from collections.abc import Generator, Iterator
 from contextlib import contextmanager
 
 from sqlalchemy import Engine, create_engine
@@ -14,7 +14,12 @@ class Base(DeclarativeBase):
 def _make_engine() -> Engine | None:
     if not DATABASE_URL:
         return None
-    return create_engine(DATABASE_URL, pool_pre_ping=True, future=True)
+    return create_engine(
+        DATABASE_URL,
+        pool_pre_ping=True,
+        pool_recycle=300,
+        future=True,
+    )
 
 
 engine: Engine | None = _make_engine()
@@ -29,7 +34,7 @@ def database_enabled() -> bool:
     return SessionLocal is not None
 
 
-def get_session() -> Iterator[Session]:
+def get_session() -> Generator[Session, None, None]:
     """FastAPI dependency yielding a database session."""
     if SessionLocal is None:
         raise RuntimeError("DATABASE_URL is not configured.")
@@ -41,7 +46,7 @@ def get_session() -> Iterator[Session]:
 
 
 @contextmanager
-def session_scope() -> Iterator[Session]:
+def session_scope() -> Generator[Session, None, None]:
     """Transactional session for use inside service functions."""
     if SessionLocal is None:
         raise RuntimeError("DATABASE_URL is not configured.")

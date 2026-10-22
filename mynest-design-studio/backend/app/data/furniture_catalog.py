@@ -4,18 +4,22 @@ Used to group placed furniture into rooms for room-aware AI prompts.
 """
 
 FURNITURE: dict[str, tuple[str, str]] = {
-    # --- Current library items ---
+    # --- Current library items (14 canonical items) ---
     "bed": ("Bed", "Bedroom"),
+    "side-table": ("Side Table", "Bedroom"),
     "dressing-table": ("Dressing Table", "Bedroom"),
     "lounger-sofa": ("Loungers Sofa", "Living Room"),
     "center-table": ("Center Table", "Living Room"),
     "console": ("Console", "Living Room"),
     "partition": ("Partition", "Living Room"),
+    "dining-table": ("Dining Table", "Dining Room"),
+    "dining-chair": ("Dining Chair", "Dining Room"),
     "kitchen-base": ("Kitchen Base", "Kitchen"),
     "chimney": ("Chimney", "Kitchen"),
     "bay-window-seat": ("Bay Window Seating", "Living Room"),
     "shoe-rack": ("Shoe Rack", "Other"),
     "door": ("Door", "Other"),
+    "window": ("Window", "Other"),
     # --- Retired items (kept for existing plans' AI grouping) ---
     # Living Room
     "sofa-3": ("3 Seater Sofa", "Living Room"),
@@ -67,6 +71,7 @@ VISUAL: dict[str, str] = {
     "bay-window-seat": "a cushioned bay-window bench seat set into a window nook",
     "shoe-rack": "a low shoe rack with open shelves",
     "door": "a hinged interior door",
+    "window": "a glass window set into the exterior wall with a clean frame",
     # Retired items
     "sofa-3": "a three-seater sofa with plush back and seat cushions and low arms",
     "sofa-l": "an L-shaped sectional sofa with a chaise and plush cushions",
@@ -91,6 +96,29 @@ VISUAL: dict[str, str] = {
     "floor-lamp": "a slim standing floor lamp",
     "desk-lamp": "a small table/desk lamp",
 }
+
+
+# ── Non-geometric annotations ────────────────────────────────────────────────
+# A "room tag" is a user-placed, free-text label (e.g. "Master Bedroom") that names
+# the section it sits in and feeds the AI prompt as styling context. It is NOT
+# furniture: it has no inventory, no geometry, and no 3D object, so it is excluded
+# from every furniture count, room reconstruction, and 2D→3D geometry check — exactly
+# like a door/window is excluded from furniture, but carrying zero spatial meaning.
+ROOM_TAG_ID = "room-tag"
+ANNOTATION_IDS: frozenset[str] = frozenset({ROOM_TAG_ID})
+
+
+def is_annotation(item_id: str | None) -> bool:
+    """True for non-geometric annotation items (room tags) that must never be
+    counted as furniture or rendered as a 3D object."""
+    return str(item_id or "") in ANNOTATION_IDS
+
+
+def strip_annotations(furniture: list[dict]) -> list[dict]:
+    """A furniture list with annotation items (room tags) removed. Use at every
+    furniture intake that counts, groups, reconstructs, or validates geometry so a
+    room tag can never change inventory, placement, or the deterministic scene."""
+    return [f for f in (furniture or []) if not is_annotation(f.get("item_id"))]
 
 
 def describe(item_id: str) -> tuple[str, str]:

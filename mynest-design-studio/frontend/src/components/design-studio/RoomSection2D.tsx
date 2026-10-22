@@ -57,6 +57,7 @@ function furnitureStyle(itemId: string, name: string): { fill: string; stroke: s
   const s = `${itemId} ${name}`.toLowerCase();
   const has = (...k: string[]) => k.some((w) => s.includes(w));
   if (has('door')) return null; // doors are drawn as their line-art swing, no colour box
+  if (has('window') && !has('bay')) return { fill: '#e0f7fa', stroke: '#00e5ff', kind: 'window' };
   if (has('bed')) return { fill: '#efe7d2', stroke: '#8a7f63', kind: 'bed' };
   if (has('sofa', 'lounger', 'couch', 'armchair', 'settee')) return { fill: '#cbb2ac', stroke: '#9c837d', kind: 'sofa' };
   if (has('kitchen', 'cooktop', 'stove', 'sink', 'fridge', 'refriger', 'chimney', 'base', 'hob'))

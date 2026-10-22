@@ -65,6 +65,29 @@ body {
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
   min-height: 100vh;
+  transition: grid-template-columns 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-layout--collapsed {
+  grid-template-columns: 76px 1fr;
+}
+
+/* Zen Mode (Full-Screen Workspace) */
+.app-layout--zen {
+  grid-template-columns: 1fr;
+}
+
+.app-layout--zen .sidebar {
+  display: none !important;
+}
+
+.app-layout--zen .app-header {
+  display: none !important;
+}
+
+.app-layout--zen .main-content:has(.studio) {
+  padding: 8px 12px 12px;
+  height: 100vh;
 }
 
 .app-main {
@@ -80,6 +103,12 @@ body {
   padding: 32px 40px 48px;
 }
 
+/* Design Studio page maximizes usable workspace */
+.main-content:has(.studio) {
+  max-width: 100%;
+  padding: 16px 20px 20px;
+}
+
 /* ---------- Sidebar ---------- */
 .sidebar {
   position: sticky;
@@ -87,16 +116,20 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 22px 16px;
+  padding: 20px 16px;
   background: var(--color-sidebar-bg);
   border-right: 1px solid var(--color-border);
+  transition: padding 0.24s ease, width 0.24s ease;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .sidebar__brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 6px 8px 22px;
+  padding: 4px 6px 20px;
+  min-height: 44px;
 }
 
 .sidebar__brand-mark {
@@ -110,12 +143,16 @@ body {
   font-weight: 700;
   font-size: 18px;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .sidebar__brand-text {
   display: flex;
   flex-direction: column;
   line-height: 1.15;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .sidebar__brand-name {
@@ -129,10 +166,31 @@ body {
   color: var(--color-text-secondary);
 }
 
+.sidebar__toggle {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar__toggle:hover {
+  background: var(--color-hover);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
 .sidebar__nav {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   margin-top: 8px;
 }
 
@@ -147,6 +205,7 @@ body {
   font-size: 14px;
   font-weight: 500;
   transition: background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
@@ -157,6 +216,12 @@ body {
 .nav-item__icon {
   flex-shrink: 0;
   color: currentColor;
+}
+
+.nav-item__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav-item--active {
@@ -170,16 +235,21 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-bg);
+  min-height: 52px;
+  box-sizing: border-box;
 }
 
 .sidebar__user-meta {
   display: flex;
   flex-direction: column;
   line-height: 1.2;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .sidebar__user-name {
@@ -190,6 +260,41 @@ body {
 .sidebar__user-role {
   font-size: 12px;
   color: var(--color-text-secondary);
+}
+
+/* Collapsed rail styling */
+.sidebar--collapsed {
+  padding: 20px 12px;
+  align-items: center;
+}
+
+.sidebar--collapsed .sidebar__brand {
+  flex-direction: column;
+  padding: 4px 0 16px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.sidebar--collapsed .sidebar__brand-text,
+.sidebar--collapsed .nav-item__label,
+.sidebar--collapsed .sidebar__user-meta {
+  display: none !important;
+}
+
+.sidebar--collapsed .sidebar__toggle {
+  margin-left: 0;
+}
+
+.sidebar--collapsed .nav-item {
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar--collapsed .sidebar__user {
+  justify-content: center;
+  padding: 8px;
+  border-color: transparent;
+  background: transparent;
 }
 
 /* ---------- Avatar (shared) ---------- */
@@ -215,20 +320,35 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 32px;
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
 
 .app-header__left {
   display: flex;
+  align-items: center;
+  gap: 14px;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.app-header__menu-btn {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.app-header__titles {
+  display: flex;
   flex-direction: column;
   line-height: 1.2;
+  min-width: 0;
 }
 
 .app-header__section {
   margin: 0;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 600;
 }
 
@@ -243,6 +363,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-shrink: 0;
 }
 
 .icon-button {
@@ -740,7 +861,7 @@ body {
   cursor: pointer;
 }
 
-.view-toggle + .view-toggle {
+.view-toggle+.view-toggle {
   border-left: 1px solid var(--color-border);
 }
 
@@ -1208,7 +1329,7 @@ body {
   flex-direction: column;
 }
 
-.fp-detail__list > div {
+.fp-detail__list>div {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1266,20 +1387,30 @@ body {
   display: grid;
   grid-template-columns: 1fr 300px;
   gap: 16px;
-  height: calc(100vh - var(--header-height) - 80px);
-  min-height: 480px;
+  height: calc(100vh - var(--header-height) - 44px);
+  min-height: 520px;
+  transition: grid-template-columns 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studio--zen {
+  height: calc(100vh - 24px);
+}
+
+.studio--furniture-collapsed {
+  grid-template-columns: 1fr 54px;
 }
 
 .studio-canvas__bar-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
+  flex: 1;
 }
 
 .studio-plan-select {
   height: 36px;
-  max-width: 320px;
+  max-width: 280px;
   padding: 0 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -1289,6 +1420,7 @@ body {
   font-weight: 600;
   color: var(--color-text);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .studio-plan-select:focus {
@@ -1305,10 +1437,87 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  transition: width 0.24s ease;
 }
 
 .studio-panel__header {
-  padding: 16px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.studio-panel__toggle {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.studio-panel__toggle:hover {
+  background: var(--color-hover);
+  color: var(--color-text);
+}
+
+.studio-panel--collapsed {
+  align-items: center;
+}
+
+.studio-panel--collapsed .studio-panel__header {
+  padding: 12px 0;
+  justify-content: center;
+  width: 100%;
+}
+
+.studio-panel--collapsed .studio-panel__toggle {
+  margin-left: 0;
+}
+
+.studio-panel__rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.studio-panel__rail-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 6px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.studio-panel__rail-btn:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.studio-panel__rail-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .studio-panel__header--sub {
@@ -1631,6 +1840,43 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* Quiet & ambient Zen Mode toggle */
+.zen-toggle-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.zen-toggle-btn:hover {
+  opacity: 1;
+  background: var(--color-hover);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.zen-toggle-btn--active {
+  opacity: 0.85;
+  color: var(--color-accent-strong);
+  background: var(--color-accent-soft);
+  border-color: transparent;
+}
+
+.zen-toggle-btn--active:hover {
+  opacity: 1;
+  background: var(--color-hover);
+  color: var(--color-text);
+  border-color: var(--color-border);
 }
 
 .icon-button--active {
@@ -2159,6 +2405,10 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  /* Allow this column flex item to shrink so its content pane can resolve a definite
+     height; without min-height:0 the pane keeps its content's intrinsic height and the
+     preview image overflows the panel. */
+  min-height: 0;
 }
 
 .gallery__pane-label {
@@ -2178,6 +2428,11 @@ body {
   padding: 16px;
   background: #eef1f4;
   overflow: hidden;
+  /* min-*:0 lets this grid/flex item shrink to the available box instead of growing to
+     the image's intrinsic size, so the child's max-width/max-height:100% resolve and the
+     image stays fully contained inside the panel (no clipping / outside-boundary overflow). */
+  min-width: 0;
+  min-height: 0;
 }
 
 .gallery__divider {
@@ -2356,6 +2611,10 @@ body {
   transform: translateX(-50%);
   z-index: 130;
   padding: 12px 18px;
+  max-width: min(600px, 90vw);
+  text-align: center;
+  line-height: 1.4;
+  word-break: break-word;
   border-radius: var(--radius-sm);
   background: var(--color-danger-strong);
   color: #fff;
@@ -2365,46 +2624,276 @@ body {
   box-shadow: var(--shadow-card);
 }
 
+
 /* ---------- Workspace responsive ---------- */
 @media (max-width: 1200px) {
   .studio {
-    grid-template-columns: 200px 1fr 280px;
+    grid-template-columns: 1fr 280px;
+    gap: 12px;
+  }
+
+  .studio--furniture-collapsed {
+    grid-template-columns: 1fr 54px;
+  }
+
+  .studio-plan-select {
+    max-width: 220px;
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 960px) {
   .studio {
-    grid-template-columns: 1fr 300px;
-    height: auto;
+    grid-template-columns: 1fr 260px;
+    gap: 10px;
+    height: calc(100vh - var(--header-height) - 32px);
   }
 
-  .studio-panel--left {
-    display: none;
+  .studio--furniture-collapsed {
+    grid-template-columns: 1fr 50px;
+  }
+
+  .studio-canvas__bar {
+    padding: 10px 12px;
+  }
+
+  .studio-plan-select {
+    max-width: 180px;
+    font-size: 13px;
+  }
+
+  .studio-canvas__meta {
+    max-width: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content:has(.studio) {
+    padding: 10px 12px 14px;
+  }
+
+  .studio {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    gap: 12px;
+  }
+
+  .studio--furniture-collapsed {
+    grid-template-columns: 1fr;
   }
 
   .studio-canvas {
-    min-height: 420px;
+    min-height: 480px;
+    height: 60vh;
+  }
+
+  .studio-panel--right {
+    min-height: 280px;
+  }
+
+  .studio-panel--collapsed {
+    display: none;
   }
 
   .furniture-scroll {
-    max-height: 520px;
+    max-height: 340px;
   }
 }
 
 /* Toolbar dropdown grouping 3D / backend-canvas views */
-.tool-dd { position: relative; display: inline-flex; }
+.tool-dd {
+  position: relative;
+  display: inline-flex;
+}
+
 .tool-dd__menu {
-  position: absolute; top: calc(100% + 6px); left: 0; z-index: 30;
-  min-width: 200px; background: #fff; border: 1px solid #e7e1d8;
-  border-radius: 10px; box-shadow: 0 12px 30px rgba(60, 45, 25, 0.14);
-  overflow: hidden; padding: 4px;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #e7e1d8;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(60, 45, 25, 0.14);
+  overflow: hidden;
+  padding: 4px;
 }
+
 .tool-dd__item {
-  display: flex; align-items: center; gap: 8px; width: 100%;
-  padding: 8px 10px; border: none; background: transparent; cursor: pointer;
-  font: inherit; font-size: 13px; color: #3a352d; text-align: left; border-radius: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  color: #3a352d;
+  text-align: left;
+  border-radius: 7px;
 }
-.tool-dd__item:hover { background: #f3efe7; }
-.tool-dd__item:disabled { opacity: .5; cursor: not-allowed; }
-.tool-dd__item--danger { color: #c0392b; }
-.tool-dd__item--danger:hover { background: #fbeae8; }
+
+.tool-dd__item:hover {
+  background: #f3efe7;
+}
+
+.tool-dd__item:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.tool-dd__item--danger {
+  color: #c0392b;
+}
+
+.tool-dd__item--danger:hover {
+  background: #fbeae8;
+}
+
+/* ---------------------------------------------------------------------------
+   North compass — interactive selector (canvas, top-right) + read-only
+   indicator (AI render, bottom-centre). Both bind to the store `north` value.
+--------------------------------------------------------------------------- */
+.canvas-north {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+
+.gallery__north {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 4;
+}
+
+/* .north-compass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 8px 6px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  user-select: none;
+} */
+
+
+.north-compass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 5px 5px 4px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  user-select: none;
+}
+
+/* .north-compass__title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted, #8a8f98);
+} */
+
+
+.north-compass__title {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted, #8a8f98);
+  line-height: 12px;
+}
+
+.north-compass__dial {
+  position: relative;
+}
+
+.north-compass__ring {
+  fill: var(--color-surface, #fff);
+  stroke: var(--color-border, #d7dbe0);
+  stroke-width: 1.5;
+}
+
+.north-compass__tick {
+  stroke: #b8bec7;
+  stroke-width: 1.5;
+}
+
+.north-compass__tick--card {
+  stroke: #6b7280;
+  stroke-width: 2;
+}
+
+.north-compass__label {
+  font-size: 8px;
+  font-weight: 700;
+  fill: #8a8f98;
+}
+
+.north-compass__label.is-active {
+  fill: #e5484d;
+}
+
+.north-compass__arrow-n {
+  fill: #e5484d;
+}
+
+.north-compass__arrow-s {
+  fill: #9aa2ad;
+}
+
+.north-compass__grip {
+  fill: #fff;
+  stroke: #e5484d;
+  stroke-width: 2;
+}
+
+.north-compass__hub {
+  fill: var(--color-text, #1f2430);
+}
+
+/* Interactive dial is grab-to-rotate. */
+.north-compass__dial {
+  position: relative;
+}
+
+.north-compass--interactive .north-compass__dial {
+  cursor: grab;
+  touch-action: none;
+  border-radius: 999px;
+  outline: none;
+}
+
+.north-compass--interactive .north-compass__dial:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, #e5484d 55%, transparent);
+}
+
+.north-compass__dial.is-dragging {
+  cursor: grabbing;
+}
+
+.north-compass__value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text, #1f2430);
+  line-height: 1;
+}
+
+.north-compass__opp {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted, #8a8f98);
+}

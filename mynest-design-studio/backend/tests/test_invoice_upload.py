@@ -22,46 +22,43 @@ def setup_db():
 
 def create_sample_pdf() -> bytes:
     """Create a simple test PDF with a table for testing."""
-    from fpdf import FPDF
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Helvetica", size=12)
-    
-    # Add some text
-    pdf.cell(0, 10, "INVOICE", new_x="LMARGIN", new_y="NEXT", align="C")
-    pdf.ln(5)
-    pdf.cell(0, 10, "Invoice Number: INV-2024-001", new_x="LMARGIN", new_y="NEXT")
-    pdf.cell(0, 10, "Date: 2024-01-15", new_x="LMARGIN", new_y="NEXT")
-    pdf.cell(0, 10, "Vendor: ABC Supplies Ltd", new_x="LMARGIN", new_y="NEXT")
-    pdf.cell(0, 10, "Customer: MyNest Studio", new_x="LMARGIN", new_y="NEXT")
-    pdf.ln(5)
-    
-    # Add a table
-    pdf.set_font("Helvetica", "B", 10)
-    col_widths = [40, 60, 30, 30]
-    headers = ["Item", "Description", "Qty", "Price"]
-    for i, h in enumerate(headers):
-        pdf.cell(col_widths[i], 8, h, border=1)
-    pdf.ln()
-    
-    pdf.set_font("Helvetica", "", 10)
-    rows = [
-        ["ITM-001", "Office Chair", "2", "150.00"],
-        ["ITM-002", "Desk Lamp", "1", "45.00"],
-        ["ITM-003", "Monitor Stand", "3", "35.00"],
+    from io import BytesIO
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table
+
+    buf = BytesIO()
+    doc = SimpleDocTemplate(buf, pagesize=letter)
+    styles = getSampleStyleSheet()
+
+    story = [
+        Paragraph("INVOICE", styles["Title"]),
+        Spacer(1, 5),
+        Paragraph("Invoice Number: INV-2024-001", styles["Normal"]),
+        Paragraph("Date: 2024-01-15", styles["Normal"]),
+        Paragraph("Vendor: ABC Supplies Ltd", styles["Normal"]),
+        Paragraph("Customer: MyNest Studio", styles["Normal"]),
+        Spacer(1, 10),
+        Table(
+            [
+                ["Item", "Description", "Qty", "Price"],
+                ["ITM-001", "Office Chair", "2", "150.00"],
+                ["ITM-002", "Desk Lamp", "1", "45.00"],
+                ["ITM-003", "Monitor Stand", "3", "35.00"],
+            ],
+            style=[
+                ("GRID", (0, 0), (-1, -1), 1, colors.black),
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ],
+        ),
+        Spacer(1, 10),
+        Paragraph("Subtotal: 630.00", styles["Normal"]),
+        Paragraph("Tax (18%): 113.40", styles["Normal"]),
+        Paragraph("Total: 743.40", styles["Normal"]),
     ]
-    for row in rows:
-        for i, cell in enumerate(row):
-            pdf.cell(col_widths[i], 8, cell, border=1)
-        pdf.ln()
-    
-    pdf.ln(5)
-    pdf.set_font("Helvetica", "B", 10)
-    pdf.cell(0, 10, "Subtotal: 630.00", new_x="LMARGIN", new_y="NEXT")
-    pdf.cell(0, 10, "Tax (18%): 113.40", new_x="LMARGIN", new_y="NEXT")
-    pdf.cell(0, 10, "Total: 743.40", new_x="LMARGIN", new_y="NEXT")
-    
-    return pdf.output()
+    doc.build(story)
+    return buf.getvalue()
 
 
 def test_upload_invoice_pdf(setup_db):

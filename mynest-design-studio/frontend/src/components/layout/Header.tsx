@@ -1,17 +1,31 @@
-import { Bell } from 'lucide-react';
+import { Bell, Menu } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { navItems } from './navItems';
+import { useEditorStore } from '../../store/useEditorStore';
 
 export default function Header() {
   const { pathname } = useLocation();
   const current = navItems.find((item) => pathname.startsWith(item.path));
   const sectionName = current?.label ?? 'Dashboard';
+  const toggleSidebar = useEditorStore((s) => s.toggleSidebar);
+  const sidebarCollapsed = useEditorStore((s) => s.sidebarCollapsed);
 
   return (
     <header className="app-header">
       <div className="app-header__left">
-        <h1 className="app-header__section">{sectionName}</h1>
-        <span className="app-header__label">MYNEST DESIGN STUDIO</span>
+        <button
+          type="button"
+          className="app-header__menu-btn icon-button"
+          onClick={toggleSidebar}
+          aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title="Toggle navigation sidebar"
+        >
+          <Menu size={20} />
+        </button>
+        <div className="app-header__titles">
+          <h1 className="app-header__section">{sectionName}</h1>
+          <span className="app-header__label">MYNEST DESIGN STUDIO</span>
+        </div>
       </div>
 
       <div className="app-header__right">

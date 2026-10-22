@@ -1,55 +1,76 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface PlanRegionProps {
+  /** Data-URL snapshot of the full 2D plan + placed furniture. */
   snapshot: string;
+  /** Natural pixel dimensions of the snapshot (same coord space as bbox). */
   planWidth: number;
   planHeight: number;
-  bbox: number[]; // [x, y, w, h] world px
+  /** [x, y, w, h] region of this room, in snapshot pixel coordinates. */
+  bbox: number[];
   alt: string;
 }
 
 /**
- * Zooms a plan snapshot to a room's bounding box, scaled uniformly (no distortion)
- * and centred, so the 2D region lines up with its 3D reconstruction.
+ * Shows just this room's region of the full-plan snapshot: crops to the padded
+ * bbox and uniform-scales (never distorts) it to fit the container. The room is
+ * always fully visible with a small consistent margin. Non-authoritative
+ * preview only — it never alters geometry.
  */
 export default function PlanRegion({ snapshot, planWidth, planHeight, bbox, alt }: PlanRegionProps) {
-  const hostRef = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState({ width: 0, height: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
 
-  useLayoutEffect(() => {
-    const el = hostRef.current;
+  useEffect(() => {
+    const el = containerRef.current;
     if (!el) return;
-    const measure = () => setSize({ width: el.clientWidth, height: el.clientHeight });
-    measure();
-    const ro = new ResizeObserver(measure);
+    const ro = new ResizeObserver((entries) => {
+      const cr = entries[0]?.contentRect;
+      if (cr) setSize({ w: cr.width, h: cr.height });
+    });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
-  const padX = bbox[2] * 0.12;
-  const padY = bbox[3] * 0.12;
-  const x = Math.max(0, bbox[0] - padX);
-  const y = Math.max(0, bbox[1] - padY);
-  const w = Math.min(planWidth - x, bbox[2] + padX * 2);
-  const h = Math.min(planHeight - y, bbox[3] + padY * 2);
+  const [bx, by, bw, bh] = bbox;
+  const pad = 40;
+  const rx = Math.max(0, bx - pad);
+  const ry = Math.max(0, by - pad);
+  const rw = Math.min(planWidth - rx, bw + pad * 2) || 1;
+  const rh = Math.min(planHeight - ry, bh + pad * 2) || 1;
 
-  const { width: cw, height: ch } = size;
-  let style: React.CSSProperties = { visibility: 'hidden', position: 'absolute' };
-  if (cw > 0 && ch > 0 && w > 0 && h > 0) {
-    const f = Math.min(cw / w, ch / h);
-    style = {
-      position: 'absolute',
-      width: `${planWidth * f}px`,
-      height: `${planHeight * f}px`,
-      left: `${cw / 2 - (x + w / 2) * f}px`,
-      top: `${ch / 2 - (y + h / 2) * f}px`,
-      maxWidth: 'none',
-    };
-  }
+  const scale = size.w > 0 && size.h > 0 ? Math.min(size.w / rw, size.h / rh) : 0;
+  const dispW = rw * scale;
+  const dispH = rh * scale;
 
   return (
-    <div ref={hostRef} className="gallery__region">
-      <img className="gallery__region-img" src={snapshot} alt={alt} style={style} />
+    <div
+      ref={containerRef}
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+      }}
+    >
+      {scale > 0 && (
+        <div style={{ width: dispW, height: dispH, overflow: 'hidden', position: 'relative' }}>
+          <img
+            src={snapshot}
+            alt={alt}
+            style={{
+              position: 'absolute',
+              left: -rx * scale,
+              top: -ry * scale,
+              width: planWidth * scale,
+              height: planHeight * scale,
+              maxWidth: 'none',
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

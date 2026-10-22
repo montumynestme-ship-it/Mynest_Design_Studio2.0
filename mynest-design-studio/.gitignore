@@ -33,3 +33,7 @@ Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Dev-only NVIDIA smoke-test output (never committed)
+backend/dev_smoke_output/
+dev_smoke_output/

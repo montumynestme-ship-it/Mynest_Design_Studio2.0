@@ -19,9 +19,11 @@ export type FurnitureKind =
   | 'cooktop'
   | 'sink'
   | 'dresser'
+  | 'counter'
   | 'bookshelf'
   | 'bench'
   | 'door'
+  | 'window'
   | 'generic';
 
 export interface Furniture3DSpec {
@@ -39,11 +41,15 @@ const SPECS: Record<string, Furniture3DSpec> = {
   console: { height: 0.8, color: '#9c7a52', kind: 'dresser', name: 'Console' },
   partition: { height: 1.8, color: '#8a6a45', kind: 'generic', name: 'Partition' },
   'dressing-table': { height: 0.8, color: '#9c7a52', kind: 'dresser', name: 'Dressing Table' },
-  'kitchen-base': { height: 0.9, color: '#9aa0a6', kind: 'dresser', name: 'Kitchen Base' },
+  // Kitchen base cabinet run — a RECOGNISABLE counter (cabinet body + stone
+  // worktop + toe-kick), not a chest-of-drawers. Footprint/position/rotation stay
+  // the plan's; this only makes the L-shaped kitchen read as a kitchen in 3D/base.
+  'kitchen-base': { height: 0.9, color: '#cfc6b6', kind: 'counter', name: 'Kitchen Base' },
   chimney: { height: 0.7, color: '#b8bcc0', kind: 'generic', name: 'Chimney' },
   'bay-window-seat': { height: 0.45, color: '#c8b79e', kind: 'bench', name: 'Bay Window Seating' },
   'shoe-rack': { height: 0.6, color: '#8a6a45', kind: 'dresser', name: 'Shoe Rack' },
   door: { height: 2.1, color: '#7a5c3b', kind: 'door', name: 'Door' },
+  window: { height: 1.2, color: '#00e5ff', kind: 'window', name: 'Window' },
   // --- Retired items (kept so existing plans still render in 3D) ---
   'sofa-3': { height: 0.75, color: '#c8b79e', kind: 'sofa', name: '3 Seater Sofa' },
   'sofa-l': { height: 0.75, color: '#c8b79e', kind: 'sofa', name: 'L-Shaped Sofa' },

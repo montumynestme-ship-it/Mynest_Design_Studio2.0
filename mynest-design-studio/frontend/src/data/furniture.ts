@@ -1,4 +1,4 @@
-import { Bed, Box, DoorOpen, Sofa, type LucideIcon } from 'lucide-react';
+import { AppWindow, Bed, Box, DoorOpen, Sofa, Tag, type LucideIcon } from 'lucide-react';
 
 export interface FurnitureItem {
   id: string;
@@ -36,6 +36,7 @@ export const furnitureCatalog: FurnitureCategory[] = [
     items: [
       { id: 'bed', name: 'Bed', width: 1800, depth: 2000, height: 1100, icon: Bed },
       { id: 'side-table', name: 'Side Table', width: 450, depth: 450, height: 550, icon: Box },
+      { id: 'wardrobe', name: 'Wardrobe', width: 1200, depth: 600, height: 2100, icon: Box },
       { id: 'dressing-table', name: 'Dressing', width: 1200, depth: 600, height: 750, icon: Box },
     ],
   },
@@ -54,6 +55,18 @@ export const furnitureCatalog: FurnitureCategory[] = [
       { id: 'bay-window-seat', name: 'Bay Window Seating', width: 1500, depth: 600, height: 450, icon: Box },
       { id: 'shoe-rack', name: 'Shoe Rack', width: 900, depth: 350, height: 600, icon: Box },
       { id: 'door', name: 'Doors', width: 900, depth: 900, height: 2100, icon: DoorOpen },
+      { id: 'window', name: 'Window', width: 1200, depth: 200, height: 1200, icon: AppWindow },
+    ],
+  },
+  {
+    // Annotations are NOT furniture: a Tag Name labels the room/section it sits in and
+    // feeds that room's AI-render prompt as styling context. It has no 3D object and is
+    // excluded from every furniture count and geometry check (backend `strip_annotations`).
+    // Drop one into a room, then double-click it to type the room's name (e.g. "Master
+    // Bedroom"); the name is stored in the item's existing editable label.
+    category: 'Annotations',
+    items: [
+      { id: 'room-tag', name: 'Tag Name', width: 600, depth: 300, height: 1, icon: Tag },
     ],
   },
 ];
@@ -72,7 +85,7 @@ export const legacyFurniture: FurnitureItem[] = [
   { id: 'bookshelf', name: 'Bookshelf', width: 900, depth: 350, height: 2000, icon: Box },
   { id: 'queen-bed', name: 'Queen Bed', width: 1600, depth: 2000, height: 1100, icon: Bed },
   { id: 'king-bed', name: 'King Bed', width: 1800, depth: 2000, height: 1100, icon: Bed },
-  { id: 'wardrobe', name: 'Wardrobe', width: 1200, depth: 600, height: 2100, icon: Box },
+  // 'wardrobe' promoted to the Bedroom catalog (placeable); kept out of legacy to avoid a duplicate id.
   { id: 'dresser', name: 'Dresser', width: 1000, depth: 450, height: 800, icon: Box },
   { id: 'bench', name: 'Bench', width: 1200, depth: 350, height: 450, icon: Box },
   { id: 'refrigerator', name: 'Refrigerator', width: 700, depth: 700, height: 1800, icon: Box },
