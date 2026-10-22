@@ -12,6 +12,7 @@ import type { Project } from '../types/floorPlan';
 export default function Dashboard() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [pendingDelete, setPendingDelete] = useState<Project | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -19,9 +20,16 @@ export default function Dashboard() {
 
   const load = () => {
     setLoading(true);
+    setError(null);
     getProjects()
-      .then(setProjects)
-      .catch(() => setProjects([]))
+      .then((data) => {
+        setProjects(data);
+        setError(null);
+      })
+      .catch((err) => {
+        setProjects([]);
+        setError(err instanceof Error ? err.message : 'Failed to load projects from server.');
+      })
       .finally(() => setLoading(false));
   };
 
@@ -56,6 +64,15 @@ export default function Dashboard() {
 
         {loading ? (
           <p className="fp-page__status">Loading projects…</p>
+        ) : error ? (
+          <Card>
+            <div style={{ padding: '1.5rem', textAlign: 'center' }}>
+              <p style={{ color: '#ef4444', marginBottom: '1rem', fontWeight: 500 }}>
+                {error}
+              </p>
+              <Button onClick={load}>Retry</Button>
+            </div>
+          </Card>
         ) : projects.length === 0 ? (
           <Card>
             <EmptyState

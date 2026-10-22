@@ -1,14 +1,21 @@
 import { useMemo, useState } from 'react';
-import { Check, Search } from 'lucide-react';
+import { Armchair, Check, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { furnitureCatalog, type FurnitureItem } from '../../data/furniture';
 import { iconUrlForItem } from '../../lib/furnitureIcons';
 
 interface FurnitureLibraryProps {
   selectedId: string | null;
   onSelect: (item: FurnitureItem) => void;
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
-export default function FurnitureLibrary({ selectedId, onSelect }: FurnitureLibraryProps) {
+export default function FurnitureLibrary({
+  selectedId,
+  onSelect,
+  collapsed = false,
+  onToggleCollapse,
+}: FurnitureLibraryProps) {
   const [query, setQuery] = useState('');
 
   const groups = useMemo(() => {
@@ -23,21 +30,52 @@ export default function FurnitureLibrary({ selectedId, onSelect }: FurnitureLibr
   }, [query]);
 
   return (
-    <aside className="studio-panel studio-panel--right">
+    <aside
+      className={`studio-panel studio-panel--right${collapsed ? ' studio-panel--collapsed' : ''}`}
+      aria-label="Furniture Library"
+    >
       <div className="studio-panel__header">
-        <h3 className="studio-panel__title">Furniture Library</h3>
+        {!collapsed && <h3 className="studio-panel__title">Furniture Library</h3>}
+        {onToggleCollapse && (
+          <button
+            type="button"
+            className="studio-panel__toggle"
+            onClick={onToggleCollapse}
+            aria-label={collapsed ? 'Expand furniture library' : 'Collapse furniture library'}
+            title={collapsed ? 'Expand furniture library' : 'Collapse furniture library'}
+          >
+            {collapsed ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+          </button>
+        )}
       </div>
 
-      <div className="furniture-search">
-        <Search size={15} className="furniture-search__icon" />
-        <input
-          className="furniture-search__input"
-          type="search"
-          placeholder="Search furniture"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </div>
+      {collapsed && (
+        <div className="studio-panel__rail">
+          <button
+            type="button"
+            className="studio-panel__rail-btn"
+            onClick={onToggleCollapse}
+            title="Expand Furniture Library"
+            aria-label="Expand Furniture Library"
+          >
+            <Armchair size={20} />
+            <span className="studio-panel__rail-text">Furniture</span>
+          </button>
+        </div>
+      )}
+
+      {!collapsed && (
+        <>
+          <div className="furniture-search">
+            <Search size={15} className="furniture-search__icon" />
+            <input
+              className="furniture-search__input"
+              type="search"
+              placeholder="Search furniture"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
 
       <div className="furniture-scroll">
         {groups.length === 0 ? (
@@ -83,6 +121,8 @@ export default function FurnitureLibrary({ selectedId, onSelect }: FurnitureLibr
           ))
         )}
       </div>
+        </>
+      )}
     </aside>
   );
 }

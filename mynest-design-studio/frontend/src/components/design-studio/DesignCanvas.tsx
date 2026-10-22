@@ -12,6 +12,7 @@ import { Pencil } from 'lucide-react';
 import type Konva from 'konva';
 import type { KonvaEventObject } from 'konva/lib/Node';
 import { MAX_SCALE, MIN_SCALE, useEditorStore } from '../../store/useEditorStore';
+import NorthCompass from './NorthCompass';
 import { iconUrlForItem, useFurnitureIcons } from '../../lib/furnitureIcons';
 import type { PlacedItem } from '../../types/design';
 import type { PlanImage } from '../../lib/loadPlanImage';
@@ -241,7 +242,8 @@ const DesignCanvas = forwardRef<DesignCanvasHandle, DesignCanvasProps>(function 
             {placed.map((p) => {
               const iconUrl = iconUrlForItem(p.item.id);
               const iconImg = iconUrl ? icons[iconUrl] : undefined;
-              const pad = Math.min(p.w, p.h) * 0.08;
+              const isWindow = p.item.id === 'window';
+              const pad = isWindow ? 0 : Math.min(p.w, p.h) * 0.08;
               return (
               <Group
                 key={p.uid}
@@ -285,10 +287,24 @@ const DesignCanvas = forwardRef<DesignCanvasHandle, DesignCanvasProps>(function 
                 <Rect
                   width={p.w}
                   height={p.h}
-                  fill={iconImg ? 'rgba(176, 128, 90, 0.10)' : 'rgba(176, 128, 90, 0.22)'}
-                  stroke={p.uid === selectedUid ? '#8f6442' : '#b0805a'}
+                  fill={
+                    isWindow
+                      ? 'rgba(0, 229, 255, 0.12)'
+                      : iconImg
+                      ? 'rgba(176, 128, 90, 0.10)'
+                      : 'rgba(176, 128, 90, 0.22)'
+                  }
+                  stroke={
+                    p.uid === selectedUid
+                      ? isWindow
+                        ? '#00b4d8'
+                        : '#8f6442'
+                      : isWindow
+                      ? '#00e5ff'
+                      : '#b0805a'
+                  }
                   strokeWidth={1.5 / scale}
-                  cornerRadius={4 / scale}
+                  cornerRadius={isWindow ? 0 : 4 / scale}
                 />
                 {iconImg && (
                   <KonvaImage
@@ -308,7 +324,7 @@ const DesignCanvas = forwardRef<DesignCanvasHandle, DesignCanvasProps>(function 
                     padding={iconImg ? 3 : 0}
                     align="center"
                     verticalAlign={iconImg ? 'bottom' : 'middle'}
-                    fill="#6f4a2e"
+                    fill={isWindow ? '#0891b2' : '#6f4a2e'}
                     fontStyle={iconImg ? '600' : 'normal'}
                     fontSize={Math.min(p.w, p.h) > 40 ? 12 : 9}
                     listening={false}
@@ -379,6 +395,11 @@ const DesignCanvas = forwardRef<DesignCanvasHandle, DesignCanvasProps>(function 
             </button>
           );
         })()}
+
+      {/* North selector — top-right of the canvas (8-direction compass). */}
+      <div className="canvas-north">
+        <NorthCompass interactive />
+      </div>
 
       <div className="canvas-zoom-badge">{Math.round(scale * 100)}%</div>
       <button

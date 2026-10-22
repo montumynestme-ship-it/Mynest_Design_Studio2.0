@@ -270,6 +270,42 @@ export default function Furniture({ w, d, spec }: PieceProps) {
           </mesh>
         </group>
       );
+    case 'counter': {
+      // Kitchen base-cabinet run: cabinet body + overhanging stone worktop + recessed
+      // toe-kick + evenly-spaced door seams/handles. Reads unmistakably as a kitchen
+      // counter (so the Canny base and the AI render show a kitchen, not a chest).
+      const topH = Math.min(0.04, h * 0.06);
+      const kick = Math.min(0.1, h * 0.12);
+      const bodyH = h - topH;
+      const runLen = Math.max(w, d); // cabinets line up along the longer footprint axis
+      const doors = Math.max(1, Math.round(runLen / 0.6));
+      const seam = Math.min(0.012, runLen * 0.01);
+      return (
+        <group>
+          {/* Cabinet carcass (sits above the toe-kick) */}
+          <RBox size={[w, bodyH - kick, d]} pos={[0, kick + (bodyH - kick) / 2, 0]} color={color} mat="wood" radius={0.01} />
+          {/* Recessed dark toe-kick */}
+          <RBox size={[w * 0.96, kick, d * 0.9]} pos={[0, kick / 2, 0]} color="#2a2724" mat="matte" radius={0.004} />
+          {/* Overhanging stone worktop */}
+          <RBox size={[w + 0.03, topH, d + 0.03]} pos={[0, bodyH + topH / 2, 0]} color="#30333a" mat="matte" radius={0.006} />
+          {/* Door fronts: seams + handles along the longer axis (front face +z) */}
+          {Array.from({ length: doors - 1 }).map((_, i) => {
+            const t = (i + 1) / doors;
+            const alongW = w >= d;
+            const p = (alongW ? w : d) * (t - 0.5);
+            return (
+              <Bar
+                key={i}
+                size={alongW ? [seam, bodyH * 0.8, 0.012] : [0.012, bodyH * 0.8, seam]}
+                pos={alongW ? [p, kick + bodyH * 0.42, d / 2 + 0.006] : [w / 2 + 0.006, kick + bodyH * 0.42, p]}
+                color="#8a9096"
+                mat="metal"
+              />
+            );
+          })}
+        </group>
+      );
+    }
     case 'dresser':
       return (
         <group>
@@ -306,6 +342,32 @@ export default function Furniture({ w, d, spec }: PieceProps) {
               <meshStandardMaterial color="#3a3f45" metalness={0.85} roughness={0.3} />
             </mesh>
           </group>
+        </group>
+      );
+    }
+    case 'window': {
+      // Recognisable architectural window: windowsill, frame, mullion, and glass pane
+      const sillH = 0.9;
+      const winH = Math.min(Math.max(h, 0.9), 1.6);
+      const frameD = Math.max(d, 0.15);
+      return (
+        <group position={[0, sillH, 0]}>
+          {/* Windowsill */}
+          <RBox size={[w * 1.04, 0.04, frameD * 1.25]} pos={[0, 0, 0]} color="#f1f5f9" mat="matte" radius={0.006} />
+          {/* Top Frame */}
+          <RBox size={[w, 0.05, frameD]} pos={[0, winH, 0]} color="#ffffff" mat="matte" radius={0.005} />
+          {/* Side Jambs */}
+          <Bar size={[0.05, winH, frameD]} pos={[-w / 2 + 0.025, winH / 2, 0]} color="#ffffff" mat="matte" />
+          <Bar size={[0.05, winH, frameD]} pos={[w / 2 - 0.025, winH / 2, 0]} color="#ffffff" mat="matte" />
+          {/* Center Mullion */}
+          <Bar size={[0.03, winH, frameD * 0.8]} pos={[0, winH / 2, 0]} color="#ffffff" mat="matte" />
+          {/* Translucent Glass Pane */}
+          <RBox
+            size={[Math.max(0.05, w - 0.08), Math.max(0.05, winH - 0.08), 0.015]}
+            pos={[0, winH / 2, 0]}
+            color="#a5f3fc"
+            mat="glass"
+          />
         </group>
       );
     }
