@@ -31,12 +31,14 @@ def _canon_and_scene():
     return canonical, scene, scene_items
 
 
-def test_total_count_preserved():
+def test_total_count_preserved(frozen_v31):
+    # Pinned to the frozen v31 baseline (no room-tag annotations), so canonical and
+    # scene inventories match exactly; annotation exclusion is covered separately.
     canonical, _scene, scene_items = _canon_and_scene()
     assert len(scene_items) == len(canonical["furniture"]) > 0
 
 
-def test_every_canonical_item_present_exactly_once():
+def test_every_canonical_item_present_exactly_once(frozen_v31):
     canonical, _scene, scene_items = _canon_and_scene()
     canon_uids = Counter(str(f["uid"]) for f in canonical["furniture"])
     scene_uids = Counter(str(f["uid"]) for f in scene_items)
@@ -48,7 +50,7 @@ def test_every_canonical_item_present_exactly_once():
     assert dup == [], f"items duplicated across rooms: {dup}"
 
 
-def test_per_type_counts_preserved():
+def test_per_type_counts_preserved(frozen_v31):
     canonical, _scene, scene_items = _canon_and_scene()
     ct = Counter(str(f["item_id"]) for f in canonical["furniture"])
     st = Counter(str(f["item_id"]) for f in scene_items)

@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import floor_plans, generations, invoices, projects
+from app.api import dev_inspector, floor_plans, generations, invoices, projects
 from app.core import config as ai_config
 from app.db.base import init_db
 from app.services.ai import fal_flux_adapter, nvidia_flux_adapter
@@ -116,6 +116,10 @@ def ai_diagnostics() -> dict[str, object]:
         "arbitrary_image": summary["arbitrary_image_requested"],
         "image_input_supported": summary["image_input_supported"],  # GENUINE capability
         "conditioning_mode": summary["conditioning_mode"],
+        # Combined Path B gate (FAL_USE_CONTROLNET AND FAL_CONTROL_STRUCTURAL). False for
+        # providers/configs without the fal structural path. The frontend reads this to gate
+        # the opt-in perspective-structural capture; it never changes what this endpoint does.
+        "structural_conditioning": bool(summary.get("structural_conditioning", False)),
         "model_capabilities": summary["model_declared_capabilities"],
         "demo": ai_config.AI_DEMO_MODE,
         "deterministic_fallback": ai_config.AI_ALLOW_DETERMINISTIC_FALLBACK,
@@ -130,3 +134,4 @@ app.include_router(projects.router)
 app.include_router(floor_plans.router)
 app.include_router(generations.router)
 app.include_router(invoices.router)
+app.include_router(dev_inspector.router)  # dev-only; routes 404 unless MYNEST_DEV_TOOLS=1

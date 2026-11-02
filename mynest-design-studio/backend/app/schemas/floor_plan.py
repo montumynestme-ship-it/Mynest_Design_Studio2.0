@@ -33,6 +33,33 @@ class LayoutItem(BaseModel):
     h: float
     rotation: float
     label: str | None = None
+    # AIR-03 (authoritative dynamic room grouping): an OPTIONAL, user-authored
+    # room-membership assignment for an open-plan item (today: a dining table that
+    # the designer wants rendered as part of the Kitchen or Living Area rather than
+    # as its own section). This is structured *intent* — distinct from the
+    # styling-only ``room-tag`` annotation (which is stripped from grouping) and from
+    # geometry-derived evidence. ``None`` = untagged (legacy designs; membership then
+    # resolved/blocked by room_membership_service). Allowed values live in
+    # ``room_membership_service.VALID_MEMBERSHIPS`` (KITCHEN / LIVING_AREA /
+    # INDEPENDENT_DINING). Additive + nullable so it never changes a legacy item's
+    # canonical fingerprint (it is dropped from serialization when None — see
+    # ``floor_plan_service.save_layout``).
+    room_membership: str | None = None
+    # AIR-03 Step 2M.1 (explicit render inclusion): an OPTIONAL, user-authored
+    # directive to INCLUDE this canonical item in a specific CONFIRMED room's
+    # deterministic render even when its footprint lies OUTSIDE that room's proven
+    # floor polygon (e.g. a wall-mounted kitchen counter whose alcove was not
+    # reconstructed). This is RENDER INCLUSION — deliberately distinct from both the
+    # canonical transform (position/size/rotation, unchanged) and the dining-only
+    # ``room_membership`` disambiguation above. Value is an anchor token resolved by
+    # ``room_membership_service.resolve_render_inclusions`` (today KITCHEN / LIVING_AREA)
+    # to the UNIQUE CONFIRMED room carrying that anchor; anything ambiguous/absent fails
+    # safe (REVIEW_REQUIRED, no move). ``None`` = no override (legacy/default). Additive +
+    # nullable so it never changes a legacy item's canonical fingerprint (dropped from
+    # serialization when None — see ``floor_plan_service.save_layout``). It NEVER moves,
+    # resizes, rotates, re-counts, or duplicates furniture; it only changes which room's
+    # render set references the (single) canonical item.
+    render_room: str | None = None
 
 
 class LayoutPayload(BaseModel):

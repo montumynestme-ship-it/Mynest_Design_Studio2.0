@@ -16,6 +16,7 @@ from app.services import (
     generation_service,
     geometry_extraction_service,
     scene_service,
+    svg_geometry_reference,
     validation_service,
 )
 from app.services import floor_plan_service as service
@@ -163,15 +164,33 @@ def extraction_report(file_id: str) -> dict[str, Any]:
 
 
 @router.get("/{file_id}/control-image")
-def control_image(file_id: str) -> Response:
+def control_image(file_id: str, version: str | None = None) -> Response:
     """Deterministic geometry base (walls + furniture footprints) — Phase A.
 
     The authoritative geometry that Phase C ControlNet will repaint without moving
     anything. Requires a vector PDF plan.
+
+    By default the canvas is built from the CURRENT authoritative design version. Passing
+    ``version`` (a ``design_version_id``) pins it to that IMMUTABLE snapshot's furniture —
+    exactly like ``/scene`` and ``/geometry-reference`` — so the canvas can be paired to
+    the exact snapshot a past generation rendered (a missing version is a 404, never a
+    silent fall back to current). Walls/openings always come from the immutable floor-plan
+    file, so only the furniture source changes. Response stays ``image/png``.
     """
     try:
         path, file_type, _ = service.get_floor_plan_file(file_id)
-        canonical = service.get_canonical(file_id)
+        if version is not None:
+            canonical = service.get_version_canonical(version, file_id=file_id)
+            if canonical is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"design version '{version}' not found for this floor plan",
+                )
+            design_version_id = version
+        else:
+            canonical = service.get_canonical(file_id)
+            info = service.get_latest_version_info(file_id)
+            design_version_id = info[0] if info else ""
     except FloorPlanError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
     if file_type != "pdf":
@@ -180,10 +199,67 @@ def control_image(file_id: str) -> Response:
         geometry = geometry_extraction_service.extract_walls(str(path))
     except Exception as exc:  # noqa: BLE001 — surface extraction failure as 500
         raise HTTPException(status_code=500, detail=f"Geometry extraction failed: {exc}") from exc
-    png = geometry_extraction_service.render_control_image(
+    png, report = geometry_extraction_service.render_control_image_with_report(
         geometry, canonical.get("furniture", []) or []
     )
-    return Response(content=png, media_type="image/png")
+    # Additive provenance headers (body contract unchanged: image/png). Lets a reviewer
+    # tie the derived canvas to the exact design version + geometry without a new schema.
+    headers = {
+        "X-Floor-Plan-Id": str(file_id),
+        "X-Design-Version-Id": design_version_id,
+        "X-Geometry-Fingerprint": svg_geometry_reference._fingerprint(canonical),
+        "X-Canvas-Coordinate-Frame": str(report["coordinate_frame"]),
+        "X-Canvas-Scale": str(report["scale"]),
+        "X-Canvas-Icons-Rendered": str(report["icons_rendered"]),
+        "X-Canvas-Fallback-Count": str(len(report["fallbacks"])),
+        "X-Canvas-Preprocessing": "svg-icons-v1",
+    }
+    return Response(content=png, media_type="image/png", headers=headers)
+
+
+@router.get("/{file_id}/geometry-reference")
+def geometry_reference(file_id: str, version: str | None = None) -> Response:
+    """Deterministic SVG geometry reference derived from the canonical design.
+
+    Additive, read-only artifact: room boundaries + walls + doors/windows + furniture
+    footprints (with stable uid, type, and rotation) in the ``canonical_world_px`` frame.
+    By default it reflects the CURRENT authoritative version; ``version`` (a
+    ``design_version_id``) pins an immutable snapshot exactly like ``/scene`` (a missing
+    version is a 404, never a silent fall back). It never mutates canonical JSON and is
+    NOT sent to the provider — see svg_geometry_reference for the integration boundary.
+    """
+    try:
+        if version is not None:
+            canonical = service.get_version_canonical(version, file_id=file_id)
+            if canonical is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"design version '{version}' not found for this floor plan",
+                )
+            design_version_id = version
+        else:
+            # Consistency: resolve the version id FIRST, then read THAT immutable
+            # version's canonical — so the rendered furniture and the embedded
+            # design_version_id always describe the SAME version even if a concurrent
+            # edit appends a newer one between the two reads (versions are immutable, so
+            # the (id, canonical) pair can never diverge). ``get_latest_version_info``
+            # raises the standard 404 when the plan does not exist.
+            info = service.get_latest_version_info(file_id)
+            if info is None:
+                canonical = {"furniture": []}
+                design_version_id = None
+            else:
+                design_version_id = info[0]
+                canonical = service.get_version_canonical(design_version_id, file_id=file_id)
+                if canonical is None:  # version vanished between the two reads
+                    canonical = {"furniture": []}
+        scene = scene_service.build_scene(file_id, canonical=canonical)
+    except FloorPlanError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
+    ref = svg_geometry_reference.build_geometry_reference(
+        canonical, scene, design_version_id=design_version_id
+    )
+    return Response(content=ref.svg, media_type="image/svg+xml")
 
 
 @router.post("/{file_id}/generate", response_model=GenerationResponse, status_code=201)
@@ -199,6 +275,10 @@ def generate(file_id: str, body: GenerationRequestBody) -> GenerationResponse:
             fresh_generation=body.fresh_generation,
             base_renders=body.base_renders,
             base_render_meta=body.base_render_meta,
+            base_boxes=body.base_boxes,
+            structural_renders=body.structural_renders,
+            structural_render_meta=body.structural_render_meta,
+            region=body.region.model_dump() if body.region is not None else None,
         )
     except FloorPlanError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc

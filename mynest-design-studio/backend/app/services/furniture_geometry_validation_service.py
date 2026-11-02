@@ -234,10 +234,20 @@ def detect_owlv2(image: Any, queries: list[str] | None = None, *,
     from PIL import Image as PILImage
     from transformers import Owlv2ForObjectDetection, Owlv2Processor
 
+    import os
+    if os.path.exists(r"D:\hf_cache"):
+        os.environ.setdefault("HF_HOME", r"D:\hf_cache")
     q = queries or OWLV2_QUERIES
     mid = "google/owlv2-base-patch16-ensemble"
-    proc = Owlv2Processor.from_pretrained(mid)
-    model = Owlv2ForObjectDetection.from_pretrained(mid)
+    local_only = os.getenv("OFFLINE_INFERENCE", "1") == "1"
+    try:
+        proc = Owlv2Processor.from_pretrained(mid, local_files_only=local_only)
+        model = Owlv2ForObjectDetection.from_pretrained(mid, local_files_only=local_only)
+    except Exception:
+        if local_only:
+            raise
+        proc = Owlv2Processor.from_pretrained(mid)
+        model = Owlv2ForObjectDetection.from_pretrained(mid)
     model.eval()
     img = image if isinstance(image, PILImage.Image) else PILImage.open(image).convert("RGB")
     inputs = proc(text=[q], images=img, return_tensors="pt")

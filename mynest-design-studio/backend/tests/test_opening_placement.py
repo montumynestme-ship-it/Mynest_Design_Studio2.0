@@ -102,12 +102,13 @@ def test_unverifiable_openings_keep_authored_position_flagged():
                 assert p["wall_id"] is None  # honestly flagged, not invented
 
 
-def test_furniture_unchanged_by_placement():
+def test_furniture_unchanged_by_placement(frozen_v31):
     canonical = floor_plan_service.get_canonical(FID)
     scene = _scene()
     canon = {str(f["uid"]): f for f in canonical["furniture"]}
     scene_furn = [f for r in scene["rooms"] for f in r["furniture"]]
-    assert len(scene_furn) == len(canon) == 33
+    # Frozen v31 baseline: 34 items (22 furniture + 8 doors + 4 windows, 0 annotations).
+    assert len(scene_furn) == len(canon) == 34
     for f in scene_furn:
         c = canon[str(f["uid"])]
         for k in ("cx", "cy", "w", "h", "rotation"):

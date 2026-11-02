@@ -22,6 +22,11 @@ def setup_db():
 
 def create_sample_pdf() -> bytes:
     """Create a simple test PDF with a table for testing."""
+    # reportlab is an OPTIONAL test-only dependency (used only to build this fixture PDF;
+    # it is not imported by any production app/ code and is not declared in requirements).
+    # When it is absent, SKIP these tests honestly rather than erroring — this neither adds
+    # a dependency nor weakens any assertion, and the skip is reported separately from passes.
+    pytest.importorskip("reportlab", reason="optional test-only dependency 'reportlab' not installed")
     from io import BytesIO
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import letter

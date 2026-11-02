@@ -18,6 +18,7 @@ real AIProviderError (never a fabricated image, never a silent fallback).
 """
 
 import base64
+import hashlib
 import logging
 import re
 import time
@@ -32,6 +33,7 @@ from app.core.config import (
     FAL_ARBITRARY_IMAGE_SUPPORTED,
     FAL_CONTROL_MODEL,
     FAL_CONTROL_STRENGTH,
+    FAL_CONTROL_STRUCTURAL,
     FAL_CONTROL_USE_INIT,
     FAL_GUIDANCE_SCALE,
     FAL_IMAGE_EDIT_SUPPORTED,
@@ -39,6 +41,7 @@ from app.core.config import (
     FAL_KEY,
     FAL_NUM_INFERENCE_STEPS,
     FAL_QUEUE_BASE,
+    FAL_SINGLE_ATTEMPT,
     FAL_USE_CONTROLNET,
     NVIDIA_MAX_ATTEMPTS,
 )
@@ -64,8 +67,8 @@ _EDIT_PREAMBLE = (
     "window, the camera composition and viewpoint, and each furniture object's "
     "identity, count, position, rotation, dimensions, and room assignment. "
     "Do NOT move, resize, rotate, add, remove, duplicate, or re-arrange any wall, door, "
-    "window, room, or furniture object, and do NOT invent furniture that is not already "
-    "present in the image. "
+    "window, room, or furniture object, and do NOT invent furniture, appliances, or "
+    "decor/accessories that are not already present in the image. "
     "You MAY ONLY change surface appearance: materials, textures, colors, lighting, "
     "shadows, reflections, wall/ceiling finishes, and surface realism. "
     "The final image must remain structurally and spatially identical to the input "
@@ -93,16 +96,19 @@ _FAL_STYLE = (
 )
 _FAL_NEGATIVES = (
     "Do NOT add, remove, move, resize, rotate, duplicate, replace, or re-arrange any "
-    "wall, door, window, or furniture object, and do NOT invent furniture that is not "
-    "already present. Avoid fisheye, dark unlit rooms, CGI/plastic look, generic showroom."
+    "wall, door, window, or furniture object, and do NOT invent furniture, appliances, or "
+    "decor/accessories (plants, artwork, rugs, cushions, curtains, mirrors, lamps, vases, "
+    "ornaments) that are not already present. Avoid fisheye, dark unlit rooms, CGI/plastic "
+    "look, generic showroom staging."
 )
 # The user theme REPLACES the fixed house style when present; this is the fixed prefix of
 # that styling-only block (measured so the theme can be budgeted/trimmed to fit without
 # ever displacing a mandatory constraint).
 _FAL_STYLE_PREFIX = (
-    "STYLE (user-specified, styling only — apply to materials, colours, textures, "
-    "lighting, mood and decor; it does NOT add, remove, move, resize, rotate or "
-    "re-type any furniture, walls, doors or windows): "
+    "STYLE (styling only — apply to materials, colours, textures, finishes, lighting and "
+    "mood of EXISTING objects/surfaces; it does NOT add, remove, move, resize, rotate or "
+    "re-type any furniture, appliance, decor, wall, door or window, and introduces no new "
+    "object): "
 )
 # Below this many characters of surviving theme text, the styling block is dropped
 # entirely rather than emit the ~180-char wrapper around a near-empty theme. Only the
@@ -162,8 +168,9 @@ def _build_fal_edit_prompt(room_prompt: str, max_len: int = 2200) -> str:
         head.append(f"ROOM: {room}.")
     if inventory:
         head.append(
-            f"EXACT EXISTING INVENTORY (render every one of these items and nothing "
-            f"else - no extra, duplicate, missing, or invented furniture): {inventory}."
+            f"EXACT EXISTING INVENTORY (render every one of these items exactly once "
+            f"and nothing else - no extra, duplicate, missing, substituted, or invented "
+            f"furniture, appliances, or decor): {inventory}."
         )
     elif room_prompt:
         # Fallback: no parse match — keep the room prompt's first sentence (never the
@@ -304,6 +311,11 @@ def fal_config_summary() -> dict[str, object]:
         "endpoint": f"{base}/{active}",
         "deployment_mode": "hosted",
         "controlnet_enabled": FAL_USE_CONTROLNET,
+        # Combined Path B gate (read-only). True ONLY when BOTH the Canny ControlNet path
+        # and the perspective-structural opt-in are on — the EXACT condition generation_service
+        # uses as ``structural_enabled``. Surfaced so the frontend can decide whether to capture
+        # and submit the paired perspective structural render; it never changes behaviour here.
+        "structural_conditioning": bool(FAL_USE_CONTROLNET and FAL_CONTROL_STRUCTURAL),
         "img2img_requested": FAL_IMAGE_EDIT_SUPPORTED,
         "arbitrary_image_requested": FAL_ARBITRARY_IMAGE_SUPPORTED,
         "image_input_supported": bool(FAL_ARBITRARY_IMAGE_SUPPORTED and FAL_IMAGE_EDIT_SUPPORTED),
@@ -343,6 +355,14 @@ class FalFluxAdapter(AIProviderAdapter):
         self.arbitrary_image_effective = bool(
             FAL_ARBITRARY_IMAGE_SUPPORTED and FAL_IMAGE_EDIT_SUPPORTED
         )
+        # Provenance (set per generate): which image filled control_lora_image_url.
+        self.last_control_source: str | None = None
+        # Byte-accurate provenance, set per generate() from the EXACT request bytes (never
+        # from config intent). None until a generate() populates them.
+        self.last_endpoint: str | None = None
+        self.last_control_strength: float | None = None
+        self.last_control_image_sha256: str | None = None
+        self.last_structural_image_sha256: str | None = None
 
     def _endpoint(self) -> str:
         return f"{self.base}/{self.model}"
@@ -355,24 +375,39 @@ class FalFluxAdapter(AIProviderAdapter):
 
     def _build_control_body(
         self, request: GenerationRequest, image_data_uri: str, width: int, height: int,
+        structural_data_uri: str | None = None,
     ) -> dict:
         """Body for the fal FLUX Control-LoRA (Canny) model — REAL structural geometry
         lock. The deterministic base render is passed as `control_lora_image_url`; fal
         extracts its Canny edge map and constrains the generated image's structure to it,
         so walls/openings/furniture CANNOT drift while materials/lighting are regenerated
-        from the prompt. One generalized path for every room (no per-room branches)."""
+        from the prompt. One generalized path for every room (no per-room branches).
+
+        Path B opt-in: when a perspective ``structural_data_uri`` is supplied AND
+        FAL_CONTROL_STRUCTURAL is on, the STRUCTURE control is the structural edge map
+        (cleaner Canny edges in the SAME camera) while the base render stays the color
+        init (``image_url``). Default (flag off / no structural image) is unchanged: the
+        base render is the control, exactly as the current baseline. Only WHICH image fills
+        the documented ``control_lora_image_url`` changes — no new/unsupported field."""
         prompt = _build_fal_edit_prompt(request.prompt)
         strength = FAL_CONTROL_STRENGTH if FAL_CONTROL_STRENGTH is not None else 1.0
         strength = max(0.0, min(2.0, float(strength)))
+        use_structural = bool(structural_data_uri and FAL_CONTROL_STRUCTURAL)
+        control_uri = structural_data_uri if use_structural else image_data_uri
+        self.last_control_source = "structural" if use_structural else "base"
+        # Record the EFFECTIVE strength actually sent (post-default, post-clamp), so provenance
+        # never claims a config value that differs from the request body.
+        self.last_control_strength = strength
         body: dict[str, object] = {
             "prompt": prompt,
-            "control_lora_image_url": image_data_uri,
+            "control_lora_image_url": control_uri,
             "control_lora_strength": strength,
             "num_images": 1,
             "output_format": "png",
-            # Same validated base render as the img2img init: seeds real colors/materials
-            # (so a high structure-lock does not render as flat clay) without introducing
-            # any new geometry source. NOT a second/independent image.
+            # Base render as the img2img init: seeds real colors/materials (so a high
+            # structure-lock does not render as flat clay). When structural conditioning is
+            # active this is the SEPARATE color init alongside the structural control; when
+            # not, it is the same base render as the control (unchanged baseline).
             **({"image_url": image_data_uri} if FAL_CONTROL_USE_INIT else {}),
             # Match the output to the base render's exact pixel dimensions so the
             # deterministic furniture-box projection used by the geometry validator
@@ -412,6 +447,15 @@ class FalFluxAdapter(AIProviderAdapter):
         return body
 
     def generate(self, request: GenerationRequest) -> list[bytes]:
+        # Reset provenance (AIR-08) so a prior room's request id never leaks into this
+        # room's metadata if this call fails before a response is received.
+        self.last_request_id = None
+        self.last_effective_prompt = None
+        self.last_control_source = None  # "structural" | "base" | None (set on the control path)
+        self.last_endpoint = None
+        self.last_control_strength = None
+        self.last_control_image_sha256 = None
+        self.last_structural_image_sha256 = None
         if not self.api_key:
             raise AIProviderError(
                 "fal", "FAL_KEY is not configured in backend/.env", 401, self.model
@@ -424,9 +468,15 @@ class FalFluxAdapter(AIProviderAdapter):
         use_controlnet = bool(request.control_image is not None and FAL_USE_CONTROLNET)
         endpoint = self._control_endpoint() if use_controlnet else self._endpoint()
         active_model = FAL_CONTROL_MODEL if use_controlnet else self.model
+        # Provenance: the ACTUAL route selected (never the configured default).
+        self.last_endpoint = endpoint
 
         image_data_uri: str | None = None
         ctrl_w = ctrl_h = 0
+        # Exact submitted image bytes, kept to hash the real control image after the
+        # control-source branch is resolved (byte-accurate, never from config intent).
+        _base_png: bytes | None = None
+        _struct_png: bytes | None = None
         if request.control_image is not None:
             # Genuine image-edit capability required to send an arbitrary image.
             if not self.arbitrary_image_effective:
@@ -438,6 +488,7 @@ class FalFluxAdapter(AIProviderAdapter):
                     422, self.model, endpoint=endpoint,
                 )
             png = _to_png(request.control_image)
+            _base_png = png
             image_data_uri = "data:image/png;base64," + base64.b64encode(png).decode("ascii")
             try:
                 ctrl_w, ctrl_h = Image.open(BytesIO(png)).size
@@ -466,12 +517,42 @@ class FalFluxAdapter(AIProviderAdapter):
             except Exception:  # noqa: BLE001 — evidence logging must never break generation
                 pass
 
+        # Path B opt-in: encode the perspective structural edge map (same projection as the
+        # base render) so it can serve as the Canny STRUCTURE control. Only on the control
+        # path; None otherwise → baseline unchanged.
+        structural_data_uri: str | None = None
+        if use_controlnet and request.structural_image is not None:
+            s_png = _to_png(request.structural_image)
+            _struct_png = s_png
+            structural_data_uri = "data:image/png;base64," + base64.b64encode(s_png).decode("ascii")
+            # Byte-accurate SHA of the ACTUAL structural input supplied to this generation.
+            self.last_structural_image_sha256 = hashlib.sha256(s_png).hexdigest()
+
         if use_controlnet:
-            body = self._build_control_body(request, image_data_uri, ctrl_w or 1216, ctrl_h or 832)
+            body = self._build_control_body(
+                request, image_data_uri, ctrl_w or 1216, ctrl_h or 832, structural_data_uri
+            )
             conditioning_mode = "canny_controlnet"
         else:
             body = self._build_body(request, image_data_uri)
             conditioning_mode = "edit" if image_data_uri is not None else "base"
+        # Step 2R — expose the ACTUAL conditioning path used for this generate so the caller
+        # can record it in provenance and refuse to report a non-structural (edit/base)
+        # render as geometry-faithful. Only "canny_controlnet" is a real structural lock.
+        self.last_conditioning_mode = conditioning_mode
+        # Byte-accurate SHA of the EXACT image that filled the control slot, derived from the
+        # branch that actually selected it (last_control_source): structural edge map, base
+        # render, or None on the edit/text path (honest — no control image was sent).
+        if self.last_control_source == "structural" and _struct_png is not None:
+            self.last_control_image_sha256 = hashlib.sha256(_struct_png).hexdigest()
+        elif self.last_control_source == "base" and _base_png is not None:
+            self.last_control_image_sha256 = hashlib.sha256(_base_png).hexdigest()
+        else:
+            self.last_control_image_sha256 = None
+        # Step 2S — expose the EXACT effective prompt in the request body (post-assembly +
+        # budget-trim) so the caller can persist the real text sent to the provider, not
+        # just its hash. No credentials are included in the prompt text.
+        self.last_effective_prompt = body.get("prompt") if isinstance(body, dict) else None
         headers = {
             "Authorization": f"Key {self.api_key}",
             "Content-Type": "application/json",
@@ -511,7 +592,10 @@ class FalFluxAdapter(AIProviderAdapter):
         # drop (RemoteProtocolError) is retried enough to reach the real provider
         # response (e.g. HTTP 403 TOP_UP) — never an infinite loop, and NVIDIA's own
         # attempt budget is untouched.
-        max_attempts = max(3, NVIDIA_MAX_ATTEMPTS)
+        # Cost guard (opt-in, default OFF): FAL_SINGLE_ATTEMPT forces EXACTLY ONE
+        # submission so a bounded-cost experiment can never incur a second charge via an
+        # automatic retry. Default/unset keeps the normal bounded-retry budget.
+        max_attempts = 1 if FAL_SINGLE_ATTEMPT else max(3, NVIDIA_MAX_ATTEMPTS)
         last_err = "unknown error"
         last_status = 502
         for attempt in range(1, max_attempts + 1):
@@ -640,6 +724,9 @@ class FalFluxAdapter(AIProviderAdapter):
                 )
             raw = self._fetch_image(url, endpoint, elapsed, req_id)
             out = _to_png(raw)
+            # Provenance (AIR-08): expose the fal request/correlation id for this success
+            # so the caller can persist it. None when fal did not return the header.
+            self.last_request_id = req_id
             logger.info("[fal] SUCCESS png_bytes=%d room=%s elapsed=%.2fs", len(out), room_label, elapsed)
             return [out]
 

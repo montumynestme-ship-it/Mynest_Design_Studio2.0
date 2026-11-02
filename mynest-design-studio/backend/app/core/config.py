@@ -14,6 +14,11 @@ load_dotenv(BACKEND_DIR / ".env")
 # Empty until configured — the app keeps using local JSON storage until set.
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
+# Developer-only inspection tools (furniture/geometry inspector). OFF by default so the
+# dev routes return 404 in any normal/production deployment; enable explicitly for local
+# debugging with MYNEST_DEV_TOOLS=1. Never exposes design data unless explicitly enabled.
+DEV_TOOLS_ENABLED = os.getenv("MYNEST_DEV_TOOLS", "false").lower() in ("1", "true", "yes")
+
 # Local file storage roots (not S3 in this phase).
 STORAGE_ROOT = BACKEND_DIR / "storage"
 FLOOR_PLANS_DIR = STORAGE_ROOT / "floor_plans"
@@ -109,6 +114,24 @@ FAL_CONTROL_STRENGTH = _opt_float("FAL_CONTROL_STRENGTH")
 # surfaces render as real materials/lighting instead of flat clay — without inventing
 # furniture. Both inputs are the SAME validated base render (no new geometry source).
 FAL_CONTROL_USE_INIT = os.getenv("FAL_CONTROL_USE_INIT", "true").lower() == "true"
+# OPT-IN, default OFF (Path B geometry conditioning): when true AND a perspective structural
+# image is supplied on the request AND the Canny Control-LoRA path is active
+# (FAL_USE_CONTROLNET=true), the structural edge map is used as the `control_lora_image_url`
+# (STRUCTURE) while the base render stays the `image_url` init (COLOR). The structural image
+# is the perspective structural pass from the SAME RoomScene3D camera (NOT the top-down
+# backend canvas). With this flag OFF (default), or when no structural image is supplied, the
+# control image is the base render exactly as before — the baseline request is unchanged. No
+# new request field is introduced; only WHICH image fills the documented control_lora_image_url
+# changes. Pair with FAL_CONTROL_MODEL=fal-ai/flux-control-lora-canny/image-to-image so both
+# the control (structure) and init (color) images are schema-supported.
+FAL_CONTROL_STRUCTURAL = os.getenv("FAL_CONTROL_STRUCTURAL", "false").lower() == "true"
+
+# OPT-IN, default OFF: force EXACTLY ONE fal submission (no automatic retry) for the
+# current process. A retry re-POSTs the generation and can incur an ADDITIONAL charge, so
+# a cost-bounded single-render experiment sets FAL_SINGLE_ATTEMPT=true to guarantee at most
+# one billed call (on any transient error it fails fast and is reported, never silently
+# re-submitted). Unset/false preserves the normal bounded-retry behavior for every request.
+FAL_SINGLE_ATTEMPT = os.getenv("FAL_SINGLE_ATTEMPT", "false").lower() == "true"
 
 # ── NVIDIA hosted Flux image generation (NVIDIA NIM / build.nvidia.com) ──
 # Server-side only. The key lives in backend/.env and is NEVER sent to the

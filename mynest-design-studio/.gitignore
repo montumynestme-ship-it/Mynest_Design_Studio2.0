@@ -37,3 +37,9 @@ yarn-error.log*
 # Dev-only NVIDIA smoke-test output (never committed)
 backend/dev_smoke_output/
 dev_smoke_output/
+
+# Large generated render and model artifacts (not repo content)
+*.zip
+*.pt
+backend/storage/debug_artifacts/
+reports/ai_render_investigation/

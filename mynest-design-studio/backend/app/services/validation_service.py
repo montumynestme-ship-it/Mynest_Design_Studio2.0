@@ -683,6 +683,7 @@ def assess_ai_render(
     used_base_render: bool,
     scene_report: dict[str, Any] | None,
     output_verified: bool | None = None,
+    structural_conditioning: bool | None = None,
 ) -> dict[str, Any]:
     """Decide how an AI render's OUTPUT geometry fidelity may be reported (spec §L).
 
@@ -708,6 +709,14 @@ def assess_ai_render(
     """
     scene_ok = bool(scene_report and scene_report.get("geometry_faithful"))
     input_locked = bool(used_base_render and scene_ok)
+    # Step 2R — an output may be reported geometry-FAITHFUL only when STRUCTURAL
+    # conditioning (e.g. Canny/depth ControlNet) actually locked the geometry during
+    # generation. A loose image-EDIT pass (``structural_conditioning=False``) gives the
+    # model freedom to reinterpret furniture, so its output can never be asserted faithful
+    # — at best UNVERIFIED. ``None`` (unknown/legacy) preserves prior behavior so existing
+    # configurations are unchanged. This closes the gap where "missing conditioning" could
+    # be reported as geometry-verified if an output check were later added.
+    conditioning_blocks_faithful = structural_conditioning is False
     if not input_locked:
         status = "FAIL"
         reason = (
@@ -716,7 +725,7 @@ def assess_ai_render(
             else "the deterministic base scene failed geometry validation"
         )
         geometry_faithful: bool | None = False
-    elif output_verified:
+    elif output_verified and not conditioning_blocks_faithful:
         status = "FAITHFUL"
         reason = (
             "image-to-image render of a geometry-faithful base, confirmed by an "
@@ -726,7 +735,10 @@ def assess_ai_render(
     else:
         status = "UNVERIFIED"
         reason = (
-            "image-to-image render of a geometry-faithful base, but the OUTPUT "
+            "image-edit render without structural conditioning (no geometry lock); "
+            "output geometry preservation cannot be asserted"
+            if conditioning_blocks_faithful
+            else "image-to-image render of a geometry-faithful base, but the OUTPUT "
             "geometry was NOT verified (no output furniture/geometry check ran)"
         )
         geometry_faithful = None
@@ -735,6 +747,7 @@ def assess_ai_render(
         "geometry_status": status,
         "input_geometry_locked": input_locked,
         "output_geometry_verified": bool(output_verified),
+        "structural_conditioning": structural_conditioning,
         "used_base_render": used_base_render,
         "scene_geometry_faithful": scene_ok,
         "reason": reason,

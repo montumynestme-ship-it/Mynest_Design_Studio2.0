@@ -7,6 +7,21 @@
 
 ---
 
+> ⚠️ **RUNTIME CORRECTION (2026-10-22, verified against current source — supersedes the
+> two-pass descriptions below).** This document describes an intended **two-pass Depth + Canny
+> ControlNet** diffusion pipeline. The **actual current runtime** does **not** run it:
+> `FAL_USE_CONTROLNET=false` by default, so `registry.get_adapter(DEFAULT_AI_PROVIDER="fal")`
+> dispatches `FalFluxAdapter` on `fal-ai/flux-kontext/dev` via the **single-pass image-edit
+> path** (`_build_body` sends the deterministic base render as `image_url` + a text prompt,
+> `conditioning_mode="edit"`). There is **no Depth LoRA pass**; the Canny Control-LoRA path
+> (`_build_control_body`, `fal-ai/flux-control-lora-canny`) exists in code but is **gated off**.
+> Treat "two-pass Depth+Canny ControlNet is active" as an aspirational/historical claim, not
+> current behavior. Enabling structured conditioning is a provider/default change requiring
+> explicit approval (see `docs/AI_RENDER_ACCURACY_ISSUES.md` AIR-06 and
+> `docs/AI_RENDER_FIDELITY_WORKFLOW.md`).
+
+---
+
 ## Table of Contents
 
 1. [Executive Business Overview & Architectural Rationale](#1-executive-business-overview--architectural-rationale)

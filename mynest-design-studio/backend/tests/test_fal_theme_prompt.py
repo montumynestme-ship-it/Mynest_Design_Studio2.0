@@ -132,7 +132,7 @@ def test_oversized_theme_truncates_only_styling_text():
     assert _NEG_HEAD in fp
     assert "EXACT EXISTING INVENTORY" in fp
     assert "ROOM:" in fp
-    assert "user-specified" in fp and "teal velvet" in fp   # theme present (truncated)
+    assert "styling only" in fp and "teal velvet" in fp     # theme present (truncated)
     assert "walnut and natural-stone" not in fp             # fixed style not duplicated
     assert len(fp) <= MAX_LEN
 

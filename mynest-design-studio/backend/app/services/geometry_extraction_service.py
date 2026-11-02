@@ -324,29 +324,109 @@ def _rotated_rect(
 
 
 def render_control_image(geometry: dict[str, Any], furniture: list[dict[str, Any]]) -> bytes:
-    """Deterministic base: black walls + labelled furniture footprints, world px.
+    """Deterministic base: black walls + recognizable furniture SVG symbols, world px.
 
-    This is the authoritative geometry the AI must preserve. It is drawn purely
-    from extracted walls and stored furniture coordinates — nothing is invented.
+    This is the authoritative geometry the AI must preserve. It is drawn purely from
+    extracted walls and stored furniture coordinates — nothing is invented. Backward
+    compatible: returns PNG bytes exactly as before; use ``render_control_image_with_report``
+    for the icon/fallback provenance.
     """
+    png, _report = render_control_image_with_report(geometry, furniture)
+    return png
+
+
+def render_control_image_with_report(
+    geometry: dict[str, Any], furniture: list[dict[str, Any]]
+) -> tuple[bytes, dict[str, Any]]:
+    """Render the backend geometry canvas with existing furniture SVG symbols.
+
+    Each canonical item is drawn as its mapped SVG symbol (via ``svg_rasterizer`` and
+    ``CLASS_BY_ITEM_ID`` — the trusted project asset set, never user-supplied markup),
+    placed inside its canonical footprint and rotated deterministically. The footprint
+    outline is ALWAYS drawn first, so the exact transform stays visible even when the
+    SVG artwork has transparent padding. When an item is unmapped / its SVG is missing /
+    rasterization fails / its transform is incomplete, the original filled-polygon
+    fallback is used and the reason recorded — never a guessed type or moved item.
+    Output stays ``image/png`` at the same world-px dimensions (API contract preserved).
+    """
+    from app.data.classes import svg_name_for_item
+    from app.data.furniture_catalog import is_annotation
+    from app.services.ml import svg_rasterizer
+
     page = geometry["page"]
-    img = Image.new("RGB", (int(page["width"]), int(page["height"])), "white")
+    width, height = int(page["width"]), int(page["height"])
+    img = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(img)
+
+    report: dict[str, Any] = {
+        "coordinate_frame": "canonical_world_px",
+        "scale": page.get("scale"),
+        "width": width,
+        "height": height,
+        "furniture_count": 0,
+        "icons_rendered": 0,
+        "fallbacks": [],  # [{uid, item_id, reason}]
+    }
 
     for x1, y1, x2, y2 in geometry["walls"]:
         draw.line([x1, y1, x2, y2], fill=(0, 0, 0), width=5)
 
     for f in furniture:
+        item_id = f.get("item_id")
+        if is_annotation(item_id):
+            continue  # room-tag etc. — not a physical furniture object
+        report["furniture_count"] += 1
+        uid = f.get("uid")
+
+        # Incomplete transform → report, never guess a position/size.
+        if any(f.get(k) is None for k in ("cx", "cy", "w", "h")):
+            report["fallbacks"].append({"uid": uid, "item_id": item_id, "reason": "missing_transform"})
+            continue
+
         cx, cy = float(f["cx"]), float(f["cy"])
-        poly = _rotated_rect(cx, cy, float(f["w"]), float(f["h"]), float(f.get("rotation", 0)))
-        draw.polygon(poly, fill=(225, 210, 195), outline=(90, 60, 40))
-        draw.line([*poly, poly[0]], fill=(90, 60, 40), width=3)
-        label = str(f["item_id"]).replace("-", " ")
+        w, h = float(f["w"]), float(f["h"])
+        rot = float(f.get("rotation", 0) or 0)
+        poly = _rotated_rect(cx, cy, w, h, rot)
+        # Authoritative footprint outline FIRST (thin) — transform always visible.
+        draw.line([*poly, poly[0]], fill=(90, 60, 40), width=2)
+
+        reason: str | None = None
+        svg_name = svg_name_for_item(item_id)
+        if svg_name is None:
+            reason = "unmapped_item_id"
+        else:
+            svg_path = svg_rasterizer.SVG_DIR / svg_name
+            if not svg_path.exists():
+                reason = "svg_file_missing"
+            else:
+                try:
+                    icon = svg_rasterizer.render_svg_to_image(
+                        svg_path, max(4, int(round(w))), max(4, int(round(h)))
+                    )
+                    if rot:
+                        # world is y-down; PIL rotates CCW for +angle, so negate to match
+                        # the clockwise world rotation used by _rotated_rect.
+                        icon = icon.rotate(-rot, expand=True, resample=Image.BICUBIC)
+                    ox = int(round(cx - icon.width / 2))
+                    oy = int(round(cy - icon.height / 2))
+                    img.paste(icon, (ox, oy), icon)  # alpha-masked composite
+                    report["icons_rendered"] += 1
+                except Exception as exc:  # noqa: BLE001 — any render issue → safe fallback
+                    reason = f"render_failed:{type(exc).__name__}"
+
+        if reason is not None:
+            # Fallback to the original solid footprint (unchanged legacy look).
+            draw.polygon(poly, fill=(225, 210, 195), outline=(90, 60, 40))
+            draw.line([*poly, poly[0]], fill=(90, 60, 40), width=3)
+            report["fallbacks"].append({"uid": uid, "item_id": item_id, "reason": reason})
+
+        # Compact raster label (PNG output → no markup/escaping vector).
+        label = str(item_id or "?").replace("-", " ")
         draw.text((cx - len(label) * 3, cy - 5), label, fill=(60, 40, 25))
 
     buffer = BytesIO()
     img.save(buffer, format="PNG")
-    return buffer.getvalue()
+    return buffer.getvalue(), report
 
 
 def render_canny_control(

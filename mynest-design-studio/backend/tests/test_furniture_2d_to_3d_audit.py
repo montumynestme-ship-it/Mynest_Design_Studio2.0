@@ -77,7 +77,9 @@ def test_compute_mpp_prefers_bed():
 
 
 # ── REAL FID audit: zero divergence, room association + invariants intact ────────
-def test_fid_audit_zero_divergence_and_invariants():
+def test_fid_audit_zero_divergence_and_invariants(frozen_v31):
+    # Frozen v31 baseline (0 room-tag annotations): non-opening furniture count (22)
+    # equals the audit's scene furniture_count. Annotation exclusion tested separately.
     audit = build_audit(FID)
     assert audit["design_version_id"] and audit["furniture_count"] >= 1
     canonical = floor_plan_service.get_canonical(FID)

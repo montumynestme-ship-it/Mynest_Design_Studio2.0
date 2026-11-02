@@ -52,7 +52,7 @@ def test_editor_window_dedups_pdf_window():
 
 # ── Real plan ──────────────────────────────────────────────────────────────────
 
-def test_real_plan_supplements_exactly_the_unplaced_openings():
+def test_real_plan_supplements_exactly_the_unplaced_openings(frozen_v31):
     scene = scene_service.build_scene(FID)
     rooms = scene["rooms"]
     ed_doors = sum(1 for r in rooms for f in r["furniture"]
@@ -63,20 +63,21 @@ def test_real_plan_supplements_exactly_the_unplaced_openings():
     pdf_doors = sum(len(r.get("doors") or []) for r in rooms)
     pdf_windows = sum(len(r.get("windows") or []) for r in rooms)
 
-    # editor 7 doors + 4 windows; PDF 8 doors + 5 windows → 1 door + 1 window added.
-    assert (ed_doors, ed_windows) == (7, 4)
-    assert (supp_doors, supp_windows) == (1, 1)
+    # Frozen v31 baseline: editor 8 doors + 4 windows; PDF 8 doors + 5 windows → the
+    # merge supplements only the 1 PDF window the editor didn't place (0 doors added).
+    assert (ed_doors, ed_windows) == (8, 4)
+    assert (supp_doors, supp_windows) == (0, 1)
     # rendered (editor + supplemental) covers every PDF-detected opening.
     assert ed_doors + supp_doors == pdf_doors == 8
     assert ed_windows + supp_windows == pdf_windows == 5
 
 
-def test_merge_is_additive_furniture_and_validation_unchanged():
+def test_merge_is_additive_furniture_and_validation_unchanged(frozen_v31):
     canonical = floor_plan_service.get_canonical(FID)
     scene = scene_service.build_scene(FID)
-    # furniture inventory untouched (still 33 items across rooms)
+    # furniture inventory untouched (frozen v31: 34 items across rooms, 0 annotations)
     furn = [f for r in scene["rooms"] for f in r["furniture"]]
-    assert len(furn) == len(canonical["furniture"]) == 33
+    assert len(furn) == len(canonical["furniture"]) == 34
     # supplemental items are NOT injected into furniture or room.doors/windows
     for r in scene["rooms"]:
         supp_ids = {str(o.get("id")) for o in (r.get("supplemental_doors") or [])

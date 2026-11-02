@@ -86,14 +86,17 @@ def expected_inventory(furniture_items: list[dict[str, Any]] | None) -> dict[str
     return counts
 
 
-def room_furniture(canonical: dict[str, Any], room_label: str) -> list[dict[str, Any]]:
+def room_furniture(
+    canonical: dict[str, Any], room_label: str, merge_map: dict[str, str] | None = None
+) -> list[dict[str, Any]]:
     """Canonical furniture grouped into the given section label (same grouping the
     render path uses), so expected inventory is scoped per room without plan-specific
-    logic. Open-plan combined labels (``A & B``) match either constituent section."""
+    logic. Open-plan combined labels (``A & B``) match either constituent section.
+    ``merge_map`` (AIR-03) keeps inventory scoping consistent with the merged grouping."""
     from app.services import prompt_service
     norm = prompt_service._normalize_section_name
     want = norm(room_label)
-    for label, items in prompt_service.group_by_room(canonical.get("furniture") or []):
+    for label, items in prompt_service.group_by_room(canonical.get("furniture") or [], merge_map):
         parts = {norm(label)} | {norm(p.strip()) for p in str(label).split("&")}
         if want in parts:
             return list(items)

@@ -20,6 +20,8 @@ from app.core.config import (
     AI_ROOM_DELAY_SECONDS,
     DEBUG_ARTIFACTS_DIR,
     DEFAULT_AI_PROVIDER,
+    FAL_CONTROL_STRUCTURAL,
+    FAL_USE_CONTROLNET,
     RENDER_CACHE_DIR,
 )
 from app.db.base import session_scope
@@ -32,11 +34,23 @@ from app.services import (
     fidelity_service,
     floor_plan_service,
     furniture_manifest,
+    inventory_reconciliation_service,
+    output_inventory_assessment_service,
     prompt_service,
+    room_membership_service,
     scene_service,
+    structural_pair,
     validation_service,
 )
 from app.services.ai import registry
+
+# AIR-03 — authoritative render-set merging is implemented (Step 3): a validly-assigned
+# Kitchen/Living dining is folded into that destination group across eligibility, prompts,
+# manifest, inventory, and the scene, instead of being rendered as its own section. The
+# pre-provider gate therefore stops treating a RESOLVED Kitchen/Living dining as
+# merge-pending; only REVIEW_REQUIRED membership is blocked. Flip to False to revert to
+# the safe block-until-merge behavior.
+MERGE_SUPPORTED = True
 from app.services.ai.base import AIProviderAdapter, AIProviderError, GenerationRequest
 from app.services.ai.mock_adapter import MockAdapter
 from app.storage import file_storage
@@ -56,6 +70,18 @@ def _to_png(data: bytes) -> bytes:
         return buffer.getvalue()
     except Exception as exc:
         raise ValueError(f"Image decode failed: {exc}") from exc
+
+
+def _png_dims(data: bytes | None) -> tuple[int | None, int | None]:
+    """Actual (width, height) of an output image, or (None, None) if undecodable/absent
+    (AIR-08 provenance — derived from the saved bytes, never assumed from the base size)."""
+    if not data:
+        return None, None
+    try:
+        w, h = Image.open(BytesIO(data)).size
+        return int(w), int(h)
+    except Exception:  # noqa: BLE001
+        return None, None
 
 
 def _is_blank(data: bytes) -> bool:
@@ -196,6 +222,40 @@ def _room_faithful_map(rooms: list[dict[str, Any]]) -> dict[str, bool]:
     return room_faithful
 
 
+def _region_scene_faithful(
+    selected_uids: list[str],
+    scene_rooms: list[dict[str, Any]],
+    room_faithful: dict[str, bool],
+) -> bool:
+    """§L render-faithfulness for a Draw Area region — judged from the host rooms of the
+    SELECTED furniture ONLY, using the SAME per-label faithfulness the room path trusts
+    (``_room_faithful_map``). The region is faithful iff every selected item sits in a scene
+    room whose label resolves to a wall-proven CONFIRMED room.
+
+    This is the region analogue of ``_room_faithful(label)`` for a real room: it never
+    weakens §L (a selection that includes furniture from a room with no confirmed wall
+    support still fails, and an item not placed in any scene room fails), and it never
+    penalizes the region for UNPROVEN rooms elsewhere in the plan that are NOT selected —
+    which is exactly why a region labelled "Selected Area" must not inherit the GLOBAL
+    scene faithfulness (dragged down by unselected fallback rooms)."""
+    if not selected_uids:
+        return False
+    uid_to_label: dict[str, str] = {}
+    for r in scene_rooms or []:
+        lbl = str(r.get("label") or r.get("id") or "")
+        for f in r.get("furniture", []) or []:
+            uid_to_label[str(f.get("uid"))] = lbl
+    for uid in selected_uids:
+        lbl = uid_to_label.get(str(uid))
+        if lbl is None:
+            return False  # selected furniture not in any reconstructed scene room
+        keys = [prompt_service._normalize_section_name(lbl)]
+        keys += [prompt_service._normalize_section_name(p.strip()) for p in lbl.split("&")]
+        if not any(room_faithful.get(k, False) for k in keys):
+            return False
+    return True
+
+
 def room_eligibility(file_id: str) -> dict[str, Any]:
     """Deterministic, READ-ONLY per-room AI-render eligibility for ANY plan.
 
@@ -262,12 +322,39 @@ def room_eligibility(file_id: str) -> dict[str, Any]:
             "furniture_count": fcount, "eligible": eligible, "reason": reason,
         })
 
+    # AIR-03 — surface authoritative dining-membership review (additive; never changes
+    # the `eligible` booleans above). Lets the editor show which open-plan sections need
+    # an explicit Kitchen/Living/Independent assignment before AI render is allowed.
+    membership_review: list[dict[str, Any]] = []
+    try:
+        _furn = canonical.get("furniture", []) or []
+        _groups = room_membership_service.resolve_authoritative_groups(
+            _furn, rooms, merge_supported=MERGE_SUPPORTED
+        )
+        _merge_map = _groups["merge_map"]
+        membership_review = _groups["decisions"]
+        _sections = prompt_service.group_by_room(_furn, _merge_map)
+        _blocked = room_membership_service.blocked_dining_sections(
+            _furn, rooms, _sections, merge_supported=MERGE_SUPPORTED
+        )
+        _blocked_norm = {
+            prompt_service._normalize_section_name(lbl): info
+            for lbl, info in _blocked.items()
+        }
+        for entry in out:
+            info = _blocked_norm.get(prompt_service._normalize_section_name(entry["room"]))
+            if info is not None:
+                entry["membership_review"] = info
+    except Exception as _mexc:  # noqa: BLE001 — surfacing is best-effort, read-only
+        logger.warning("[AIR-03] room_eligibility membership surfacing skipped: %s", _mexc)
+
     info = floor_plan_service.get_latest_version_info(file_id)
     return {
         "design_version_id": info[0] if info else None,
         "rooms": out,
         "eligible_rooms": eligible_n,
         "total_rooms": len(out),
+        "membership_review": membership_review,
     }
 
 
@@ -502,8 +589,26 @@ def _save_debug_artifacts(
     postgen_reason: str | None = None,
     inventory_status: str | None = None,
     inventory_reason: dict[str, Any] | None = None,
+    output_width: int | None = None,
+    output_height: int | None = None,
+    provider_request_id: str | None = None,
+    conditioning_mode: str | None = None,
+    effective_prompt: str | None = None,
+    output_inventory_assessment: dict[str, Any] | None = None,
+    control_source: str | None = None,
+    control_image_sha256: str | None = None,
+    structural_image_sha256: str | None = None,
+    control_strength: float | None = None,
+    endpoint: str | None = None,
+    output_image_sha256: str | None = None,
 ) -> None:
-    """Save debug metadata and prompt text (Phases 19 & 21)."""
+    """Save debug metadata and prompt text (Phases 19 & 21).
+
+    AIR-08 provenance: ``output_width``/``output_height`` are the ACTUAL dimensions of the
+    saved output image (vs the fixed base-capture ``width``/``height``), and
+    ``provider_request_id`` is the provider's request/correlation id when supplied. All
+    three default to None and are additive — existing metadata fields are unchanged.
+    """
     try:
         gen_debug_dir = DEBUG_ARTIFACTS_DIR / generation_id / f"room_{index}_{room_label}"
         gen_debug_dir.mkdir(parents=True, exist_ok=True)
@@ -524,6 +629,23 @@ def _save_debug_artifacts(
             "geometry_faithful": geometry_faithful,
             "geometry_status": geometry_status,
             "input_geometry_locked": input_geometry_locked,
+            # Step 2R — the actual conditioning path used for this render ("edit" = no
+            # structural lock; "canny_controlnet" = geometry-locked). Makes the hallucination
+            # failure class diagnosable from provenance; additive, defaults None.
+            "conditioning_mode": conditioning_mode,
+            # Byte-accurate conditioning provenance (additive; None when not applicable). These
+            # make Arm B (control_source="base") distinguishable from Arm C
+            # (control_source="structural") — `conditioning_mode` alone cannot. All values come
+            # from the ACTUAL request/output bytes recorded by the adapter, never config intent.
+            "control_source": control_source,
+            "control_image_sha256": control_image_sha256,
+            "structural_image_sha256": structural_image_sha256,
+            "control_strength": control_strength,
+            "endpoint": endpoint,
+            "output_image_sha256": output_image_sha256,
+            # Phase 1 — advisory output-inventory assessment (NOT_VALIDATABLE until a detector
+            # is calibrated). Never a definitive fidelity verdict; recorded for audit/UI.
+            "output_inventory_assessment": output_inventory_assessment,
             "postgen_status": postgen_status,
             "postgen_reason": postgen_reason,
             "inventory_status": inventory_status,
@@ -536,6 +658,10 @@ def _save_debug_artifacts(
             json.dumps(req_meta, indent=2), encoding="utf-8"
         )
         (gen_debug_dir / "prompt.txt").write_text(prompt, encoding="utf-8")
+        # Step 2S — persist the EXACT effective prompt the provider received (post-assembly
+        # + truncation), so provenance records what was actually sent, not only its hash.
+        if effective_prompt:
+            (gen_debug_dir / "effective_prompt.txt").write_text(effective_prompt, encoding="utf-8")
 
         resp_meta = {
             "generation_id": generation_id,
@@ -544,6 +670,10 @@ def _save_debug_artifacts(
             "seed": seed,
             "cache_hit": cache_hit,
             "timestamp": time.time(),
+            # AIR-08 provenance (additive; None when unavailable).
+            "output_width": output_width,
+            "output_height": output_height,
+            "provider_request_id": provider_request_id,
         }
         (gen_debug_dir / "provider_response_metadata.json").write_text(
             json.dumps(resp_meta, indent=2), encoding="utf-8"
@@ -576,11 +706,51 @@ def _write_room_manifest(
             "authoritative_manifest": manifest,
             "postgen_fidelity": {"status": postgen_status, "reason": postgen_reason},
         }
+        # Approach A/B provenance — the version-bound JSON furniture dictionary + its
+        # validation + the rendered Markdown system prompt, all DERIVED from this same
+        # manifest (one source of truth). Additive, best-effort: never blocks or alters a
+        # render, and the provider request is unchanged (the live FAL path already carries
+        # the manifest-derived inventory + preservation constraints via prompt_service).
+        try:
+            from app.services import furniture_dictionary
+            payload.update(furniture_dictionary.build_for_room(manifest))
+        except Exception as dexc:  # noqa: BLE001 — provenance only
+            logger.warning("Failed to build furniture dictionary provenance: %s", dexc)
         (gen_debug_dir / "furniture_manifest.json").write_text(
             json.dumps(payload, indent=2), encoding="utf-8"
         )
     except Exception as exc:  # noqa: BLE001
         logger.warning("Failed to write furniture manifest: %s", exc)
+
+
+def _save_refused_section_artifact(
+    generation_id: str,
+    index: int,
+    room_item: tuple[str, str, int, int],
+    code: str,
+    reason: str,
+    *,
+    provider: str,
+    model: str | None,
+    seed: int,
+    geometry_hash: str,
+) -> None:
+    """Persist a lightweight FAILED-section provenance breadcrumb for a section refused
+    BEFORE any provider call (a 2D→3D hard refusal or a per-section base/membership/
+    inventory gate). Such sections never reach ``_render_room``, so without this they leave
+    NO artifact on disk and a post-hoc investigation cannot recover WHY they failed (the
+    reason otherwise lives only in the transient API response). Best-effort, never raises;
+    changes no generation behavior and writes nothing a successful render would overwrite."""
+    label, prompt, width, height = room_item
+    try:
+        _save_debug_artifacts(
+            generation_id, index, label, prompt, provider, model, width, height,
+            "failed", error=f"{code}: {reason}", seed=seed,
+            prompt_hash=hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:16],
+            geometry_hash=geometry_hash,
+        )
+    except Exception as exc:  # noqa: BLE001 — provenance only
+        logger.warning("Failed to persist refused-section provenance for %r: %s", label, exc)
 
 
 def _atomic_write_bytes(dest: Path, data: bytes) -> None:
@@ -865,6 +1035,12 @@ def _image_response(gen, img, bboxes, get_geom, get_fidelity, get_debug) -> Gene
         postgen_status=dbg.get("postgen_status"),
         inventory_status=dbg.get("inventory_status"),
         inventory_reason=dbg.get("inventory_reason"),
+        control_source=dbg.get("control_source"),
+        control_image_sha256=dbg.get("control_image_sha256"),
+        structural_image_sha256=dbg.get("structural_image_sha256"),
+        control_strength=dbg.get("control_strength"),
+        endpoint=dbg.get("endpoint"),
+        output_image_sha256=dbg.get("output_image_sha256"),
     )
 
 
@@ -910,6 +1086,12 @@ def _render_room(
     design_version_id: str | None = None,
     base_scene_room: dict[str, Any] | None = None,
     scene_rooms: list[dict[str, Any]] | None = None,
+    merge_map: dict[str, str] | None = None,
+    containment_map: dict[str, str] | None = None,
+    base_boxes: dict[str, list[dict[str, Any]]] | None = None,
+    base_render_meta: dict[str, dict[str, Any]] | None = None,
+    structural_render: bytes | None = None,
+    explicit_manifest: dict[str, Any] | None = None,
 ) -> tuple[str, bytes, str, str, int, bool, str, str, str]:
     """Render one room; returns (label, png_bytes, provider_used, model, seed, cache_hit, prompt_hash, geom_hash, style_hash).
 
@@ -938,7 +1120,19 @@ def _render_room(
     # Authoritative furniture manifest (spec §2) — the exact per-room inventory
     # the render must preserve. Recorded with the render; used to hard-gate empty
     # rooms and to anchor the post-generation fidelity check.
-    manifest = furniture_manifest.room_manifest(canonical, label)
+    # Bind the manifest to the exact immutable snapshot this render runs against
+    # (design version + geometry fingerprint), so the recorded manifest and the output
+    # assessment are provably tied to this version, not an unbound/stale inventory.
+    # Draw Area: a region supplies its manifest explicitly (built from the selected uids),
+    # so we never re-group canonical by this synthetic label. Room path: unchanged.
+    manifest = (
+        explicit_manifest
+        if explicit_manifest is not None
+        else furniture_manifest.room_manifest(
+            canonical, label, merge_map, containment_map,
+            design_version_id=design_version_id, geometry_fingerprint=geom_hash,
+        )
+    )
 
     # Phase 4C Step 2K — detector-free inventory-mismatch status for the SELECTED
     # deterministic base. Informational only: it NEVER gates, reroutes, or alters the
@@ -1024,6 +1218,11 @@ def _render_room(
                 postgen_reason=cache_pg_reason,
                 inventory_status=cache_inv_status,
                 inventory_reason=cache_inv_reason,
+                # AIR-08: output dims from the cached image; no provider request id on a
+                # cache hit (no new provider call was made).
+                output_width=_png_dims(cached)[0],
+                output_height=_png_dims(cached)[1],
+                provider_request_id=None,
             )
             return label, cached, f"{provider} (cached)", adapter.model, seed, True, prompt_hash, geom_hash, style_hash
 
@@ -1041,6 +1240,10 @@ def _render_room(
         room_label=label,
         room_id=f"room_{index}_{label}",
         control_image=base_render,
+        # Opt-in Path B structural control (perspective edge map). None unless the caller
+        # resolved a validated, snapshot-bound structural pair; the adapter only consumes it
+        # when FAL_CONTROL_STRUCTURAL + the Canny path are active (else baseline unchanged).
+        structural_image=structural_render,
     )
     try:
         raw_list = adapter.generate(request)
@@ -1050,6 +1253,8 @@ def _render_room(
         png = _to_png(raw_list[0])
         if _is_blank(png):
             raise AIProviderError(provider, "Provider returned a blank/safety-blocked frame", 502)
+        # AIR-08: record the ACTUAL output dimensions from the real output bytes.
+        _out_w, _out_h = _png_dims(png)
 
         # POST-AI VALIDATION AGAINST SOURCE (diagram stage: VALIDATE -> PASS/FAIL).
         # Deterministic reject gate on the AI OUTPUT vs the deterministic base render:
@@ -1096,6 +1301,15 @@ def _render_room(
         # the model never saw the deterministic layout. This is a REPORTING-only
         # correction; it changes no render output, coordinates, or generation.
         used_base_render = base_render is not None and adapter.supports_control_image
+        # Step 2R — whether the adapter actually applied STRUCTURAL conditioning (Canny/
+        # depth ControlNet, a real geometry lock) vs a loose image-EDIT pass. Read from the
+        # adapter's per-generate ``last_conditioning_mode``; None when the adapter does not
+        # report it (legacy/mock → unchanged behavior). Only "canny_controlnet" is a real
+        # structural lock; an "edit"/"base" render (False) can never be reported FAITHFUL.
+        _cond_mode: str | None = getattr(adapter, "last_conditioning_mode", None)
+        structural_conditioning: bool | None = (
+            (_cond_mode == "canny_controlnet") if _cond_mode is not None else None
+        )
         # P0 (evidence-driven status): a geometry-faithful base used as the img2img
         # control locks the INPUT, but no output-level geometry/furniture check runs
         # here, so the OUTPUT is reported UNVERIFIED (geometry_faithful=None) rather
@@ -1105,10 +1319,78 @@ def _render_room(
             used_base_render=used_base_render,
             scene_report={"geometry_faithful": scene_geometry_faithful},
             output_verified=False,
+            structural_conditioning=structural_conditioning,
         )
         gf = ai_assess["geometry_faithful"]
         geom_status = ai_assess["geometry_status"]
         input_locked = ai_assess["input_geometry_locked"]
+
+        # Phase 1 — ADVISORY output-inventory assessment from version-bound base-render
+        # furniture boxes. Non-gating; NEVER sets FAITHFUL or changes a render. The detector
+        # is None by default (no model-weight download), so this is the honest NOT_VALIDATABLE
+        # until a detector is enabled + calibrated; with evidence + a detector it reports
+        # advisory missing/extra candidates. Version/room-bound; malformed/mismatched evidence
+        # is rejected. Best-effort: any failure degrades to NOT_VALIDATABLE, never breaks a render.
+        output_inventory_assessment: dict[str, Any] | None = None
+        try:
+            _bk = None
+            if base_boxes:
+                for _cand in (label, prompt_service._normalize_section_name(label)):
+                    if _cand in base_boxes:
+                        _bk = _cand
+                        break
+            if _bk is not None:
+                _meta = (base_render_meta or {}).get(_bk) or {}
+                _declared_ver = _meta.get("design_version_id")
+                # Boxes are in the CAPTURE frame (base_render_meta width/height), not the
+                # provider output dims — use the capture dims for the registry.
+                _cw = int(_meta.get("width") or 1216)
+                _ch = int(_meta.get("height") or 832)
+                _clean, _why = output_inventory_assessment_service.validate_base_box_evidence(
+                    base_boxes[_bk], expected_version_id=design_version_id,
+                    declared_version_id=_declared_ver)
+                if _clean is not None:
+                    # Stage E — the evidence must describe the SAME furniture as THIS manifest
+                    # before the output is assessed against it. If the base-render evidence does
+                    # not match the authoritative inventory, correspondence to the manifest is
+                    # unproven, so the assessment is NOT_VALIDATABLE (never a silent pass on the
+                    # wrong inventory). A match proceeds to the existing advisory assessment.
+                    _recon = output_inventory_assessment_service.reconcile_with_manifest(_clean, manifest)
+                    if _recon.get("status") in (
+                        output_inventory_assessment_service.MISMATCH,
+                        output_inventory_assessment_service.AMBIGUOUS,
+                    ):
+                        output_inventory_assessment = {
+                            "overall_status": "NOT_VALIDATABLE", "advisory": True,
+                            "calibration_status": "NOT_CALIBRATED",
+                            "reason": "EVIDENCE_MANIFEST_MISMATCH: base-render furniture evidence "
+                                      "does not match (or is ambiguous against) the authoritative "
+                                      "manifest for this version/room",
+                            "manifest_reconciliation": _recon,
+                        }
+                    else:
+                        output_inventory_assessment = output_inventory_assessment_service.assess_output_inventory(
+                            _clean, png, detector=None, image_width=_cw, image_height=_ch,
+                            output_width=_out_w, output_height=_out_h)
+                        output_inventory_assessment["manifest_reconciliation"] = _recon
+                else:
+                    output_inventory_assessment = {"overall_status": "NOT_VALIDATABLE",
+                                                   "advisory": True, "reason": _why}
+            else:
+                output_inventory_assessment = {"overall_status": "NOT_VALIDATABLE", "advisory": True,
+                                               "reason": "no base furniture evidence for this room"}
+        except Exception as _oexc:  # noqa: BLE001 — advisory only; never break a render
+            output_inventory_assessment = {"overall_status": "NOT_VALIDATABLE", "advisory": True,
+                                           "reason": f"assessment skipped: {type(_oexc).__name__}"}
+        # Tie the assessment to the exact manifest it was (or should be) checked against,
+        # so provenance records which design version/room/inventory the output was assessed
+        # against — never a fidelity verdict, only linkage + the expected inventory.
+        if output_inventory_assessment is not None and manifest is not None:
+            output_inventory_assessment.setdefault(
+                "manifest_binding", furniture_manifest.binding(manifest))
+            output_inventory_assessment.setdefault(
+                "expected_inventory", furniture_manifest.expected_inventory(manifest))
+
         _write_room_manifest(generation_id, index, label, manifest, postgen_status, postgen_reason)
         # Cache valid photorealistic render + record the base it was generated from, so a
         # later cache hit can verify provenance before trusting the inventory diagnostic
@@ -1137,6 +1419,21 @@ def _render_room(
             postgen_reason=postgen_reason,
             inventory_status=inventory_status,
             inventory_reason=inventory_reason,
+            # AIR-08 provenance: actual output dimensions + the provider's request id.
+            output_width=_out_w,
+            output_height=_out_h,
+            provider_request_id=getattr(adapter, "last_request_id", None),
+            conditioning_mode=_cond_mode,
+            effective_prompt=getattr(adapter, "last_effective_prompt", None),
+            output_inventory_assessment=output_inventory_assessment,
+            # Byte-accurate conditioning provenance from the ACTUAL request + output bytes.
+            control_source=getattr(adapter, "last_control_source", None),
+            control_image_sha256=getattr(adapter, "last_control_image_sha256", None),
+            structural_image_sha256=getattr(adapter, "last_structural_image_sha256", None),
+            control_strength=getattr(adapter, "last_control_strength", None),
+            endpoint=getattr(adapter, "last_endpoint", None),
+            # Output hash from the REAL generated bytes (success path only — never fabricated).
+            output_image_sha256=hashlib.sha256(png).hexdigest(),
         )
         return label, png, adapter.name, adapter.model, seed, False, prompt_hash, geom_hash, style_hash
 
@@ -1160,6 +1457,14 @@ def _render_room(
             prompt_hash=prompt_hash,
             geometry_hash=geom_hash,
             style_reference_hash=style_hash,
+            # Record whatever conditioning provenance the adapter set before failing (honest:
+            # these may be None if it failed early). NO output_image_sha256 — the request did
+            # not produce output bytes, so no output hash is fabricated.
+            control_source=getattr(adapter, "last_control_source", None),
+            control_image_sha256=getattr(adapter, "last_control_image_sha256", None),
+            structural_image_sha256=getattr(adapter, "last_structural_image_sha256", None),
+            control_strength=getattr(adapter, "last_control_strength", None),
+            endpoint=getattr(adapter, "last_endpoint", None),
         )
 
         # NO FALLBACK — when NVIDIA fails, the room FAILS with the real error.
@@ -1191,6 +1496,92 @@ def _decode_base_render(value: str | None) -> bytes | None:
         return None
 
 
+def _validate_structural_image_bytes(
+    png: bytes | None,
+    expected_width: int | None,
+    expected_height: int | None,
+) -> tuple[bool, str]:
+    """Validate the ACTUAL structural control bytes before any provider call.
+
+    The declared version/room/camera binding is enforced on the metadata by
+    ``structural_pair.validate_structural_pair``; this proves the structural PNG the model
+    will actually receive as the Canny STRUCTURE control is a real, decodable image of the
+    expected capture size. A missing / corrupt / wrong-size structural control therefore
+    fails CLOSED here (no fal call) instead of mis-conditioning geometry or erroring late at
+    provider dispatch. The base-render BLANK heuristic is intentionally NOT applied: a
+    perspective structural edge map is a sparse line drawing whose mean luminance can
+    legitimately be very low, so a blank test tuned for full-colour renders would
+    false-reject a valid structural pass.
+    """
+    if not png:
+        return False, "STRUCTURAL_MISSING: no structural render supplied for this room"
+    dims = validation_service._img_dims(png)
+    if dims is None:
+        return False, "STRUCTURAL_CORRUPT: structural render could not be decoded as an image"
+    if expected_width is not None and expected_height is not None and (
+        dims[0] != int(expected_width) or dims[1] != int(expected_height)
+    ):
+        return (
+            False,
+            f"STRUCTURAL_WRONG_SIZE: structural render {dims[0]}x{dims[1]} does not match the "
+            f"expected capture size {int(expected_width)}x{int(expected_height)}",
+        )
+    return True, "OK"
+
+
+# Draw Area (additive): the single-section label a region render uses. Independent of any
+# room label / room_membership — the backend renders exactly the selected uids under it.
+REGION_SECTION_LABEL = "Selected Area"
+
+# Styling-only annotation item ids that are NOT real furniture (no 3D geometry). A region
+# render must never include them — they carry no mesh and would fail §L. Defensive mirror of
+# the frontend's REGION_EXCLUDED_ITEM_IDS, so a hand-crafted request can't smuggle one in.
+_REGION_ANNOTATION_ITEM_IDS = frozenset({"room-tag"})
+
+
+def _validate_region(
+    region: dict[str, Any], canonical: dict[str, Any]
+) -> tuple[list[dict[str, Any]], list[float]]:
+    """Fail-closed validation for a Draw Area region against the FROZEN snapshot. Raises a
+    422 FloorPlanError (no provider call) when the selection is empty, the bounds are not a
+    positive-area rectangle, or any selected uid is not in this design version. Returns the
+    selected canonical furniture dicts (in selection order, deduped) and the numeric bounds.
+    Never mutates canonical or moves/clips any item."""
+    uids: list[str] = [str(u) for u in (region.get("selected_uids") or [])]
+    # Dedup, preserving first-seen order.
+    seen: set[str] = set()
+    uids = [u for u in uids if not (u in seen or seen.add(u))]
+    if not uids:
+        raise floor_plan_service.FloorPlanError(
+            422, "REGION_EMPTY: no furniture was selected in the drawn area"
+        )
+    bounds = region.get("bounds") or []
+    if len(bounds) != 4 or float(bounds[2]) <= 0 or float(bounds[3]) <= 0:
+        raise floor_plan_service.FloorPlanError(
+            422, "REGION_INVALID_BOUNDS: the region must have a positive width and height"
+        )
+    furniture = canonical.get("furniture", []) or []
+    by_uid = {str(f.get("uid")): f for f in furniture}
+    missing = [u for u in uids if u not in by_uid]
+    if missing:
+        raise floor_plan_service.FloorPlanError(
+            422,
+            "REGION_UNKNOWN_UIDS: "
+            + ", ".join(missing[:5])
+            + (" …" if len(missing) > 5 else "")
+            + " not present in this design version",
+        )
+    # Drop styling-only annotations (room-tags): they have no 3D geometry and must never be
+    # rendered or counted as furniture. If the selection was ONLY annotations, there is nothing
+    # renderable → REGION_EMPTY (fail-closed, no provider call).
+    items = [by_uid[u] for u in uids if str(by_uid[u].get("item_id", "")) not in _REGION_ANNOTATION_ITEM_IDS]
+    if not items:
+        raise floor_plan_service.FloorPlanError(
+            422, "REGION_EMPTY: the selection contains no renderable furniture (only annotations)"
+        )
+    return items, [float(b) for b in bounds]
+
+
 def generate(
     file_id: str,
     provider: str | None,
@@ -1201,6 +1592,10 @@ def generate(
     fresh_generation: bool = True,
     base_renders: dict[str, str] | None = None,
     base_render_meta: dict[str, dict[str, Any]] | None = None,
+    base_boxes: dict[str, list[dict[str, Any]]] | None = None,
+    structural_renders: dict[str, str] | None = None,
+    structural_render_meta: dict[str, dict[str, Any]] | None = None,
+    region: dict[str, Any] | None = None,
 ) -> GenerationResponse:
     # 1. Resolve provider (defaults to configured DEFAULT_AI_PROVIDER = flux).
     chosen_provider = provider or DEFAULT_AI_PROVIDER
@@ -1224,6 +1619,23 @@ def generate(
         [k for k in base_map if k in (base_renders or {})],
         {k: len(v) for k, v in base_map.items() if k in (base_renders or {})},
     )
+
+    # ── Path B geometry conditioning (OPT-IN, default OFF) ─────────────────────
+    # Decode per-room PERSPECTIVE structural edge maps ONLY when BOTH flags are on.
+    # Keyed like base renders (exact + normalized label) so the same room-key contract
+    # resolves them. When off, structural_map stays empty → the request is the baseline.
+    structural_enabled = bool(FAL_USE_CONTROLNET and FAL_CONTROL_STRUCTURAL)
+    structural_map: dict[str, bytes] = {}
+    if structural_enabled and structural_renders:
+        for lbl, data in structural_renders.items():
+            decoded = _decode_base_render(data)
+            if decoded is not None:
+                structural_map[lbl] = decoded
+                structural_map[prompt_service._normalize_section_name(lbl)] = decoded
+        logger.info(
+            "[AI STRUCTURAL] conditioning enabled; decoded %d structural key(s)",
+            len([k for k in structural_map if k in (structural_renders or {})]),
+        )
 
     # Pre-validate the provider. When Flux isn't configured AND we have no
     # deterministic base renders to fall back to, fail fast with a clear message.
@@ -1267,31 +1679,132 @@ def generate(
     # Fresh unique random seed for this generation request (Phases 5, 8)
     generation_seed = secrets.randbelow(2**31)
 
-    # Dynamic room discovery: derive eligible sections from actual floor plan (Phases 2, 3, 23)
-    if requested_rooms:
-        target_rooms = requested_rooms
-    elif all_sections:
-        target_rooms = None  # let prompt_service.build_room_prompts expand all sections
-    else:
-        target_rooms = prompt_service.get_eligible_sections(canonical)
+    # AIR-03 — authoritative dining merge map, computed ONCE from a deterministic scene so
+    # eligibility, prompts, manifest, inventory and the scene all share one grouping. Empty
+    # unless the design has a validly-assigned (geometry-confirmed) Kitchen/Living dining;
+    # legacy/untagged designs get {} and behave exactly as before.
+    merge_map: dict[str, str] = {}
+    # Step 2P — authoritative containment sectioning: {item_uid -> seed_uid of its CONFIRMED
+    # room}, so prompts/manifest/inventory section an item WITH the proven room that contains
+    # it (never a nearest-seed guess that disagrees with geometry). Empty for legacy/untagged
+    # or wall-free designs → unchanged behavior.
+    containment_map: dict[str, str] = {}
+    _merge_scene_rooms: list[dict[str, Any]] = []
+    if not AI_DEMO_MODE:
+        try:
+            _scene_for_merge = scene_service.build_scene(file_id, canonical=canonical)
+            _merge_scene_rooms = _scene_for_merge.get("rooms", []) or []
+            merge_map = room_membership_service.resolve_authoritative_groups(
+                canonical.get("furniture", []) or [],
+                _merge_scene_rooms,
+                merge_supported=MERGE_SUPPORTED,
+            )["merge_map"]
+            containment_map = prompt_service.build_section_containment_map(_merge_scene_rooms)
+        except Exception as _mexc:  # noqa: BLE001 — merge is best-effort; empty => legacy
+            logger.warning("[AIR-03] merge/containment map unavailable: %s", _mexc)
 
-    style, rooms = prompt_service.build_room_prompts(
-        canonical,
-        design_intent,
-        requested_rooms=target_rooms,
-        all_sections=all_sections,
-        seed=generation_seed,
-    )
+        # Non-blocking FULL-DESIGN inventory reconciliation diagnostic (Step 2O-A):
+        # make any silently-dropped / duplicate / unmapped-type furniture EXPLICIT in
+        # the logs. Pure observability — it NEVER gates, reassigns, or changes outputs;
+        # the per-section BASE_INVENTORY_MISMATCH gate remains the authoritative refusal.
+        try:
+            _recon = inventory_reconciliation_service.reconcile_design_inventory(
+                canonical.get("furniture", []) or [],
+                _merge_scene_rooms,
+                prompt_service.group_by_room(
+                    canonical.get("furniture", []) or [], merge_map, containment_map
+                ),
+            )
+            for _w in inventory_reconciliation_service.reconciliation_warnings(_recon):
+                logger.warning("[INVENTORY RECON] %s: %s", file_id, _w)
+        except Exception as _rexc:  # noqa: BLE001 — diagnostic must never break generation
+            logger.warning("[INVENTORY RECON] reconciliation diagnostic skipped: %s", _rexc)
+
+    # Draw Area (additive): when a region is supplied, render ONE section built from the
+    # EXPLICIT selected uids, bypassing room grouping entirely (label-independent). Its
+    # manifest/prompt come from exactly those uids, so the inventory gate and _render_room
+    # use this explicit manifest instead of re-grouping canonical by label.
+    region_manifest: dict[str, Any] | None = None
+    if region is not None:
+        region_items, region_bounds = _validate_region(region, canonical)  # 422 on bad input
+        style, rooms = prompt_service.build_region_prompt(
+            canonical,
+            region_items,
+            design_intent,
+            region_bounds,
+            seed=generation_seed,
+            label=REGION_SECTION_LABEL,
+        )
+        region_manifest = furniture_manifest.build_room_manifest(
+            region_items,
+            room_label=REGION_SECTION_LABEL,
+            design_version_id=snapshot_version_id,
+            geometry_fingerprint=canonical_geometry_lock[:16],
+        )
+        logger.info(
+            "[REGION] rendering one section %r from %d explicit uid(s); bounds=%s",
+            REGION_SECTION_LABEL,
+            len(region_items),
+            region_bounds,
+        )
+    else:
+        # Dynamic room discovery: derive eligible sections from actual floor plan (Phases 2, 3, 23)
+        if requested_rooms:
+            target_rooms = requested_rooms
+        elif all_sections:
+            target_rooms = None  # let prompt_service.build_room_prompts expand all sections
+        else:
+            target_rooms = prompt_service.get_eligible_sections(
+                canonical, merge_map, containment_map
+            )
+
+        style, rooms = prompt_service.build_room_prompts(
+            canonical,
+            design_intent,
+            requested_rooms=target_rooms,
+            all_sections=all_sections,
+            seed=generation_seed,
+            merge_map=merge_map,
+            containment_map=containment_map,
+        )
     rooms = rooms[:12]  # generous cap per generation
 
     adapter = registry.get_adapter(chosen_provider)
     generation_id = str(uuid.uuid4())
+
+    # Draw Area provenance: record the region's bounds + selected uids bound to the frozen
+    # design version (the per-section render_debug/base_render_meta artifacts carry the SHA,
+    # dims, prompt and manifest). No invented fields; best-effort (never breaks generation).
+    if region is not None:
+        try:
+            _rp_dir = DEBUG_ARTIFACTS_DIR / generation_id
+            _rp_dir.mkdir(parents=True, exist_ok=True)
+            (_rp_dir / "region_provenance.json").write_text(
+                json.dumps(
+                    {
+                        "floor_plan_id": file_id,
+                        "design_version_id": snapshot_version_id,
+                        "label": REGION_SECTION_LABEL,
+                        "bounds": region.get("bounds"),
+                        "selected_uids": region.get("selected_uids"),
+                        "include_partial": region.get("include_partial"),
+                        "section_count": len(rooms),
+                    },
+                    indent=2,
+                ),
+                encoding="utf-8",
+            )
+        except Exception as _rpexc:  # noqa: BLE001 — provenance is best-effort
+            logger.warning("[REGION] provenance write skipped: %s", _rpexc)
 
     # §L HARD GATE — for a geometry-unlocked provider, validate the deterministic
     # scene against the canonical 2D plan BEFORE any Flux call. Only build the
     # scene when it actually gates (Flux, non-demo) to avoid unnecessary work
     # for the mock/demo path.
     scene_geometry_faithful = True
+    # Draw Area: §L faithfulness for the region, judged from the SELECTED furniture's host
+    # rooms (set once the scene is built below). Unused on the room path.
+    region_faithful = False
     scene_report: dict[str, Any] | None = None
     # The deterministic scene (built only on the gated Flux path below). Kept in
     # scope so the per-room inventory-mismatch status can map each selected base
@@ -1310,6 +1823,11 @@ def generate(
     # auto-correct, no invented/fallback furniture, no object moved, no fal call.
     scene_2d3d_report: dict[str, Any] | None = None
     scene_2d3d_failed = False
+    # AIR-03 G1 — sections whose authoritative dining membership requires review
+    # (missing / conflicting / geometry-unverified). Populated from the resolver once the
+    # scene is built; merged into the pre-provider refuse path below so the affected
+    # section is blocked BEFORE any provider call, while unrelated sections proceed.
+    membership_review_errors: dict[str, tuple[str, str]] = {}
     if adapter.supports_control_image and not AI_DEMO_MODE:
         try:
             # Build the §L validation scene from the FROZEN snapshot's furniture (not
@@ -1321,6 +1839,48 @@ def generate(
             )
             room_faithful = _room_faithful_map(scene.get("rooms", []) or [])
             label_to_id = _room_id_map(scene.get("rooms", []) or [])
+            # Draw Area: compute the region's §L faithfulness from its SELECTED furniture's
+            # host rooms (same per-label contract as the room path), so the region is not
+            # refused for UNSELECTED unproven rooms elsewhere in the plan.
+            if region is not None:
+                region_faithful = _region_scene_faithful(
+                    [str(u) for u in (region.get("selected_uids") or [])],
+                    scene.get("rooms", []) or [],
+                    room_faithful,
+                )
+                logger.info(
+                    "[REGION] §L region_faithful=%s (global scene_geometry_faithful=%s)",
+                    region_faithful,
+                    scene_geometry_faithful,
+                )
+            # AIR-03 G1 — resolve authoritative dining membership against the SAME frozen
+            # scene and block (pre-provider) any section whose dining membership is
+            # review-required. Deterministic; never moves furniture or guesses.
+            try:
+                _sections = prompt_service.group_by_room(
+                    canonical.get("furniture", []) or [], merge_map, containment_map
+                )
+                _blocked = room_membership_service.blocked_dining_sections(
+                    canonical.get("furniture", []) or [],
+                    scene.get("rooms", []) or [],
+                    _sections,
+                    # Merging IS implemented (MERGE_SUPPORTED): a RESOLVED Kitchen/Living
+                    # dining is merged (not merge-pending); only REVIEW_REQUIRED blocks.
+                    merge_supported=MERGE_SUPPORTED,
+                )
+                for _lbl, _info in _blocked.items():
+                    membership_review_errors[str(_lbl)] = (
+                        _info["code"],
+                        _info["reason"],
+                    )
+                if membership_review_errors:
+                    logger.warning(
+                        "[AIR-03 G1] %d section(s) blocked for membership review: %s",
+                        len(membership_review_errors),
+                        list(membership_review_errors.keys()),
+                    )
+            except Exception as _mexc:  # noqa: BLE001 — gate is advisory-safe on error
+                logger.warning("[AIR-03 G1] membership gate skipped: %s", _mexc)
             # DETERMINISTIC 2D→3D FIDELITY GATE — every authoritative furniture uid
             # maps to exactly one 3D object with unchanged transform/room; openings
             # and walls preserve identity/geometry. A failure here means the scene
@@ -1344,6 +1904,11 @@ def generate(
             }
 
     def _room_faithful(label: str) -> bool:
+        # Draw Area: the region ("Selected Area") is not a real scene room, so it uses the
+        # faithfulness computed from its selected furniture's host rooms — never the global
+        # fallback (which unselected unproven rooms would wrongly drag down).
+        if region is not None and label == REGION_SECTION_LABEL:
+            return region_faithful
         return room_faithful.get(
             prompt_service._normalize_section_name(label), scene_geometry_faithful
         )
@@ -1385,6 +1950,28 @@ def generate(
         room the matched base key (``_match_base_key``) actually belongs to. Read-only:
         never changes lookup precedence or any render decision."""
         return _resolve_base_scene_room((scene or {}).get("rooms", []) or [], _match_base_key(label))
+
+    def _resolve_room_meta(meta_dict: dict[str, dict[str, Any]] | None, label: str) -> dict[str, Any]:
+        """Resolve a room's declared metadata across the SAME room-key contract as its
+        base render (exact label, normalized, then the stable scene id). Empty when absent."""
+        if not meta_dict:
+            return {}
+        norm = prompt_service._normalize_section_name(label)
+        return (
+            meta_dict.get(label)
+            or meta_dict.get(norm)
+            or meta_dict.get(label_to_id.get(norm) or "")
+            or {}
+        )
+
+    def _lookup_structural(label: str) -> bytes | None:
+        """The PERSPECTIVE structural edge map for ``label`` under the same room-key
+        contract as ``_lookup_base`` — never borrows another room's structural image."""
+        norm = prompt_service._normalize_section_name(label)
+        for key in (label, norm, label_to_id.get(norm)):
+            if key and key in structural_map:
+                return structural_map[key]
+        return None
 
     with session_scope() as db:
         fp = db.get(FloorPlan, _as_uuid(file_id))
@@ -1437,6 +2024,81 @@ def generate(
                     _label, verdict["code"], verdict["reason"],
                 )
 
+    # AIR-03 G1 — fold the membership-review blocks into the SAME pre-provider refuse
+    # map, so both render loops skip the affected section (no provider call, no
+    # success-looking record) while unrelated sections proceed (safe partial execution).
+    for _lbl, _err in membership_review_errors.items():
+        base_contract_errors.setdefault(_lbl, _err)
+
+    # PRE-DISPATCH INVENTORY GATE (Task 2) — refuse a section whose SELECTED deterministic
+    # base DEMONSTRABLY omits furniture the section's canonical inventory requires
+    # (inventory_status == MISMATCH), BEFORE any provider call. This is a DETECTOR-FREE
+    # SCENE-MEMBERSHIP fact (an expected stable uid is absent from the selected base's
+    # scene room AND exists elsewhere in the scene) — it is NOT a pixel-level visual claim
+    # about the image. MATCH and NOT_ASSESSABLE proceed unchanged (NOT_ASSESSABLE is never
+    # silently treated as a match); only the affected section is blocked, so unaffected
+    # sections render normally and the deterministic design remains the trusted result.
+    if adapter.supports_control_image and not AI_DEMO_MODE:
+        _scene_rooms = (scene or {}).get("rooms", []) or []
+        for _label, _prompt, _w, _h in rooms:
+            if _label in base_contract_errors:
+                continue  # already refused by the base contract or membership gate
+            try:
+                if region_manifest is not None:
+                    _man = region_manifest
+                else:
+                    _man = furniture_manifest.room_manifest(
+                        canonical, _label, merge_map, containment_map
+                    )
+                _inv_st, _inv_why = base_inventory_service.assess_section_base_inventory(
+                    _man, _base_scene_room(_label), _scene_rooms
+                )
+            except Exception as _iexc:  # noqa: BLE001 — gate is fail-open on its own error
+                logger.warning("[INVENTORY GATE] skipped for %r: %s", _label, _iexc)
+                continue
+            if _inv_st == "MISMATCH":
+                _missing = ", ".join((_inv_why or {}).get("missing_types") or []) or "required furniture"
+                base_contract_errors[_label] = (
+                    "BASE_INVENTORY_MISMATCH",
+                    f"the deterministic base selected for '{_label}' omits {_missing} that the "
+                    "section's canonical inventory requires; blocked before AI generation "
+                    "(the deterministic design remains the trusted result)",
+                )
+                logger.error(
+                    "[INVENTORY GATE] room=%r BLOCKED BASE_INVENTORY_MISMATCH missing=%s",
+                    _label, _missing,
+                )
+
+    # STRUCTURAL PAIR GATE (Path B, OPT-IN) — when structural conditioning is enabled, every
+    # rendered section MUST have a validated, snapshot-bound structural pair (same immutable
+    # design version + room + dimensions/camera as its base render). A missing/mismatched pair
+    # FAILS that section before any provider call (the deterministic design remains the trusted
+    # result) — NEVER a silent substitution of another room's/version's structural image. Off
+    # by default → this loop does not run and the baseline is unchanged.
+    if structural_enabled and adapter.supports_control_image and not AI_DEMO_MODE:
+        for _label, _prompt, _w, _h in rooms:
+            if _label in base_contract_errors:
+                continue  # already refused upstream
+            _bmeta = _resolve_room_meta(base_render_meta, _label)
+            _smeta = _resolve_room_meta(structural_render_meta, _label)
+            ok, reason = structural_pair.validate_structural_pair(_bmeta or None, _smeta or None)
+            if ok:
+                # Validate the ACTUAL structural control bytes (decodable + the expected
+                # capture size) to the same pre-dispatch standard as the base render, so a
+                # corrupt / wrong-size / missing structural control fails CLOSED here and is
+                # never sent to fal. Expected size is the base render's declared capture size
+                # (same camera/projection ⇒ identical pixel dimensions).
+                _bw = _bmeta.get("width")
+                _bh = _bmeta.get("height")
+                ok, reason = _validate_structural_image_bytes(
+                    _lookup_structural(_label),
+                    int(_bw) if _bw is not None else None,
+                    int(_bh) if _bh is not None else None,
+                )
+            if not ok:
+                base_contract_errors[_label] = ("STRUCTURAL_PAIR_INVALID", reason)
+                logger.error("[STRUCTURAL GATE] room=%r REJECTED: %s", _label, reason)
+
     def _base_contract_exc(room_label: str) -> floor_plan_service.FloorPlanError:
         code, reason = base_contract_errors[room_label]
         return floor_plan_service.FloorPlanError(422, f"{code}: {reason}")
@@ -1463,6 +2125,12 @@ def generate(
             design_version_id=snapshot_version_id,
             base_scene_room=_base_scene_room(room_item[0]),
             scene_rooms=(scene or {}).get("rooms", []) or [],
+            merge_map=merge_map,
+            containment_map=containment_map,
+            base_boxes=base_boxes,
+            base_render_meta=base_render_meta,
+            structural_render=(_lookup_structural(room_item[0]) if structural_enabled else None),
+            explicit_manifest=region_manifest,
         )
         return idx, res
 
@@ -1486,6 +2154,26 @@ def generate(
             "model": getattr(adapter, "model", None),
             "detail": detail,
         })
+
+    # Persist a FAILED-section provenance breadcrumb for every section refused BEFORE any
+    # provider call, so a post-hoc investigation can recover WHY Kitchen/Dining/etc. failed
+    # from disk (these sections never reach _render_room and otherwise leave no artifact).
+    # Best-effort; no generation behavior changes.
+    for _idx, _ri in enumerate(rooms):
+        if scene_2d3d_failed and scene_2d3d_report is not None:
+            _r = "; ".join(m["reason"] for m in scene_2d3d_report["mismatches"][:5])
+            _save_refused_section_artifact(
+                generation_id, _idx, _ri, "SCENE_2D_3D_MISMATCH", _r,
+                provider=chosen_provider, model=getattr(adapter, "model", None),
+                seed=(generation_seed + _idx * 104729) % (2**31),
+                geometry_hash=_geometry_hash(canonical)[:16])
+        elif _ri[0] in base_contract_errors:
+            _code, _reason = base_contract_errors[_ri[0]]
+            _save_refused_section_artifact(
+                generation_id, _idx, _ri, _code, _reason,
+                provider=chosen_provider, model=getattr(adapter, "model", None),
+                seed=(generation_seed + _idx * 104729) % (2**31),
+                geometry_hash=_geometry_hash(canonical)[:16])
 
     if scene_2d3d_failed and scene_2d3d_report is not None:
         # HARD REFUSAL — the deterministic 2D→3D conversion is not faithful. Fail
@@ -1546,6 +2234,11 @@ def generate(
                     design_version_id=snapshot_version_id,
                     base_scene_room=_base_scene_room(room_label),
                     scene_rooms=(scene or {}).get("rooms", []) or [],
+                    merge_map=merge_map,
+                    containment_map=containment_map,
+                    base_boxes=base_boxes,
+                    base_render_meta=base_render_meta,
+                    explicit_manifest=region_manifest,
                 )
                 indexed_results.append((idx, res))
             except Exception as exc:

@@ -6,6 +6,7 @@ item's exact position/size/rotation. No AI decides any of these values
 (CLAUDE.md RULE #1).
 """
 
+import logging
 import math
 from typing import Any
 
@@ -15,6 +16,99 @@ from app.services import (
     geometry_extraction_service,
     validation_service,
 )
+
+logger = logging.getLogger(__name__)
+
+_OPENING_ITEM_IDS = {"door", "window"}
+
+
+def _drop_merged_dining_twins(
+    rooms: list[dict[str, Any]], merge_map: dict[str, str]
+) -> list[dict[str, Any]]:
+    """AIR-03 authoritative merge (scene side): when a dining item is validly assigned to
+    Kitchen/Living (``merge_map``), the dining already lives in the CONFIRMED destination
+    room (the resolver's own condition), so a *separate* UNCERTAIN ``Dining Area`` fallback
+    twin must not be captured/rendered as its own room. Drop ONLY such a redundant twin:
+    never a CONFIRMED room, never a room holding a kitchen/living anchor, and never a room
+    with real (non-opening) furniture other than the merged dining. Pure/read-only — no
+    furniture is moved; untagged designs (empty ``merge_map``) are returned unchanged."""
+    if not merge_map:
+        return rooms
+    from app.services import prompt_service  # lazy: avoid import cycle
+    anchor_ids = set(prompt_service._KITCHEN_IDS) | set(prompt_service._SOFAS)
+    merged = set(merge_map)
+    kept: list[dict[str, Any]] = []
+    for r in rooms:
+        status = str(r.get("validation_status", "")).upper()
+        label_lc = str(r.get("label") or r.get("id") or "").lower()
+        furn = r.get("furniture", []) or []
+        has_anchor = any(str(f.get("item_id")) in anchor_ids for f in furn)
+        real = [f for f in furn if str(f.get("item_id")) not in _OPENING_ITEM_IDS]
+        all_real_merged = all(str(f.get("uid")) in merged for f in real)  # True if `real` empty
+        if status != "CONFIRMED" and "dining" in label_lc and not has_anchor and all_real_merged:
+            logger.info("[AIR-03] dropping redundant UNCERTAIN dining twin %r (merged elsewhere)",
+                        r.get("id"))
+            continue
+        kept.append(r)
+    return kept
+
+
+def _apply_render_inclusions(
+    rooms: list[dict[str, Any]], inclusion_map: dict[str, str]
+) -> list[dict[str, Any]]:
+    """AIR-03 Step 2M.1 (scene side): move each explicitly render-included item (``render_room``)
+    into the unique CONFIRMED room it names — even when its footprint is OUTSIDE that room's
+    floor polygon. ``inclusion_map`` is ``{uid -> target_confirmed_room_id}`` from
+    ``room_membership_service.resolve_render_inclusions`` (already validated: unique confirmed
+    target, not a confirmed-containment conflict).
+
+    Invariants: the item is MOVED (removed from its current room, appended to the target) so it
+    appears EXACTLY ONCE — never duplicated; its canonical transform (cx/cy/w/h/rotation/uid/
+    item_id) is untouched; it is only tagged ``render_inclusion=True`` and ``room_id`` updated so
+    the renderer can draw a minimal floor patch under it (Step 2N.2). A target that no longer
+    exists is a no-op (the item stays put). An UNCERTAIN leftover room emptied by the move is
+    dropped (mirrors the dining-twin drop). Untagged designs (empty map) are returned unchanged."""
+    if not inclusion_map:
+        return rooms
+    by_id = {r.get("id"): r for r in rooms}
+    valid = {u: t for u, t in inclusion_map.items() if t in by_id}
+    if not valid:
+        return rooms
+
+    moved: dict[str, dict[str, Any]] = {}
+    for r in rooms:
+        furn = r.get("furniture", []) or []
+        keep = [f for f in furn if not (str(f.get("uid")) in valid and r.get("id") != valid[str(f.get("uid"))])]
+        for f in furn:
+            u = str(f.get("uid"))
+            if u in valid and r.get("id") != valid[u]:
+                moved[u] = f
+        if len(keep) != len(furn):
+            r["furniture"] = keep
+            r["furniture_count"] = len(keep)
+
+    for u, f in moved.items():
+        target = by_id[valid[u]]
+        nf = dict(f)
+        nf["render_inclusion"] = True
+        nf["room_id"] = target.get("id")
+        nf["room_assignment_method"] = "explicit_render_inclusion"
+        tf = target.get("furniture", []) or []
+        if not any(str(x.get("uid")) == u for x in tf):  # exactly-once guard
+            tf.append(nf)
+        target["furniture"] = tf
+        target["furniture_count"] = len(tf)
+        logger.info("[2M.1] render-included %s into CONFIRMED room %r", u, target.get("id"))
+
+    kept: list[dict[str, Any]] = []
+    for r in rooms:
+        status = str(r.get("validation_status", "")).upper()
+        real = [f for f in (r.get("furniture", []) or []) if str(f.get("item_id")) not in _OPENING_ITEM_IDS]
+        if status != "CONFIRMED" and not real:
+            logger.info("[2M.1] dropping emptied UNCERTAIN room %r after render inclusion", r.get("id"))
+            continue
+        kept.append(r)
+    return kept
 
 
 def _slug(label: str) -> str:
@@ -322,6 +416,33 @@ def build_scene(file_id: str, canonical: dict[str, Any] | None = None) -> dict[s
         enriched_furniture, structured_walls, doors=doors, windows=windows,
         proven_rooms=proven_rooms,
     )
+
+    # AIR-03 authoritative merge (scene side): drop a redundant UNCERTAIN "Dining Area"
+    # twin when its dining is validly assigned to Kitchen/Living (the dining already sits
+    # in the CONFIRMED destination room). No furniture is moved; untagged designs are
+    # untouched (empty merge_map). Deterministic from the same canonical + reconstruction.
+    try:
+        from app.services import room_membership_service as _rms
+        _mm = _rms.resolve_authoritative_groups(
+            furniture, rooms, merge_supported=True
+        )["merge_map"]
+        if _mm:
+            rooms = _drop_merged_dining_twins(rooms, _mm)
+    except Exception as _mexc:  # noqa: BLE001 — merge is best-effort; scene stays valid
+        logger.warning("[AIR-03] scene merge (twin drop) skipped: %s", _mexc)
+
+    # AIR-03 Step 2M.1 — explicit RENDER INCLUSION: move each non-dining item carrying a
+    # valid ``render_room`` directive into the unique CONFIRMED room it names, even if its
+    # footprint lies outside that room's floor polygon. Exactly-once (moved, never copied);
+    # canonical transforms untouched; ambiguous/absent/conflicting directives do nothing
+    # (fail-safe). Untagged designs are unaffected (empty inclusion map).
+    try:
+        from app.services import room_membership_service as _rms2
+        _inc = _rms2.resolve_render_inclusions(furniture, rooms)["inclusion_map"]
+        if _inc:
+            rooms = _apply_render_inclusions(rooms, _inc)
+    except Exception as _iexc:  # noqa: BLE001 — inclusion is best-effort; scene stays valid
+        logger.warning("[2M.1] render inclusion skipped: %s", _iexc)
 
     # MERGE (union, dedup) for doors/windows rendering: attach to each room the
     # PDF-detected openings the editor did NOT place, so the deterministic 3D/base

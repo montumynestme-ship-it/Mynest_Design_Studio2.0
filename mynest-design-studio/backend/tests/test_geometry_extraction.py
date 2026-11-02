@@ -56,7 +56,7 @@ def test_vector_topology_improves_with_complete_walls() -> None:
     assert recon["stats"]["confirmed"] >= 2
 
 
-def test_scene_confirmed_rooms_match_pure_pdf_reconstruction() -> None:
+def test_scene_confirmed_rooms_match_pure_pdf_reconstruction(frozen_v31) -> None:
     """CONFIRMED rooms come ONLY from the raster reconstruction bridged with the
     PDF's own validated openings — never inflated by furniture-named doorways. The
     scene's CONFIRMED count must equal the pure-PDF wall-enclosed region count."""
@@ -347,7 +347,7 @@ def test_geometry_invalid_true_when_not_faithful() -> None:
         "GEOMETRY_FAITHFUL" if faithful else "GEOMETRY_MISMATCH")
 
 
-def test_all_canonical_furniture_unchanged_in_scene() -> None:
+def test_all_canonical_furniture_unchanged_in_scene(frozen_v31) -> None:
     scene = scene_service.build_scene(FID)
     canon = {str(f["uid"]): f for f in fps.get_canonical(FID)["furniture"]}
     scene_items = {str(f.get("uid") or f.get("id")): f
@@ -361,7 +361,7 @@ def test_all_canonical_furniture_unchanged_in_scene() -> None:
         assert abs(float(c.get("rotation", 0)) - float(s.get("rotation", 0))) < 1e-6
 
 
-def test_openings_associated_to_rooms_by_wall_ownership() -> None:
+def test_openings_associated_to_rooms_by_wall_ownership(frozen_v31) -> None:
     """Wall-ownership association: validated openings and wall-embedded furniture
     symbols are attached to the proven room whose wall they sit on (not nearest-room),
     so windows compose into the proven rooms' base images. Room LABELS are preserved

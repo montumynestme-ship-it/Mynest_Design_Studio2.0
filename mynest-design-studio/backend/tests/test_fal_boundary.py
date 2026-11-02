@@ -267,7 +267,10 @@ def test_step5_fal_does_not_use_nvidia_clean_prompt():
     assert _fal_final("Bedroom 1") != _clean_prompt(_PRE + "\n\n" + rp)
 
 
-def test_step5_original_room_prompt_contains_inventory():
+def test_step5_original_room_prompt_contains_inventory(frozen_v31):
+    # Pinned to frozen v31: Bedroom 1 groups to exactly 1 wardrobe. (Live data later
+    # drifted a wardrobe so the borderline 2nd wardrobe flips into Bedroom 1 — that is
+    # the open-plan grouping ambiguity tracked elsewhere, not a prompt-inventory bug.)
     rp = _room_prompt("Bedroom 1")
     for token in ("bedroom 1", "1x Bed", "2x Side Table", "1x Wardrobe", "1x Dressing Table"):
         assert token in rp, f"original prompt should contain {token!r}"

@@ -253,6 +253,31 @@ CLASS_BY_ITEM_ID["window"] = WINDOW_INFO
 CLASS_BY_NAME["window"] = WINDOW_INFO
 
 
+# Furniture-LIBRARY items that ship a trusted SVG asset but are NOT ML detection classes
+# (so they are absent from CANONICAL_ML_CLASSES / CLASS_BY_ITEM_ID). The deterministic icon
+# canvas and the dev inspector resolve these to their EXISTING repository asset by filename.
+# This adds NO ML class (no class_id, no training/inference impact) and changes NO geometry —
+# it only maps an item_id to a trusted SVG file that already exists under the asset dir.
+EXTRA_ICON_SVGS: dict[str, str] = {
+    "wardrobe": "wardrobe.svg",
+}
+
+
+def svg_name_for_item(item_id: str | None) -> str | None:
+    """Trusted SVG filename for a furniture item_id, or None when none is mapped.
+
+    Resolution order: the ML-class mapping (authoritative for detection classes), then the
+    furniture-library icon supplement above. Never derives a filename from the raw item_id,
+    so an unmapped item safely returns None and the caller keeps its polygon fallback.
+    """
+    if not item_id:
+        return None
+    info = CLASS_BY_ITEM_ID.get(item_id)
+    if info is not None:
+        return info.svg_name
+    return EXTRA_ICON_SVGS.get(item_id)
+
+
 def item_id_to_ml_class(item_id: str) -> str | None:
     """Map a furniture item_id (e.g. 'lounger-sofa' or 'bed') to canonical ML class name."""
     info = CLASS_BY_ITEM_ID.get(item_id)

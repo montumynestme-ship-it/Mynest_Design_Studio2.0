@@ -16,15 +16,89 @@ import httpx
 import pytest
 from PIL import Image
 
+from app.services import prompt_service
 from app.services.ai import registry
 from app.services.ai.base import AIProviderError, GenerationRequest
 from app.services.ai.fal_flux_adapter import (
     FalFluxAdapter,
+    _build_fal_edit_prompt,
     fal_config_summary,
     run_fal_transport_diagnostic,
 )
 
 _MOD = "app.services.ai.fal_flux_adapter"
+
+# Supported keys in the EDIT-path request body (verified in `_build_body`). The payload
+# must never carry an unsupported provider parameter.
+_SUPPORTED_EDIT_BODY_KEYS = {
+    "prompt", "image_url", "num_images", "output_format", "seed",
+    "guidance_scale", "num_inference_steps",
+}
+
+
+def _bedroom_room_prompt(theme: str | None = None):
+    intent = {"style": "Modern Luxury"}
+    if theme:
+        intent["theme"] = theme
+    canonical = {"furniture": [
+        {"uid": "b", "item_id": "bed", "cx": 500, "cy": 350, "w": 1800, "h": 2000, "rotation": 0},
+        {"uid": "s1", "item_id": "side-table", "cx": 300, "cy": 350, "w": 450, "h": 450, "rotation": 0},
+        {"uid": "s2", "item_id": "side-table", "cx": 700, "cy": 350, "w": 450, "h": 450, "rotation": 0},
+        {"uid": "w", "item_id": "window", "cx": 500, "cy": 800, "w": 1500, "h": 200, "rotation": 0},
+    ]}
+    _style, rooms = prompt_service.build_room_prompts(canonical, intent)
+    return rooms[0][1]
+
+
+# ── effective FAL edit prompt: inventory once, preservation + negatives, length ──
+
+def test_fal_edit_prompt_has_single_inventory_preamble_and_negatives():
+    eff = _build_fal_edit_prompt(_bedroom_room_prompt())
+    assert len(eff) <= 2200
+    # the exact inventory appears once, in the single EXACT EXISTING INVENTORY block
+    assert eff.count("1x Bed, 2x Side Table, 1x Window") == 1
+    assert eff.count("EXACT EXISTING INVENTORY") == 1
+    # preservation preamble + overriding negatives both present (not duplicated away)
+    assert "AUTHORITATIVE source of truth" in eff
+    assert "Do NOT add, remove, move, resize, rotate, duplicate, replace" in eff
+
+
+def test_fal_edit_prompt_too_long_raises_not_silently_truncated():
+    # a tiny budget cannot fit the mandatory geometry/inventory/negative constraints →
+    # the adapter REFUSES rather than dropping an authoritative constraint.
+    with pytest.raises(AIProviderError) as ei:
+        _build_fal_edit_prompt(_bedroom_room_prompt(), max_len=200)
+    assert "FAL_PROMPT_TOO_LONG" in str(ei.value)
+
+
+def test_fal_edit_prompt_theme_replaces_house_style_no_contradiction():
+    eff = _build_fal_edit_prompt(_bedroom_room_prompt(theme="moody emerald art-deco"))
+    assert "moody emerald art-deco" in eff                      # the request's theme is used
+    assert "architectural-digest photography" not in eff        # fixed house style replaced, not both
+    assert eff.count("EXACT EXISTING INVENTORY") == 1           # inventory still once, authoritative
+
+
+# ── edit-path payload carries only supported provider parameters ────────────────
+
+def _data_uri() -> str:
+    return "data:image/png;base64," + base64.b64encode(_png()).decode()
+
+
+def test_fal_edit_body_contains_only_supported_keys_defaults():
+    body = _adapter()._build_body(_req(), _data_uri())
+    assert set(body) <= _SUPPORTED_EDIT_BODY_KEYS
+    assert body["image_url"].startswith("data:image/png;base64,")
+    assert body["num_images"] == 1 and body["output_format"] == "png"
+    # guidance/steps are unset by default → absent (model defaults), not invented
+    assert "guidance_scale" not in body and "num_inference_steps" not in body
+
+
+def test_fal_edit_body_optional_knobs_only_when_configured():
+    with mock.patch(f"{_MOD}.FAL_GUIDANCE_SCALE", 4.5), \
+         mock.patch(f"{_MOD}.FAL_NUM_INFERENCE_STEPS", 28):
+        body = _adapter()._build_body(_req(), _data_uri())
+    assert set(body) <= _SUPPORTED_EDIT_BODY_KEYS
+    assert body["guidance_scale"] == 4.5 and body["num_inference_steps"] == 28
 
 
 def _png(color=(170, 140, 110)) -> bytes:
@@ -163,6 +237,97 @@ def test_fal_text_to_image_when_no_source_image():
     with mock.patch.object(httpx.Client, "post", side_effect=_post):
         a.generate(_req(control=None))
     assert "image_url" not in captured["json"]  # no source image → text-to-image
+
+
+# ── structural-conditioning experiment (opt-in Canny) regression ───────────────
+
+def test_controlnet_request_locks_image_size_and_init_to_base():
+    """Request construction (ControlNet ON): the base is the control map AND the init
+    image (same data URI), and image_size is locked to the base dims so the output stays
+    pixel-aligned with the deterministic base/camera."""
+    a = _adapter(key="k")
+    cap = {}
+
+    def _post(url, json=None, headers=None):  # noqa: A002
+        cap["url"] = url
+        cap["json"] = json
+        return _resp(200, json_body={"images": [{"url": "data:image/png;base64," + base64.b64encode(_png()).decode()}]})
+
+    with mock.patch(f"{_MOD}.FAL_USE_CONTROLNET", True), \
+         mock.patch(f"{_MOD}.FAL_CONTROL_USE_INIT", True), \
+         mock.patch.object(httpx.Client, "post", side_effect=_post):
+        a.generate(_req(control=_png()))  # _png() is 64x64
+    b = cap["json"]
+    assert "flux-control-lora-canny" in cap["url"]
+    assert b["control_lora_image_url"].startswith("data:image/png;base64,")
+    assert b["image_url"] == b["control_lora_image_url"]      # same base as init (no 2nd source)
+    assert b["image_size"] == {"width": 64, "height": 64}     # locked to base dims (alignment)
+    assert "control_lora_strength" in b
+
+
+def test_controlnet_on_without_control_image_does_not_use_control_path():
+    """Invalid/missing conditioning input: ControlNet ON but no control image must NOT
+    route to the control-lora model (conditioning requires the deterministic base)."""
+    a = _adapter(key="k")
+    cap = {}
+
+    def _post(url, json=None, headers=None):  # noqa: A002
+        cap["url"] = url
+        cap["json"] = json
+        return _resp(200, json_body={"images": [{"url": "data:image/png;base64," + base64.b64encode(_png()).decode()}]})
+
+    with mock.patch(f"{_MOD}.FAL_USE_CONTROLNET", True), \
+         mock.patch.object(httpx.Client, "post", side_effect=_post):
+        a.generate(_req(control=None))
+    assert "flux-control-lora-canny" not in cap["url"]        # fell back to edit/text path
+    assert "control_lora_image_url" not in cap["json"]
+
+
+@pytest.mark.parametrize("status", [402, 422, 500])
+def test_controlnet_provider_failure_raises_no_success(status):
+    """Provider failure on the ControlNet path surfaces an honest AIProviderError and
+    never fabricates a success image."""
+    a = _adapter(key="k")
+    with mock.patch(f"{_MOD}.FAL_USE_CONTROLNET", True), \
+         mock.patch.object(httpx.Client, "post", return_value=_resp(status, text="boom")):
+        with pytest.raises(AIProviderError):
+            a.generate(_req(control=_png()))
+
+
+def test_fal_single_attempt_makes_exactly_one_submission():
+    """Cost guard: FAL_SINGLE_ATTEMPT=true submits EXACTLY ONCE on a retryable (500)
+    error — no automatic re-POST that could incur a second charge."""
+    a = _adapter(key="k")
+    calls = {"n": 0}
+
+    def _post(url, json=None, headers=None):  # noqa: A002
+        calls["n"] += 1
+        return _resp(500, text="boom")
+
+    with mock.patch(f"{_MOD}.FAL_SINGLE_ATTEMPT", True), \
+         mock.patch(f"{_MOD}.time.sleep", lambda *a, **k: None), \
+         mock.patch.object(httpx.Client, "post", side_effect=_post):
+        with pytest.raises(AIProviderError):
+            a.generate(_req(control=_png()))
+    assert calls["n"] == 1  # exactly one billed submission, no charge-incurring retry
+
+
+def test_fal_default_retry_budget_preserved_for_other_requests():
+    """Default (FAL_SINGLE_ATTEMPT off): the normal bounded retry is unchanged, so this
+    guard only affects the opt-in experiment, never other requests."""
+    a = _adapter(key="k")
+    calls = {"n": 0}
+
+    def _post(url, json=None, headers=None):  # noqa: A002
+        calls["n"] += 1
+        return _resp(500, text="boom")
+
+    with mock.patch(f"{_MOD}.FAL_SINGLE_ATTEMPT", False), \
+         mock.patch(f"{_MOD}.time.sleep", lambda *a, **k: None), \
+         mock.patch.object(httpx.Client, "post", side_effect=_post):
+        with pytest.raises(AIProviderError):
+            a.generate(_req(control=_png()))
+    assert calls["n"] >= 2  # bounded retry preserved
 
 
 # ── response image URL is downloaded ───────────────────────────────────────────

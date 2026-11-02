@@ -295,8 +295,55 @@ def _number_duplicates(
     return result
 
 
-def group_by_room(furniture: list[dict[str, Any]]) -> list[tuple[str, list[dict[str, Any]]]]:
+def _apply_merge_map(
+    labeled: list[tuple[str, list[dict[str, Any]]]],
+    merge_map: dict[str, str],
+) -> list[tuple[str, list[dict[str, Any]]]]:
+    """AIR-03 authoritative merge: fold each dining section that owns a merged dining
+    item (``merge_map`` = ``{dining_uid -> KITCHEN|LIVING_AREA}``) into the destination
+    anchor's section, then drop the emptied dining section. Never moves furniture
+    transforms, duplicates, or drops an item — items are re-bucketed, not changed. If no
+    destination section exists, the source section is left intact (safe no-op; the gate
+    keeps such a case blocked)."""
+    if not merge_map:
+        return labeled
+    anchor_ids = {"KITCHEN": _KITCHEN_IDS, "LIVING_AREA": _SOFAS}
+    # index destination sections by membership (first section containing that anchor type)
+    dest_idx: dict[str, int] = {}
+    for i, (_lbl, items) in enumerate(labeled):
+        for membership, ids in anchor_ids.items():
+            if membership not in dest_idx and any(
+                str(it.get("item_id")) in ids for it in items
+            ):
+                dest_idx[membership] = i
+    out: list[tuple[str, list[dict[str, Any]]]] = [(lbl, list(items)) for lbl, items in labeled]
+    drop: set[int] = set()
+    for i, (_lbl, items) in enumerate(labeled):
+        membership = next(
+            (merge_map[str(it.get("uid"))] for it in items if str(it.get("uid")) in merge_map),
+            None,
+        )
+        if membership is None:
+            continue
+        j = dest_idx.get(membership)
+        if j is None or j == i:
+            continue  # no distinct destination -> leave as-is (gate stays protective)
+        out[j][1].extend(out[i][1])  # fold the whole dining section into the destination
+        drop.add(i)
+    return [entry for k, entry in enumerate(out) if k not in drop]
+
+
+def group_by_room(
+    furniture: list[dict[str, Any]],
+    merge_map: dict[str, str] | None = None,
+    containment_map: dict[str, str] | None = None,
+) -> list[tuple[str, list[dict[str, Any]]]]:
     """Return [(room_label, items)] — one entry per physical room.
+
+    ``merge_map`` (AIR-03, optional): ``{dining_uid -> KITCHEN|LIVING_AREA}`` folds a
+    validly-assigned dining section into its destination (Kitchen/Living) so prompts,
+    manifests, inventory, eligibility and the scene share one authoritative grouping.
+    ``None``/empty = legacy anchor-clustering behavior, unchanged.
 
     Anchor-seeded assignment: each bed/sofa/dining-table seeds a room; every other
     item joins the nearest *type-compatible* seed (appliances -> the kitchen/dining
@@ -344,14 +391,71 @@ def group_by_room(furniture: list[dict[str, Any]]) -> list[tuple[str, list[dict[
                 if _dist(seeds[i], seeds[j]) < reach:
                     parent[find(i)] = find(j)
 
+    # Containment override (AIR-03 Step 2P): when AUTHORITATIVE geometry (a CONFIRMED
+    # reconstructed room, via ``containment_map`` {item_uid -> seed_uid of that room})
+    # says an item belongs to a specific room, section it WITH that room's seed instead
+    # of the nearest-seed guess. This defers the non-authoritative proximity clustering
+    # to the documented authoritative rule ("assign each item to the proven room whose
+    # polygon CONTAINS its centre"), fixing section<->scene disagreements (e.g. a wardrobe
+    # geometrically inside Bedroom 3 but nearest Bedroom 1's bed). Pure: no transform,
+    # count, or geometry change — only which section bucket references the (single) item.
+    # No map / no match -> unchanged nearest-seed behavior (backward compatible).
+    seed_uid_to_index: dict[str, int] = {}
+    for i, s in enumerate(seeds):
+        su = str(s.get("uid") or s.get("id") or "")
+        if su:
+            seed_uid_to_index.setdefault(su, i)
+
     buckets: dict[int, list[dict[str, Any]]] = {}
     for item in enriched:
+        iuid = str(item.get("uid") or item.get("id") or "")
+        forced = containment_map.get(iuid) if containment_map else None
+        if forced and forced != iuid and forced in seed_uid_to_index:
+            buckets.setdefault(find(seed_uid_to_index[forced]), []).append(item)
+            continue
         candidates = _candidate_seeds(item, seeds)
         nearest = min(candidates, key=lambda i: _dist(item, seeds[i]))
         buckets.setdefault(find(nearest), []).append(item)
 
     labeled = [(_seed_label(items), items) for items in buckets.values()]
+    if merge_map:
+        labeled = _apply_merge_map(labeled, merge_map)
     return _number_duplicates(labeled)
+
+
+def build_section_containment_map(
+    scene_rooms: list[dict[str, Any]] | None,
+) -> dict[str, str]:
+    """Derive ``{item_uid -> seed_uid}`` from AUTHORITATIVE reconstructed rooms, so
+    ``group_by_room`` can section an item with the seed of the CONFIRMED room that
+    geometrically contains it (overriding nearest-seed proximity). Deterministic, pure.
+
+    Only SIMPLE (non-open-plan) CONFIRMED rooms contribute: a combined ``"… & …"`` room
+    (open-plan, handled by ``merge_map``) and rooms without a seed are skipped, and dining
+    seeds are left to ``merge_map``. The seed is the room's first anchor (bed/sofa). No map
+    entry for a seed itself. Empty when there are no such rooms (legacy/untagged → unchanged).
+    """
+    out: dict[str, str] = {}
+    for r in scene_rooms or []:
+        if str(r.get("validation_status", r.get("status", ""))).upper() != "CONFIRMED":
+            continue
+        label = str(r.get("label") or "")
+        if " & " in label:  # open-plan combined room: merge_map's domain, never force here
+            continue
+        items = r.get("furniture") or r.get("items") or []
+        seed_uids = [str(f.get("uid")) for f in items if str(f.get("item_id")) in _SEED_IDS]
+        if not seed_uids:
+            continue
+        rep = seed_uids[0]
+        for f in items:
+            iid = str(f.get("item_id"))
+            uid = str(f.get("uid"))
+            if not uid or uid == rep:
+                continue
+            if iid in _DINING_SEEDS:  # dining is reconciled by merge_map, not here
+                continue
+            out[uid] = rep
+    return out
 
 
 def tags_by_section(canonical: dict[str, Any]) -> dict[str, str]:
@@ -551,15 +655,18 @@ def _appearance_lines(items: list[dict[str, Any]]) -> list[str]:
 
 
 def _counted_furniture(items: list[dict[str, Any]]) -> str:
-    """'2x Dining Chair, 1x Dining Table' — counts matter for fidelity."""
-    counts: dict[str, int] = {}
-    order: list[str] = []
-    for i in items:
-        name = _get_item_name(i)
-        if name not in counts:
-            order.append(name)
-        counts[name] = counts.get(name, 0) + 1
-    return ", ".join(f"{counts[n]}x {n}" for n in order)
+    """'2x Dining Chair, 1x Dining Table' — counts matter for fidelity.
+
+    Derived from the authoritative furniture manifest (the SINGLE source of truth
+    shared with validation/provenance), so the inventory the model is told to render
+    can never silently diverge from the manifest the render is gated and checked
+    against. Byte-identical to the legacy first-appearance counting (asserted by
+    ``test_manifest_prompt_output_pipeline``). Lazy import: ``furniture_manifest``
+    imports this module, so importing it at load time would be circular."""
+    from app.services import furniture_manifest
+    return furniture_manifest.compact_inventory_line(
+        furniture_manifest.build_room_manifest(items)
+    )
 
 
 def _room_windows(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -1390,13 +1497,21 @@ def build_locked_prompt(
     return " ".join(parts)
 
 
-def get_eligible_sections(canonical: dict[str, Any]) -> list[str]:
+def get_eligible_sections(
+    canonical: dict[str, Any],
+    merge_map: dict[str, str] | None = None,
+    containment_map: dict[str, str] | None = None,
+) -> list[str]:
     """Derive eligible renderable sections from the authoritative floor plan (Phases 2 & 3).
 
     No hard-coded 6 rooms: returns the exact room sections present in the design.
+    ``merge_map`` (AIR-03) folds validly-assigned dining into Kitchen/Living so a merged
+    Dining section is not offered as its own render target. ``containment_map`` (Step 2P)
+    sections an item with its CONFIRMED containing room so proximity clustering cannot
+    disagree with authoritative geometry.
     """
     furniture = canonical.get("furniture", []) or []
-    placed_groups = group_by_room(furniture) if furniture else []
+    placed_groups = group_by_room(furniture, merge_map, containment_map) if furniture else []
     if placed_groups:
         def section_sort_key(label: str) -> tuple[int, int | str]:
             l = label.lower()
@@ -1433,10 +1548,14 @@ def get_eligible_sections(canonical: dict[str, Any]) -> list[str]:
 def room_bboxes(
     canonical: dict[str, Any],
     all_sections: bool = False,
+    merge_map: dict[str, str] | None = None,
+    containment_map: dict[str, str] | None = None,
 ) -> dict[str, list[float]]:
     """Map each room label to its bounding box [x, y, w, h] in world/plan coordinates.
 
     Uses reconstructed architectural boundaries when available, falling back to furniture bounds.
+    ``merge_map`` (AIR-03) keeps bboxes consistent with the merged grouping; ``containment_map``
+    (Step 2P) keeps furniture sectioning consistent with authoritative containment.
     """
     furniture = canonical.get("furniture", []) or []
     walls = canonical.get("structured_walls") or canonical.get("walls") or []
@@ -1463,7 +1582,7 @@ def room_bboxes(
         except Exception:
             pass
 
-    for label, items in group_by_room(furniture):
+    for label, items in group_by_room(furniture, merge_map, containment_map):
         if not items:
             continue
         norm = _normalize_section_name(label)
@@ -1490,15 +1609,23 @@ def build_room_prompts(
     requested_rooms: list[str] | None = None,
     all_sections: bool = False,
     seed: int | None = None,
+    merge_map: dict[str, str] | None = None,
+    containment_map: dict[str, str] | None = None,
 ) -> tuple[str | None, list[tuple[str, str, int, int]]]:
-    """Return (style, [(room_label, prompt, width, height)]). One entry per room (Phases 2, 3, 10)."""
+    """Return (style, [(room_label, prompt, width, height)]). One entry per room (Phases 2, 3, 10).
+
+    ``merge_map`` (AIR-03) folds validly-assigned dining into Kitchen/Living so the merged
+    destination prompt carries the dining inventory and no separate Dining prompt is made.
+    ``containment_map`` (Step 2P) sections each item with its CONFIRMED containing room so a
+    prompt never lists furniture that authoritative geometry places in a different room.
+    """
     intent = design_intent or canonical.get("design_intent") or {}
     style = _style(design_intent, canonical)
     furniture = canonical.get("furniture", []) or []
     doors = canonical.get("doors")
     windows = canonical.get("windows")
 
-    placed_groups = group_by_room(furniture) if furniture else []
+    placed_groups = group_by_room(furniture, merge_map, containment_map) if furniture else []
     # User-defined room tags (e.g. "Master Bedroom") -> section, injected as styling
     # context only. Never alters furniture, geometry, or room assignment.
     section_tag_map = tags_by_section(canonical)
@@ -1508,7 +1635,8 @@ def build_room_prompts(
         placed_map[norm] = items
         placed_map[lbl] = items
 
-    bboxes = room_bboxes(canonical, all_sections=all_sections)
+    bboxes = room_bboxes(canonical, all_sections=all_sections, merge_map=merge_map,
+                         containment_map=containment_map)
 
     # Per-room doors/windows/dimensions/geometry_source from the authoritative
     # reconstruction, so each room's prompt only ever references its OWN
@@ -1636,4 +1764,42 @@ def build_room_prompts(
         rooms_res.append((section, prompt_text, width, height))
 
     return style, rooms_res
+
+
+def build_region_prompt(
+    canonical: dict[str, Any],
+    region_items: list[dict[str, Any]],
+    design_intent: dict[str, Any] | None,
+    bounds: list[float] | tuple[float, float, float, float],
+    seed: int | None = None,
+    label: str = "Selected Area",
+) -> tuple[str | None, list[tuple[str, str, int, int]]]:
+    """Draw Area (additive): ONE section prompt for an EXPLICIT furniture subset, independent
+    of room labels / grouping. Reuses the exact per-section builder (``_room_prompt``) the
+    room path uses, over the selected items only — so the prompt locks the same inventory,
+    counts, positions and preservation rules. The region's world-space ``bounds`` drive the
+    framing bbox; openings are left empty (the region never fabricates another room's door/
+    window). Never mutates canonical. Returns ``(style, [(label, prompt, w, h)])`` so the
+    caller can treat it like a single-room ``build_room_prompts`` result."""
+    intent = design_intent or canonical.get("design_intent") or {}
+    style = _style(design_intent, canonical)
+    if not region_items:
+        return style, []
+    width, height = _room_dims(region_items)
+    x, y, w, h = (float(bounds[0]), float(bounds[1]), float(bounds[2]), float(bounds[3]))
+    bbox_tuple = (x, y, x + w, y + h)
+    prompt_text = _room_prompt(
+        label,
+        region_items,
+        intent,
+        bbox=bbox_tuple,
+        doors=[],
+        windows=[],
+        seed=seed,
+        dims_meta=None,
+        geom_source="region_selection",
+        wall_info={},
+        room_index=1,
+    )
+    return style, [(label, prompt_text, width, height)]
 

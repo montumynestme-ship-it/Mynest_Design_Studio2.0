@@ -257,7 +257,28 @@ def save_layout(file_id: str, payload: LayoutPayload) -> LayoutPayload:
     """
     with session_scope() as db:
         fp = _get_or_404(db, file_id)
-        canonical = {"furniture": [item.model_dump() for item in payload.items]}
+        # Serialize each item, but DROP an unset ``room_membership`` (AIR-03) so an
+        # untagged/legacy layout's canonical JSON — and therefore its dedup
+        # fingerprint and every geometry/cache hash derived from it — stays
+        # byte-identical to before this field existed. A SET membership stays in the
+        # dict, so it correctly participates in the fingerprint and busts stale
+        # base/render caches when the designer changes an assignment.
+        # Additive, nullable grouping/render fields are DROPPED when None so an
+        # untagged/legacy layout's canonical JSON — and every fingerprint/cache hash
+        # derived from it — stays byte-identical to before these fields existed. A SET
+        # value stays in the dict, so it participates in the fingerprint and busts stale
+        # base/render caches when the designer changes it.
+        _drop_if_none = ("room_membership", "render_room")
+        canonical = {
+            "furniture": [
+                {
+                    k: v
+                    for k, v in item.model_dump().items()
+                    if not (k in _drop_if_none and v is None)
+                }
+                for item in payload.items
+            ]
+        }
         latest = _latest_version(db, fp.id)
         if latest is None:
             db.add(

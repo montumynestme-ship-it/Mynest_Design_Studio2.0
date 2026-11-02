@@ -181,11 +181,37 @@ def test_off_wall_opening_fails_when_annotated() -> None:
 
 
 def test_assess_ai_render_trust_rules() -> None:
+    # AIR-07: a fidelity claim must be honest — "FAITHFUL" requires INDEPENDENT output-level
+    # evidence. A geometry-faithful base used as the img2img control only locks the INPUT; it
+    # must NEVER by itself produce "FAITHFUL"/True. Keep FAIL / UNVERIFIED / FAITHFUL distinct.
     faithful = {"geometry_faithful": True}
     unfaithful = {"geometry_faithful": False}
-    # img2img on a faithful base → trustworthy.
-    assert validation_service.assess_ai_render(used_base_render=True, scene_report=faithful)["geometry_faithful"] is True
-    # no base render → never trustworthy (uncontrolled).
-    assert validation_service.assess_ai_render(used_base_render=False, scene_report=faithful)["geometry_faithful"] is False
-    # base render but the base scene failed validation → not trustworthy.
-    assert validation_service.assess_ai_render(used_base_render=True, scene_report=unfaithful)["geometry_faithful"] is False
+
+    # Input locked, output NOT verified → UNVERIFIED (not True on input validity alone).
+    r = validation_service.assess_ai_render(used_base_render=True, scene_report=faithful)
+    assert r["geometry_status"] == "UNVERIFIED"
+    assert r["geometry_faithful"] is None
+    assert r["input_geometry_locked"] is True
+    assert r["output_geometry_verified"] is False
+
+    # FAITHFUL requires an output-level check (output_verified=True) on a locked base.
+    rf = validation_service.assess_ai_render(
+        used_base_render=True, scene_report=faithful, output_verified=True)
+    assert rf["geometry_status"] == "FAITHFUL"
+    assert rf["geometry_faithful"] is True
+
+    # No base render → FAIL (uncontrolled); never trustworthy.
+    rn = validation_service.assess_ai_render(used_base_render=False, scene_report=faithful)
+    assert rn["geometry_status"] == "FAIL"
+    assert rn["geometry_faithful"] is False
+
+    # Base render but the base scene failed validation → FAIL (geometry was never locked).
+    ru = validation_service.assess_ai_render(used_base_render=True, scene_report=unfaithful)
+    assert ru["geometry_status"] == "FAIL"
+    assert ru["geometry_faithful"] is False
+
+    # Even output_verified=True cannot manufacture FAITHFUL without a locked base input.
+    rx = validation_service.assess_ai_render(
+        used_base_render=False, scene_report=faithful, output_verified=True)
+    assert rx["geometry_status"] == "FAIL"
+    assert rx["geometry_faithful"] is False

@@ -16,6 +16,12 @@ class GenerationRequest:
     variation_profile: str | None = None
     reference_images: list[str] = field(default_factory=list)
     control_image: bytes | None = None
+    # OPT-IN geometry conditioning (Path B): the PERSPECTIVE structural edge map for this
+    # room, in the SAME camera/projection as ``control_image`` (the base render). When set
+    # AND FAL_CONTROL_STRUCTURAL + the Canny Control-LoRA path are active, it becomes the
+    # structural control image (``control_lora_image_url``) while ``control_image`` stays the
+    # color init. None (default) → unchanged baseline behavior. Never a canonical source.
+    structural_image: bytes | None = None
 
 
 class AIProviderError(Exception):
@@ -70,6 +76,11 @@ class AIProviderAdapter(ABC):
     supports_seed: bool = True
     supports_image_reference: bool = False
     supports_control_image: bool = False
+    # Provenance (AIR-08): the provider's request/correlation id for the MOST RECENT
+    # successful generate() on this instance, or None when the provider did not supply
+    # one. Read by the caller immediately after generate() (generation is sequential per
+    # room). Default None so adapters that never set it stay safe.
+    last_request_id: str | None = None
 
     @abstractmethod
     def generate(self, request: GenerationRequest) -> list[bytes]:
