@@ -42,4 +42,5 @@ dev_smoke_output/
 *.zip
 *.pt
 backend/storage/debug_artifacts/
+backend/storage/render_cache/
 reports/ai_render_investigation/
