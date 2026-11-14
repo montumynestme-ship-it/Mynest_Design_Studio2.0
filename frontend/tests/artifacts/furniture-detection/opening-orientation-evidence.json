@@ -1,0 +1,60 @@
+{
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "windows": [
+    {
+      "room": "Living Area",
+      "src": "editor",
+      "cx": 1813,
+      "cy": 1205,
+      "rot": 0.0,
+      "wall_dir": 0.0,
+      "wall_id": null,
+      "delta_FIXED": 0.0,
+      "delta_OLD": 0.0
+    },
+    {
+      "room": "Bedroom 1",
+      "src": "editor",
+      "cx": 334,
+      "cy": 677,
+      "rot": -90.5,
+      "wall_dir": 90.0,
+      "wall_id": null,
+      "delta_FIXED": 0.5,
+      "delta_OLD": 0.5
+    },
+    {
+      "room": "Bedroom 2",
+      "src": "editor",
+      "cx": 1291,
+      "cy": 1382,
+      "rot": 0.0,
+      "wall_dir": 0.0,
+      "wall_id": null,
+      "delta_FIXED": 0.0,
+      "delta_OLD": 0.0
+    },
+    {
+      "room": "Kitchen",
+      "src": "pdf-supplemental",
+      "cx": 1128,
+      "cy": 282,
+      "rot": 90.0,
+      "wall_dir": 90.0,
+      "wall_id": "wall_032",
+      "delta_FIXED": 0.0,
+      "delta_OLD": 90.0
+    },
+    {
+      "room": "Bedroom 3",
+      "src": "editor",
+      "cx": 875,
+      "cy": 1547,
+      "rot": 0.0,
+      "wall_dir": 0.0,
+      "wall_id": null,
+      "delta_FIXED": 0.0,
+      "delta_OLD": 0.0
+    }
+  ]
+}

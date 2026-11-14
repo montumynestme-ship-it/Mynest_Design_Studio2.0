@@ -1,0 +1,45 @@
+{
+  "investigation": "main_zip_222.zip — latest AI render outputs (Kitchen/Dining failure)",
+  "archive": {
+    "path": "D:/Latest_mynest_design_version/mynest-design-studio/main_zip_222.zip",
+    "sha256_16": "dab8af499d6cda6d",
+    "size_bytes": 7147129,
+    "mtime": "2026-10-27 17:44",
+    "entry_count": 4,
+    "entry_types": "PNG screenshots only (no JSON/manifest/prompt/log/base-render/provenance)",
+    "nested_archives": false,
+    "path_traversal": false
+  },
+  "extraction_path": "reports/ai_render_investigation/latest_outputs/raw_extract/",
+  "latest_selection_method": "archive mtime (2026-10-27 17:44) is the newest zip; screenshot capture times 17:41:42-48 match backend generation 803af570 created 17:40 for design_version 85759b78",
+  "matched_generation": {
+    "generation_id": "803af570-e2b2-47c7-85c0-c1c71002b06e",
+    "created": "2026-10-27 17:40",
+    "design_version_id": "85759b78-210e-4daf-a2d1-9e8ea906fee5",
+    "project_id": "dc6773e1-07f9-419f-9bb0-6fc4919bd9fa",
+    "floor_id": "1528a0b1-7eeb-414a-a0eb-d0c8a5950913",
+    "provider": "fal",
+    "model": "fal-ai/flux-kontext/dev",
+    "conditioning_path": "image-to-image edit (FAL_USE_CONTROLNET=false)",
+    "sections_requested": 6,
+    "sections_rendered": 4,
+    "sections_failed": ["Kitchen", "Dining Area"],
+    "confidence": "LIKELY (screenshot time + generation time + design version align); not DB-confirmed"
+  },
+  "screenshots": [
+    {"file": "raw_extract/Screenshot (1720).png", "organized_as": "successful/01_living_area.png", "sha256_16": "39923bef44538413", "dims": "3200x2000", "depicts": "AI Render modal — Living Area photorealistic render + 2D plan; banner: Kitchen/Dining failed", "classification": "UI_SCREENSHOT (not a raw render file)"},
+    {"file": "raw_extract/Screenshot (1721).png", "organized_as": "successful/02_bedroom_1.png", "sha256_16": "39ed5d39424f48c9", "dims": "3200x2000", "depicts": "Bedroom 1 photorealistic render; base path chip: 'base not §L-verified'", "classification": "UI_SCREENSHOT"},
+    {"file": "raw_extract/Screenshot (1722).png", "organized_as": "successful/03_bedroom_2_FLAT_lowfidelity.png", "sha256_16": "cc40fe3ba7015d6b", "dims": "3200x2000", "depicts": "Bedroom 2 — render is FLAT/untextured clay (low-fidelity / near-base, not photorealistic)", "classification": "UI_SCREENSHOT"},
+    {"file": "raw_extract/Screenshot (1723).png", "organized_as": "successful/04_bedroom_3.png", "sha256_16": "2773af61af42ce91", "dims": "3200x2000", "depicts": "Bedroom 3 photorealistic render", "classification": "UI_SCREENSHOT"}
+  ],
+  "on_disk_provenance_copied": "metadata/generation_803af570-e2b2-47c7-85c0-c1c71002b06e/ (room_0 Living, room_3 Bed1, room_4 Bed2, room_5 Bed3 + 0-3.png outputs)",
+  "per_room_status": {
+    "Living Area": {"index": 0, "status": "UNVERIFIED", "conditioning": "edit", "inventory_status": "MATCH", "rendered": true},
+    "Kitchen": {"index": 1, "status": "FAILED_PRE_PROVIDER", "artifact_on_disk": "NONE", "rendered": false, "base_capture": "NONE"},
+    "Dining Area": {"index": 2, "status": "FAILED_PRE_PROVIDER", "artifact_on_disk": "NONE", "rendered": false, "base_capture": "NONE"},
+    "Bedroom 1": {"index": 3, "status": "UNVERIFIED", "conditioning": "edit", "inventory_status": "MATCH", "rendered": true},
+    "Bedroom 2": {"index": 4, "status": "UNVERIFIED", "conditioning": "edit", "inventory_status": "MATCH", "rendered": true, "note": "visual: flat/clay low-fidelity"},
+    "Bedroom 3": {"index": 5, "status": "UNVERIFIED", "conditioning": "edit", "inventory_status": "MATCH", "rendered": true}
+  },
+  "notes": "AI outputs are UNVERIFIED (detector NOT_CALIBRATED); deterministic furniture fidelity 100% is INPUT-side, not output proof. No AI generation performed in this investigation."
+}

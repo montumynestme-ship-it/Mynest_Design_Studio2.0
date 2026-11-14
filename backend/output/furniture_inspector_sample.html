@@ -1,0 +1,100 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>MyNest Furniture Inspector (dev)</title><style>
+:root{color-scheme:light dark}
+body{font-family:system-ui,sans-serif;margin:0;padding:24px;background:#f7f7f8;color:#1a1a1a}
+@media(prefers-color-scheme:dark){body{background:#17181b;color:#e8e8ea}}
+h1{font-size:20px;margin:0 0 4px}
+.sub{opacity:.7;font-size:13px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{border:1px solid #d0d0d6;border-radius:10px;padding:14px;background:#fff}
+@media(prefers-color-scheme:dark){.card{background:#202126;border-color:#35363c}}
+.card h2{font-size:15px;margin:0 0 2px}
+.cat{font-size:12px;opacity:.65;margin:0 0 10px}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.panel{border:1px dashed #c3c3cc;border-radius:8px;padding:8px;min-height:92px;display:flex;flex-direction:column}
+.panel .lbl{font-size:10px;letter-spacing:.04em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
+.art svg{width:100%;height:84px}
+.footprint{align-items:center;justify-content:center}
+.fpbox{border:2px solid #2563eb;background:rgba(37,99,235,.08)}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+td{padding:2px 4px;border-top:1px solid #ececf0;vertical-align:top}
+td.k{opacity:.6;white-space:nowrap;width:42%}
+.badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px}
+.ok{background:#dcfce7;color:#166534}.miss{background:#fee2e2;color:#991b1b}
+.rast img{max-width:100%;border:1px solid #ccc;border-radius:6px}
+</style></head><body><h1>Furniture / Geometry Inspector <span class='badge miss'>dev-only</span></h1><p class='sub'>Trusted repository SVG assets, canonical footprints and backend canvas provenance. Inline SVG is DevTools-inspectable. No live generation path is touched; canonical geometry is read-only.</p><div class="grid"><div class="card" data-item-id="lounger-sofa" data-svg-name="lounger.svg"><h2>Loungers Sofa <span class="badge ok">mapped</span></h2><p class="cat">lounger-sofa</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="190" height="90" viewBox="0 0 190 90" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="30" y="12" width="154" height="66" rx="12" fill="#fbf7f1"/>
+<rect x="6" y="8" width="30" height="74" rx="12" fill="#efe1cf"/>
+<rect x="44" y="22" width="120" height="46" rx="8" stroke-width="3"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:76px;height:36px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1900.0×900.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>lounger-sofa</td></tr><tr><td class="k">svg_name</td><td>lounger.svg</td></tr><tr><td class="k">category</td><td>Living Room</td></tr><tr><td class="k">kind</td><td>sofa</td></tr><tr><td class="k">width_mm</td><td>1900.0</td></tr><tr><td class="k">depth_mm</td><td>900.0</td></tr><tr><td class="k">height_mm</td><td>800.0</td></tr></table></div><div class="card" data-item-id="center-table" data-svg-name="coffee-table.svg"><h2>Center Table <span class="badge ok">mapped</span></h2><p class="cat">center-table</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="6" y="6" width="88" height="48" rx="12" fill="#fbf7f1"/>
+<rect x="18" y="15" width="64" height="30" rx="7" stroke-width="2.5"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:40px;height:24px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1000.0×600.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>center-table</td></tr><tr><td class="k">svg_name</td><td>coffee-table.svg</td></tr><tr><td class="k">category</td><td>Living Room</td></tr><tr><td class="k">kind</td><td>coffee_table</td></tr><tr><td class="k">width_mm</td><td>1000.0</td></tr><tr><td class="k">depth_mm</td><td>600.0</td></tr><tr><td class="k">height_mm</td><td>400.0</td></tr></table></div><div class="card" data-item-id="console" data-svg-name="console.svg"><h2>Console <span class="badge ok">mapped</span></h2><p class="cat">console</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="110" height="35" viewBox="0 0 110 35" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="6" y="8" width="98" height="19" rx="4" fill="#fbf7f1"/>
+<line x1="39" y1="8" x2="39" y2="27" stroke-width="2.5"/>
+<line x1="71" y1="8" x2="71" y2="27" stroke-width="2.5"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:44px;height:14px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1100.0×350.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>console</td></tr><tr><td class="k">svg_name</td><td>console.svg</td></tr><tr><td class="k">category</td><td>Living Room</td></tr><tr><td class="k">kind</td><td>dresser</td></tr><tr><td class="k">width_mm</td><td>1100.0</td></tr><tr><td class="k">depth_mm</td><td>350.0</td></tr><tr><td class="k">height_mm</td><td>800.0</td></tr></table></div><div class="card" data-item-id="partition" data-svg-name="partition.svg"><h2>Partition <span class="badge ok">mapped</span></h2><p class="cat">partition</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="180" height="30" viewBox="0 0 180 30" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="4" y="9" width="172" height="12" rx="4" fill="#fbf7f1"/>
+<line x1="26" y1="9" x2="26" y2="21" stroke-width="2"/>
+<line x1="48" y1="9" x2="48" y2="21" stroke-width="2"/>
+<line x1="70" y1="9" x2="70" y2="21" stroke-width="2"/>
+<line x1="92" y1="9" x2="92" y2="21" stroke-width="2"/>
+<line x1="114" y1="9" x2="114" y2="21" stroke-width="2"/>
+<line x1="136" y1="9" x2="136" y2="21" stroke-width="2"/>
+<line x1="158" y1="9" x2="158" y2="21" stroke-width="2"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:72px;height:14px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1800.0×300.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>partition</td></tr><tr><td class="k">svg_name</td><td>partition.svg</td></tr><tr><td class="k">category</td><td>Living Room</td></tr><tr><td class="k">kind</td><td>generic</td></tr><tr><td class="k">width_mm</td><td>1800.0</td></tr><tr><td class="k">depth_mm</td><td>300.0</td></tr><tr><td class="k">height_mm</td><td>1800.0</td></tr></table></div><div class="card" data-item-id="bed" data-svg-name="bed.svg"><h2>Bed <span class="badge ok">mapped</span></h2><p class="cat">bed</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="180" height="200" viewBox="0 0 180 200" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="6" y="6" width="168" height="188" rx="10" fill="#fbf7f1"/>
+<rect x="18" y="16" width="66" height="34" rx="6" fill="#efe1cf"/>
+<rect x="96" y="16" width="66" height="34" rx="6" fill="#efe1cf"/>
+<path d="M6 70 h168" stroke-width="3"/>
+<path d="M8 96 q82 24 164 0" stroke-width="3"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:72px;height:80px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1800.0×2000.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>bed</td></tr><tr><td class="k">svg_name</td><td>bed.svg</td></tr><tr><td class="k">category</td><td>Bedroom</td></tr><tr><td class="k">kind</td><td>bed</td></tr><tr><td class="k">width_mm</td><td>1800.0</td></tr><tr><td class="k">depth_mm</td><td>2000.0</td></tr><tr><td class="k">height_mm</td><td>1100.0</td></tr></table></div><div class="card" data-item-id="side-table" data-svg-name="side-table.svg"><h2>Side Table <span class="badge ok">mapped</span></h2><p class="cat">side-table</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="6" y="6" width="33" height="33" rx="6" fill="#fbf7f1"/>
+<circle cx="22.5" cy="22.5" r="9" stroke-width="2.5"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:20px;height:18px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">450.0×450.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>side-table</td></tr><tr><td class="k">svg_name</td><td>side-table.svg</td></tr><tr><td class="k">category</td><td>Bedroom</td></tr><tr><td class="k">kind</td><td>side_table</td></tr><tr><td class="k">width_mm</td><td>450.0</td></tr><tr><td class="k">depth_mm</td><td>450.0</td></tr><tr><td class="k">height_mm</td><td>550.0</td></tr></table></div><div class="card" data-item-id="dressing-table" data-svg-name="dressing-table.svg"><h2>Dressing <span class="badge ok">mapped</span></h2><p class="cat">dressing-table</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="6" y="6" width="108" height="30" rx="4" fill="#fbf7f1"/>
+<line x1="45" y1="6" x2="45" y2="36" stroke-width="2.5"/>
+<line x1="75" y1="6" x2="75" y2="36" stroke-width="2.5"/>
+<circle cx="60" cy="49" r="9" fill="#fbf7f1"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:48px;height:24px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1200.0×600.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>dressing-table</td></tr><tr><td class="k">svg_name</td><td>dressing-table.svg</td></tr><tr><td class="k">category</td><td>Bedroom</td></tr><tr><td class="k">kind</td><td>dresser</td></tr><tr><td class="k">width_mm</td><td>1200.0</td></tr><tr><td class="k">depth_mm</td><td>600.0</td></tr><tr><td class="k">height_mm</td><td>750.0</td></tr></table></div><div class="card" data-item-id="dining-table" data-svg-name="dining-table.svg"><h2>Dining Table <span class="badge ok">mapped</span></h2><p class="cat">dining-table</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="150" height="90" viewBox="0 0 150 90" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="10" y="10" width="130" height="70" rx="8" fill="#fbf7f1"/>
+<rect x="22" y="20" width="106" height="50" rx="5" stroke-width="2.5"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:60px;height:36px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1500.0×900.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>dining-table</td></tr><tr><td class="k">svg_name</td><td>dining-table.svg</td></tr><tr><td class="k">category</td><td>Dining &amp; Kitchen</td></tr><tr><td class="k">kind</td><td>dining_table</td></tr><tr><td class="k">width_mm</td><td>1500.0</td></tr><tr><td class="k">depth_mm</td><td>900.0</td></tr><tr><td class="k">height_mm</td><td>750.0</td></tr></table></div><div class="card" data-item-id="dining-chair" data-svg-name="chair.svg"><h2>Dining Chair <span class="badge ok">mapped</span></h2><p class="cat">dining-chair</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="45" height="50" viewBox="0 0 45 50" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="6" y="12" width="33" height="32" rx="5" fill="#fbf7f1"/>
+<rect x="6" y="5" width="33" height="9" rx="4" fill="#efe1cf"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:20px;height:20px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">450.0×500.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>dining-chair</td></tr><tr><td class="k">svg_name</td><td>chair.svg</td></tr><tr><td class="k">category</td><td>Dining &amp; Kitchen</td></tr><tr><td class="k">kind</td><td>dining_chair</td></tr><tr><td class="k">width_mm</td><td>450.0</td></tr><tr><td class="k">depth_mm</td><td>500.0</td></tr><tr><td class="k">height_mm</td><td>900.0</td></tr></table></div><div class="card" data-item-id="kitchen-base" data-svg-name="kitchen-base.svg"><h2>Kitchen Base <span class="badge ok">mapped</span></h2><p class="cat">kitchen-base</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="240" height="60" viewBox="0 0 240 60" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="4" y="10" width="232" height="44" rx="4" fill="#fbf7f1"/>
+<rect x="28" y="20" width="42" height="26" rx="6" stroke-width="2.5"/>
+<circle cx="128" cy="26" r="6.5" stroke-width="2.5"/>
+<circle cx="150" cy="26" r="6.5" stroke-width="2.5"/>
+<circle cx="128" cy="42" r="6.5" stroke-width="2.5"/>
+<circle cx="150" cy="42" r="6.5" stroke-width="2.5"/>
+<line x1="196" y1="10" x2="196" y2="54" stroke-width="2.5"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:96px;height:24px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">2400.0×600.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>kitchen-base</td></tr><tr><td class="k">svg_name</td><td>kitchen-base.svg</td></tr><tr><td class="k">category</td><td>Dining &amp; Kitchen</td></tr><tr><td class="k">kind</td><td>dresser</td></tr><tr><td class="k">width_mm</td><td>2400.0</td></tr><tr><td class="k">depth_mm</td><td>600.0</td></tr><tr><td class="k">height_mm</td><td>900.0</td></tr></table></div><div class="card" data-item-id="chimney" data-svg-name="chimney.svg"><h2>Chimney <span class="badge ok">mapped</span></h2><p class="cat">chimney</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="90" height="50" viewBox="0 0 90 50" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M16 46 L28 16 H62 L74 46 Z" fill="#fbf7f1"/>
+<rect x="40" y="5" width="10" height="12" fill="#efe1cf"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:36px;height:20px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">900.0×500.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>chimney</td></tr><tr><td class="k">svg_name</td><td>chimney.svg</td></tr><tr><td class="k">category</td><td>Dining &amp; Kitchen</td></tr><tr><td class="k">kind</td><td>generic</td></tr><tr><td class="k">width_mm</td><td>900.0</td></tr><tr><td class="k">depth_mm</td><td>500.0</td></tr><tr><td class="k">height_mm</td><td>600.0</td></tr></table></div><div class="card" data-item-id="bay-window-seat" data-svg-name="bay-window-seat.svg"><h2>Bay Window Seating <span class="badge ok">mapped</span></h2><p class="cat">bay-window-seat</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="150" height="60" viewBox="0 0 150 60" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M6 54 V30 L40 8 H110 L144 30 V54 Z" fill="#fbf7f1"/>
+<rect x="18" y="30" width="114" height="20" rx="6" fill="#efe1cf"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:60px;height:24px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">1500.0×600.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>bay-window-seat</td></tr><tr><td class="k">svg_name</td><td>bay-window-seat.svg</td></tr><tr><td class="k">category</td><td>Entry &amp; Structure</td></tr><tr><td class="k">kind</td><td>bench</td></tr><tr><td class="k">width_mm</td><td>1500.0</td></tr><tr><td class="k">depth_mm</td><td>600.0</td></tr><tr><td class="k">height_mm</td><td>450.0</td></tr></table></div><div class="card" data-item-id="shoe-rack" data-svg-name="shoe-rack.svg"><h2>Shoe Rack <span class="badge ok">mapped</span></h2><p class="cat">shoe-rack</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="90" height="35" viewBox="0 0 90 35" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="6" y="7" width="78" height="21" rx="3" fill="#fbf7f1"/>
+<line x1="6" y1="14" x2="84" y2="14" stroke-width="2"/>
+<line x1="6" y1="21" x2="84" y2="21" stroke-width="2"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:36px;height:14px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">900.0×350.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>shoe-rack</td></tr><tr><td class="k">svg_name</td><td>shoe-rack.svg</td></tr><tr><td class="k">category</td><td>Entry &amp; Structure</td></tr><tr><td class="k">kind</td><td>dresser</td></tr><tr><td class="k">width_mm</td><td>900.0</td></tr><tr><td class="k">depth_mm</td><td>350.0</td></tr><tr><td class="k">height_mm</td><td>600.0</td></tr></table></div><div class="card" data-item-id="door" data-svg-name="door.svg"><h2>Doors <span class="badge ok">mapped</span></h2><p class="cat">door</p><div class="panels"><div class="panel art"><span class="lbl">SVG artwork (inline)</span><svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90" fill="none" stroke="#6f4a2e" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<line x1="12" y1="80" x2="12" y2="14" stroke-width="4"/>
+<path d="M12 14 A66 66 0 0 1 78 80" stroke-width="2.5"/>
+<line x1="12" y1="80" x2="78" y2="80" stroke-width="2"/>
+</svg>
+</div><div class="panel footprint"><span class="lbl">Canonical footprint</span><div class="fpbox" style="width:36px;height:36px"></div><div style="font-size:10px;opacity:.6;margin-top:4px">900.0×900.0 mm</div></div></div><table><tr><td class="k">item_id</td><td>door</td></tr><tr><td class="k">svg_name</td><td>door.svg</td></tr><tr><td class="k">category</td><td>Entry &amp; Structure</td></tr><tr><td class="k">kind</td><td>door</td></tr><tr><td class="k">width_mm</td><td>900.0</td></tr><tr><td class="k">depth_mm</td><td>900.0</td></tr><tr><td class="k">height_mm</td><td>2100.0</td></tr></table></div></div></body></html>

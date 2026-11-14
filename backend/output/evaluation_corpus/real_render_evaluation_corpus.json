@@ -1,0 +1,215 @@
+{
+  "corpus_version": "1.0.0",
+  "created_at": "2026-10-26",
+  "description": "Traceable real-render evaluation corpus for MyNest Design Studio furniture assessment. Contains human-reviewed ground truth separate from detector outputs.",
+  "dataset_summary": {
+    "total_traceable_cases": 3,
+    "human_reviewed_cases": 3,
+    "sample_split_possible": false,
+    "statistical_calibration_supported": false,
+    "calibration_status": "NOT_CALIBRATED",
+    "limitation_note": "A sample size of N=3 does NOT support statistical calibration or meaningful train/test splits. Status must strictly remain NOT_CALIBRATED until a multi-room corpus of >=30 annotated renders is assembled."
+  },
+  "schema_contract": {
+    "canonical_inventory": "Ground truth expected from immutable design snapshot.",
+    "human_review": "Independent manual verification of visible items in the AI output.",
+    "detector_output": "Automated detections and advisory validation results (never authoritative)."
+  },
+  "records": [
+    {
+      "case_id": "P2H4-BEDROOM1-EDIT",
+      "room_type": "Bedroom",
+      "room_label": "Bedroom 1",
+      "canonical_design": {
+        "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+        "design_version_id": "1831bf84-f9d6-4d4f-aedc-4ad95d6145fe",
+        "version_tag": "v31_frozen"
+      },
+      "base_render": {
+        "file_path": "backend/output/p2h4_bedroom1_preservation/base_render.png",
+        "sha256": "04ea78544057220b2d718dbfa0c0403279910d62787bcfd3600cdcff40f9e0d3",
+        "dimensions": [1216, 832],
+        "all_canonical_items_visible": true
+      },
+      "ai_output": {
+        "file_path": "backend/output/p2h4_bedroom1_preservation/ai_output.png",
+        "sha256": "b6c9580e3e560c2be1e9e8bf8def2f01f3bd12023ef40f2bc471fcae24da5141",
+        "dimensions": [1216, 832],
+        "provider": "fal",
+        "model": "fal-ai/flux-kontext/dev",
+        "conditioning_mode": "edit",
+        "seed": 1558158484,
+        "request_id": "01a133ca-ae45-70b2-a3ed-95dcf5a04daa",
+        "mean_abs_diff_vs_base": 15.47,
+        "recomposed": true
+      },
+      "canonical_inventory": [
+        {"uid": "bed-1787478891845", "item_id": "bed", "expected_type": "bed", "base_bbox": [446, 305, 188, 133]},
+        {"uid": "wardrobe-1787646602167", "item_id": "wardrobe", "expected_type": "wardrobe", "base_bbox": [604, 225, 140, 183]},
+        {"uid": "dressing-table-1787646642783", "item_id": "dressing-table", "expected_type": "dressing table", "base_bbox": [553, 402, 99, 106]},
+        {"uid": "side-table-1787478947384", "item_id": "side-table", "expected_type": "side table", "base_bbox": [502, 301, 66, 66]},
+        {"uid": "side-table-1787478946014", "item_id": "side-table", "expected_type": "side table", "base_bbox": [405, 365, 77, 75]}
+      ],
+      "human_review": {
+        "reviewer_verdict": "PARTIALLY_PRESERVED_RECOMPOSED",
+        "visible_objects": [
+          {"uid": "bed-1787478891845", "classification": "PRESERVED", "visual_appearance": "bed with frame/mattress/pillows, repositioned"},
+          {"uid": "wardrobe-1787646602167", "classification": "PRESERVED", "visual_appearance": "2-door wooden wardrobe with handles"},
+          {"uid": "dressing-table-1787646642783", "classification": "PRESERVED", "visual_appearance": "table + 2 drawers + wall mirror"},
+          {"uid": "side-table-1787478947384", "classification": "AMBIGUOUS", "visual_appearance": "no distinct side table identifiable near bed head"},
+          {"uid": "side-table-1787478946014", "classification": "AMBIGUOUS", "visual_appearance": "bench visible front-left; ambiguous whether side table altered to bench or added bench"}
+        ],
+        "missing_items": [],
+        "extra_items": ["bench front-left"],
+        "counts": {"canonical": 5, "visible_distinct": 4}
+      },
+      "detector_evaluations": {
+        "owlv2_offline": {
+          "model": "google/owlv2-base-patch16-ensemble",
+          "cache_path": "D:\\hf_cache",
+          "detections_count": 11,
+          "overall_status": "UNCERTAIN",
+          "pass_count": 2,
+          "missing_count": 0,
+          "extra_candidate_count": 2,
+          "calibration_status": "NOT_CALIBRATED"
+        },
+        "yolov8_coco": {
+          "model": "yolov8n.pt",
+          "detections_count": 2,
+          "detected_classes": ["bed (0.83)", "bench (0.32)"],
+          "overall_status": "UNCERTAIN",
+          "pass_count": 0,
+          "missing_count": 3,
+          "limitation": "COCO has no wardrobe or side-table class; false missing reports"
+        }
+      }
+    },
+    {
+      "case_id": "P2T-LIVINGAREA-EDIT",
+      "room_type": "Living",
+      "room_label": "Living Area",
+      "canonical_design": {
+        "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+        "design_version_id": "85759b78-b11f-431d-b6c8-9a3c748c9df3",
+        "version_tag": "v79"
+      },
+      "base_render": {
+        "file_path": "backend/storage/debug_artifacts/174503c2-e046-4c1a-a57c-025ba12c1e15/room_0_Living Area/base_render.png",
+        "sha256": "b3b9315a564d8615...",
+        "dimensions": [1216, 832],
+        "all_canonical_items_visible": true
+      },
+      "ai_output": {
+        "file_path": "backend/storage/generations/174503c2-e046-4c1a-a57c-025ba12c1e15/0.png",
+        "sha256": "b587d7f942b90426...",
+        "dimensions": [1216, 832],
+        "provider": "fal",
+        "model": "fal-ai/flux-kontext/dev",
+        "conditioning_mode": "edit",
+        "seed": 1552711625,
+        "camera_changed": true
+      },
+      "canonical_inventory": [
+        {"uid": "sofa-1", "item_id": "lounger-sofa", "expected_type": "L-sectional sofa part 1"},
+        {"uid": "sofa-2", "item_id": "lounger-sofa", "expected_type": "L-sectional sofa part 2"},
+        {"uid": "console-1", "item_id": "console", "expected_type": "console table"}
+      ],
+      "human_review": {
+        "reviewer_verdict": "FAIL",
+        "visible_objects": [
+          {"uid": "sofa-group", "classification": "CHANGED", "visual_appearance": "straight 2-seater loveseat instead of L-sectional"},
+          {"uid": "console-1", "classification": "MISSING", "visual_appearance": "not visible / omitted"}
+        ],
+        "missing_items": ["console-1"],
+        "extra_items": ["armchair", "round coffee table", "tripod floor lamp"],
+        "extra_decor": ["rug", "plant/vase", "curtains"]
+      },
+      "detector_evaluations": {
+        "detector_summary": "Detects sofa, coffee table, chair; console not localized -> flags missing console and extra coffee table/chair -> UNCERTAIN/FAIL."
+      }
+    },
+    {
+      "case_id": "P2T-LIVINGAREA-CANNY",
+      "room_type": "Living",
+      "room_label": "Living Area",
+      "canonical_design": {
+        "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+        "design_version_id": "85759b78-b11f-431d-b6c8-9a3c748c9df3",
+        "version_tag": "v79"
+      },
+      "base_render": {
+        "file_path": "backend/storage/debug_artifacts/174503c2-e046-4c1a-a57c-025ba12c1e15/room_0_Living Area/base_render.png",
+        "sha256": "b3b9315a564d8615...",
+        "dimensions": [1216, 832],
+        "all_canonical_items_visible": true
+      },
+      "ai_output": {
+        "file_path": "historical_step_2t_artifact",
+        "sha256": "dc489a8a99d530c0...",
+        "dimensions": [1216, 832],
+        "provider": "fal",
+        "model": "fal-ai/flux-control-lora-canny",
+        "conditioning_mode": "canny_controlnet",
+        "seed": 1552711625,
+        "request_id": "01a17836-f38e-7da0-ba2e-076964857af4",
+        "control_lora_strength": 1.0,
+        "camera_changed": false
+      },
+      "canonical_inventory": [
+        {"uid": "sofa-1", "item_id": "lounger-sofa", "expected_type": "L-sectional sofa part 1"},
+        {"uid": "sofa-2", "item_id": "lounger-sofa", "expected_type": "L-sectional sofa part 2"},
+        {"uid": "console-1", "item_id": "console", "expected_type": "console table"}
+      ],
+      "human_review": {
+        "reviewer_verdict": "PASS_INVENTORY",
+        "visible_objects": [
+          {"uid": "sofa-group", "classification": "PRESERVED", "visual_appearance": "exact L-sectional maintained in position"},
+          {"uid": "console-1", "classification": "PRESERVED", "visual_appearance": "console preserved in exact position"}
+        ],
+        "missing_items": [],
+        "extra_items": [],
+        "photorealism_caveat": "High inventory preservation (3/3), but flat clay-like appearance at strength 1.0"
+      },
+      "detector_evaluations": {
+        "detector_summary": "Tight spatial correspondence; detects sofa and console; 0 extra candidates."
+      }
+    }
+  ],
+  "corpus_intake_template": {
+    "case_id": "STRING_IDENTIFIER",
+    "room_type": "Bedroom | Living | Kitchen | Dining | Bathroom | Study",
+    "room_label": "STRING",
+    "canonical_design": {
+      "floor_plan_id": "UUID",
+      "design_version_id": "UUID",
+      "version_tag": "STRING"
+    },
+    "base_render": {
+      "file_path": "STRING_PATH",
+      "sha256": "HEX_64",
+      "dimensions": [1216, 832],
+      "base_boxes": [
+        {"uid": "STRING", "item_id": "STRING", "x": 0.0, "y": 0.0, "width": 0.0, "height": 0.0}
+      ]
+    },
+    "ai_output": {
+      "file_path": "STRING_PATH",
+      "sha256": "HEX_64",
+      "dimensions": [1216, 832],
+      "provider": "fal | nvidia | mock",
+      "model": "STRING",
+      "conditioning_mode": "edit | canny_controlnet | base",
+      "seed": 0
+    },
+    "human_review": {
+      "reviewer_verdict": "PASS | FAIL | UNCERTAIN | AMBIGUOUS",
+      "visible_objects": [
+        {"uid": "STRING", "classification": "PRESERVED | CHANGED | MISSING | AMBIGUOUS", "visual_appearance": "STRING"}
+      ],
+      "missing_items": ["UID"],
+      "extra_items": ["DESCRIPTION"],
+      "notes": "STRING"
+    }
+  }
+}

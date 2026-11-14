@@ -1,0 +1,12 @@
+{
+  "model": "fal-ai/flux-kontext/dev",
+  "use_controlnet": false,
+  "conditioning_mode": "edit (image-to-image, base as image_url)",
+  "seed_policy": "random per generation (secrets.randbelow(2**31)); per-room seed=(gen_seed+idx*104729)%2**31",
+  "guidance_scale": null,
+  "num_inference_steps": null,
+  "output_format": "png",
+  "num_images_per_room": 1,
+  "api_base": "https://fal.run",
+  "note": "recorded from production config; NOT altered for this experiment"
+}

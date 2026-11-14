@@ -1,0 +1,28 @@
+{
+  "phase": "2H-4",
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "design_version_id_at_capture": "1831bf84-f9d6-4d4f-aedc-4ad95d6145fe",
+  "room_id": "bedroom-1",
+  "room_label": "Bedroom 1",
+  "canonical_uids": [
+    "bed-1787478891845",
+    "side-table-1787478946014",
+    "side-table-1787478947384",
+    "wardrobe-1787646602167",
+    "dressing-table-1787646642783"
+  ],
+  "base_image": "base_render.png",
+  "base_sha256": "04ea78544057220b2d718dbfa0c0403279910d62787bcfd3600cdcff40f9e0d3",
+  "base_dims": "1216x832",
+  "model": "fal-ai/flux-kontext/dev",
+  "prompt_file": "production_prompt.txt",
+  "prompt_sha256": "7fe63b11e25998bc4901873139f8da616353444e3231d10e01fdab31db1e11ef",
+  "prompt_reconstruction_seed": 12345,
+  "prompt_note": "reconstruction; authoritative prompt rebuilt by /generate at call time",
+  "fal_call_made": true,
+  "status": "COMPLETE: linked base+output persisted; 3 PRESERVED, 2 AMBIGUOUS (>=1 side table not preserved)",
+  "fal_request_id": "01a133ca-ae45-70b2-a3ed-95dcf5a04daa",
+  "ai_output": "ai_output.png",
+  "ai_output_sha256": "b6c9580e3e560c2be1e9e8bf8def2f01f3bd12023ef40f2bc471fcae24da5141",
+  "seed": 1558158484
+}

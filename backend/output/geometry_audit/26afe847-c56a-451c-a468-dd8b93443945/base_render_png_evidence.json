@@ -1,0 +1,165 @@
+{
+  "design_version_id": "26afe847-c56a-451c-a468-dd8b93443945",
+  "plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "generated_at": "2026-10-04T06:05:12.876146+00:00",
+  "capture": {
+    "source": "BaseRenderBatch->RoomScene3D->canvas.toDataURL",
+    "devicePixelRatio": 2,
+    "dpr_prop": 1,
+    "intercepted_no_fal": true
+  },
+  "canonical_hash_before": "5bfa9a2efd8ade16",
+  "canonical_hash_after": "5bfa9a2efd8ade16",
+  "canonical_unchanged": true,
+  "rooms": [
+    {
+      "room": "Living Area",
+      "room_id": "living-area",
+      "authoritative_furniture": [
+        "console",
+        "lounger-sofa",
+        "lounger-sofa"
+      ],
+      "authoritative_openings": 2,
+      "png": {
+        "sha256": "ba4a051a868b89dae410a4f2",
+        "w": 1216,
+        "h": 832,
+        "nonbg_ratio": 0.092,
+        "lum_mean": 231.4,
+        "content_bbox": [
+          22,
+          15,
+          42,
+          41
+        ]
+      },
+      "dims_1216x832": true,
+      "nonblank": true,
+      "binding_design_version": "26afe847-c56a-451c-a468-dd8b93443945",
+      "status": "PASS"
+    },
+    {
+      "room": "Bedroom 3",
+      "room_id": "bedroom-3",
+      "authoritative_furniture": [
+        "bed",
+        "side-table",
+        "side-table",
+        "wardrobe",
+        "dressing-table"
+      ],
+      "authoritative_openings": 3,
+      "png": {
+        "sha256": "0f729c269f32d46ba74e1dae",
+        "w": 1216,
+        "h": 832,
+        "nonbg_ratio": 0.085,
+        "lum_mean": 232.5,
+        "content_bbox": [
+          24,
+          15,
+          43,
+          41
+        ]
+      },
+      "dims_1216x832": true,
+      "nonblank": true,
+      "binding_design_version": "26afe847-c56a-451c-a468-dd8b93443945",
+      "status": "PASS"
+    },
+    {
+      "room": "Bedroom 1",
+      "room_id": "bedroom-1",
+      "authoritative_furniture": [
+        "bed",
+        "side-table",
+        "side-table",
+        "wardrobe",
+        "dressing-table"
+      ],
+      "authoritative_openings": 2,
+      "png": {
+        "sha256": "84b3fbaec7e5d71dbc81b2c6",
+        "w": 1216,
+        "h": 832,
+        "nonbg_ratio": 0.083,
+        "lum_mean": 229.9,
+        "content_bbox": [
+          22,
+          16,
+          41,
+          38
+        ]
+      },
+      "dims_1216x832": true,
+      "nonblank": true,
+      "binding_design_version": "26afe847-c56a-451c-a468-dd8b93443945",
+      "status": "PASS"
+    },
+    {
+      "room": "Kitchen",
+      "room_id": "kitchen",
+      "authoritative_furniture": [
+        "chimney",
+        "dining-table"
+      ],
+      "authoritative_openings": 1,
+      "png": {
+        "sha256": "30ff39758161cad0b588e25a",
+        "w": 1216,
+        "h": 832,
+        "nonbg_ratio": 0.077,
+        "lum_mean": 232.3,
+        "content_bbox": [
+          24,
+          15,
+          41,
+          39
+        ]
+      },
+      "dims_1216x832": true,
+      "nonblank": true,
+      "binding_design_version": "26afe847-c56a-451c-a468-dd8b93443945",
+      "status": "PASS"
+    },
+    {
+      "room": "Bedroom 2",
+      "room_id": "bedroom-2",
+      "authoritative_furniture": [
+        "bed",
+        "side-table",
+        "side-table",
+        "wardrobe",
+        "dressing-table"
+      ],
+      "authoritative_openings": 2,
+      "png": {
+        "sha256": "ac6b5090a3d39563178f727a",
+        "w": 1216,
+        "h": 832,
+        "nonbg_ratio": 0.071,
+        "lum_mean": 231.7,
+        "content_bbox": [
+          24,
+          16,
+          40,
+          38
+        ]
+      },
+      "dims_1216x832": true,
+      "nonblank": true,
+      "binding_design_version": "26afe847-c56a-451c-a468-dd8b93443945",
+      "status": "PASS"
+    }
+  ],
+  "summary": {
+    "total_rooms": 5,
+    "passed": 5,
+    "failed": 0,
+    "distinct_sha": 5,
+    "cross_room_collisions": 0,
+    "wrong_dimensions": 0,
+    "blank_renders": 0
+  }
+}

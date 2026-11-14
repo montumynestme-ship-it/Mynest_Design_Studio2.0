@@ -1,0 +1,49 @@
+# ---- Node / frontend ----
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+*.tsbuildinfo
+
+# ---- Python / backend ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- Environment & secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Logs ----
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dev-only NVIDIA smoke-test output (never committed)
+backend/dev_smoke_output/
+dev_smoke_output/
+
+# ---- Archives & model weights (bulk, not source) ----
+*.zip
+*.pt
+*.onnx
+
+# ---- Backend runtime storage (generated data; canonical lives in the DB) ----
+# 21k+ generated artifacts/uploads/caches — not source. Files stay on disk,
+# just not version-controlled. Un-ignore a specific subpath if you need it tracked.
+backend/storage/

@@ -1,0 +1,45 @@
+{
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "source_pdf": {
+    "type": "vector PDF (4179 bytes)",
+    "contains_furniture_symbols": false,
+    "contains": [
+      "walls (solid + dashed thickness)",
+      "doors (gold rectangles)",
+      "windows (cyan rectangles)"
+    ],
+    "furniture_count": 0,
+    "note": "Empty architectural shell. No bed/sofa/table/dressing/console/kitchen-base symbols anywhere."
+  },
+  "editor_canonical": {
+    "furniture": {
+      "console": 1,
+      "lounger-sofa": 2,
+      "kitchen-base": 2,
+      "chimney": 1,
+      "dining-table": 1,
+      "bed": 3,
+      "side-table": 6,
+      "wardrobe": 3,
+      "dressing-table": 3
+    },
+    "furniture_total": 22,
+    "openings": {
+      "door": 7,
+      "window": 4
+    }
+  },
+  "comparison": {
+    "pdf_furniture_total": 0,
+    "editor_furniture_total": 22,
+    "doors_grounded_in_pdf": true,
+    "windows_grounded_in_pdf": true,
+    "dressing_table_in_pdf": "NO",
+    "center_table_in_pdf": "NO (also not in editor canonical)",
+    "interpretation": "PDF has zero furniture; all editor furniture is user-authored DESIGN, not extracted from the PDF. Not a detection/inventory bug."
+  },
+  "success_criteria_answers": {
+    "bedroom_dressing_table_in_pdf": "NO",
+    "living_center_table_in_pdf": "NO"
+  }
+}

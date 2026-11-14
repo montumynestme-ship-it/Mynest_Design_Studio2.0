@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "fix_location": "app/services/architectural_service.py reconstruct_rooms._majority (inclusion threshold)",
+  "old_behavior": "inclusion = max(2, top*0.5); for an open-plan polygon with one item per section (top=1) the floor of 2 cleared NO section -> multi-label empty -> fell through to single max() -> 'Kitchen' (Dining dropped).",
+  "new_behavior": "inclusion = min(top, max(2, top*0.5)); the noise floor is capped at the achievable max, so every equally-represented section qualifies. Identical to old for all top>=2; only the all-singleton case changes.",
+  "generic": "No label/plan/floor_plan_id/furniture-id/coordinate special-case. Driven purely by contained-furniture section counts.",
+  "dining_counts_before_after": {
+    "kitchen": 1,
+    "dining_area": 1,
+    "unchanged": true
+  },
+  "majority_before": "Kitchen",
+  "majority_after": "Kitchen & Dining Area",
+  "dining_validation_before": "UNCERTAIN (fallback only)",
+  "dining_validation_after": "CONFIRMED via shared wall-proven 'Kitchen & Dining Area' polygon",
+  "room_faithful_dining_before": false,
+  "room_faithful_dining_after": true,
+  "base_geometry_invalid_before": true,
+  "base_geometry_invalid_after": false,
+  "L_section_unchanged": true,
+  "furniture_count": 33,
+  "confirmed_rooms": [
+    "Living Area",
+    "Bedroom 3",
+    "Bedroom 1",
+    "Kitchen & Dining Area",
+    "Bedroom 2"
+  ]
+}

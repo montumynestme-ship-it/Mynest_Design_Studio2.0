@@ -1,0 +1,15 @@
+{
+  "phase": "2K-3",
+  "model": "fal-ai/flux-control-lora-canny",
+  "control_lora_strength": 0.7,
+  "seed": 1558158484,
+  "prompt_sha256": "7fe63b11e25998bc4901873139f8da616353444e3231d10e01fdab31db1e11ef",
+  "submitted_base_sha256": "9e670a46a6d93b76b581461ac437c48bd024b92c2fd84776962bd8ddd7c88d92",
+  "ts": "2026-10-13T11:41:30.345469Z",
+  "submit_http": 200,
+  "fal_request_id": "01a13511-5aa0-7940-b778-5c9f38b5b22f",
+  "output_sha256": "dbdd0a4d609398290d61d2ae6f389412c7b19e15444d9d28d33579aa7574f445",
+  "output_w": 1216,
+  "output_h": 832,
+  "returned_seed": 1558158484
+}

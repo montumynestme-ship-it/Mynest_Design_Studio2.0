@@ -1,0 +1,23 @@
+{
+  "created_at": 1793768069.51027,
+  "arms": [
+    {
+      "arm": "C",
+      "model": "fal-ai/flux-control-lora-canny/image-to-image",
+      "conditioning_mode": "canny_controlnet",
+      "control_source": "structural",
+      "control_strength": 1.0,
+      "base_sha256": "f9bcd81670d88e6b716b3425b95298ecb81ba9aa34a16f5c1b4e29f70c9bc17d",
+      "structural_sha256": "056fbc4099516aa495f5154c79e9da674a3ac4b4d62e4ae9937476293a92d7ff",
+      "output_sha256": "14fe2926e87d80d0340feb15a701f485d3d125bc97857e368182a0f6c7710b72",
+      "output_bytes": 546681,
+      "seed": 1234567,
+      "provider_request_id": "01a1a4e5-8108-7a02-9918-9181d3d59096",
+      "effective_prompt": "This is a photorealistic image-to-image EDIT. The provided image is the AUTHORITATIVE source of truth for the room's geometry, layout, walls, doors, windows, and furniture \u2014 reproduce it exactly and change only surface appearance. ROOM: Kitchen & Dining Area. EXACT EXISTING INVENTORY (render every one of these items exactly once and nothing else - no extra, duplicate, missing, substituted, or invented furniture, appliances, or decor): 1x Chimney, 1x Dining Table. Transform this interior layout into a photorealistic premium 3D interior render. The provided image is the AUTHORITATIVE source of truth for geometry and layout; reproduce it EXACTLY and treat it as fixed. PRESERVE, without any change: the room geometry, every wall, every door, every window, the camera composition and viewpoint, and each furniture object's identity, count, position, rotation, dimensions, and room assignment. Do NOT move, resize, rotate, add, remove, duplicate, or re-arrange any wall, door, window, room, or furniture object, and do NOT invent furniture, appliances, or decor/accessories that are not already present in the image. You MAY ONLY change surface appearance: materials, textures, colors, lighting, shadows, reflections, wall/ceiling finishes, and surface realism. The final image must remain structurally and spatially identical to the input layout, with the same objects in the same places from the same camera. Style: premium modern-luxury residential interior - warm 3000K concealed cove lighting, refined walnut and natural-stone finishes, boucle and linen upholstery, soft natural daylight, realistic shadows and reflections, architectural-digest photography, 8k photorealistic render. Do NOT add, remove, move, resize, rotate, duplicate, replace, or re-arrange any wall, door, window, or furniture object, and do NOT invent furniture, appliances, or decor/accessories (plants, artwork, rugs, cushions, curtains, mirrors, lamps, vases, ornaments) that are not already present. Avoid fisheye, dark unlit rooms, CGI/plastic look, generic showroom staging.",
+      "design_version_id": "62ef3454-7c52-4760-9333-d40570bb6ded",
+      "room_label": "Kitchen & Dining Area",
+      "elapsed_s": 205.72,
+      "output_path": "benchmarks\\fixtures\\kitchen-dining-v84\\output\\bench_C.png"
+    }
+  ]
+}

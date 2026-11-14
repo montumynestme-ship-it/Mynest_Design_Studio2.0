@@ -1,0 +1,29 @@
+{
+  "phase": "2H-4",
+  "model": "fal-ai/flux-kontext/dev",
+  "conditioning_mode": "edit",
+  "fal_request_id": "01a133ca-ae45-70b2-a3ed-95dcf5a04daa",
+  "http_status": 200,
+  "seed_submitted": 1558158484,
+  "seed_policy": "random (secrets.randbelow(2**31)) per production",
+  "prompt_sha256": "7fe63b11e25998bc4901873139f8da616353444e3231d10e01fdab31db1e11ef",
+  "prompt_length": 11040,
+  "persisted_base_sha256": "04ea78544057220b2d718dbfa0c0403279910d62787bcfd3600cdcff40f9e0d3",
+  "submitted_base_sha256": "9e670a46a6d93b76b581461ac437c48bd024b92c2fd84776962bd8ddd7c88d92",
+  "base_pixel_identical_note": "submitted = PIL re-encode of persisted base (production _to_png); pixel-identical, bytes differ",
+  "timestamp_start": "2026-10-13T05:44:42.351336Z",
+  "timestamp_end": "2026-10-13T05:44:53.531516Z",
+  "elapsed_s": 11.2,
+  "payload_keys": [
+    "image_url",
+    "num_images",
+    "output_format",
+    "prompt",
+    "seed"
+  ],
+  "output_sha256": "b6c9580e3e560c2be1e9e8bf8def2f01f3bd12023ef40f2bc471fcae24da5141",
+  "output_width": 1216,
+  "output_height": 832,
+  "output_bytes": 559865,
+  "returned_seed": 1558158484
+}

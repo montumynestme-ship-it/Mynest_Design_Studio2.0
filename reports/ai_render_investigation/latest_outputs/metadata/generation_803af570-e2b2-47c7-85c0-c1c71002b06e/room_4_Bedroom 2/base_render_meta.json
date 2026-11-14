@@ -1,0 +1,17 @@
+{
+  "generation_id": "803af570-e2b2-47c7-85c0-c1c71002b06e",
+  "design_version_id": "85759b78-210e-4daf-a2d1-9e8ea906fee5",
+  "room_index": 4,
+  "room_label": "Bedroom 2",
+  "provider": "fal",
+  "model": "fal-ai/flux-kontext/dev",
+  "used_base_render": true,
+  "base_render_persisted": true,
+  "base_render_sha256": "953308fa049f1a96daabb8f9e568ea58dc4baa6f6fcec2d000efbb648d586aea",
+  "base_render_bytes": 115971,
+  "capture_dimensions": {
+    "width": 1216,
+    "height": 832
+  },
+  "timestamp": 1793103004.9364336
+}

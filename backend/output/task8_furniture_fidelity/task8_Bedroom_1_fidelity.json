@@ -1,0 +1,350 @@
+{
+  "room": "Bedroom 1",
+  "base_png_sha256": "5580b52f8e403ab98757a8dfc7d4e00afdb6467c15d2ae0dba4980bd7523efa5",
+  "output_png_sha256": null,
+  "overall_status": "UNCERTAIN",
+  "gating_status": "NOT_CALIBRATED",
+  "detector": "owlv2",
+  "ai_detection_count": 5,
+  "anchor_uid": "wardrobe-1787646602167",
+  "furniture_overall": "UNCERTAIN",
+  "furniture_counts": {
+    "base_total": 5,
+    "pass": 1,
+    "uncertain": 4,
+    "fail": 0,
+    "missing": 1,
+    "extra_candidates": 0
+  },
+  "tolerances": {
+    "gate_px": 412.5,
+    "pass_center_px": 88.4,
+    "fail_center_px": 294.7,
+    "pass_iou": 0.3,
+    "pass_scale": [
+      0.6,
+      1.7
+    ],
+    "fail_scale": [
+      0.35,
+      3.0
+    ],
+    "weights": {
+      "center": 1.0,
+      "iou": 0.6,
+      "scale": 0.4,
+      "order": 0.3
+    }
+  },
+  "objects": [
+    {
+      "uid": "bed-1787478891845",
+      "item_id": "bed",
+      "room": null,
+      "base_bbox": [
+        446.96,
+        305.84,
+        187.92,
+        132.57
+      ],
+      "base_center": [
+        540.92,
+        372.12
+      ],
+      "ai_bbox": [
+        362.4,
+        164.8,
+        492.3,
+        406.5
+      ],
+      "ai_center": [
+        608.6,
+        368.1
+      ],
+      "center_delta": [
+        67.7,
+        -4.0
+      ],
+      "iou": 0.124,
+      "width_ratio": 2.62,
+      "height_ratio": 3.066,
+      "area_ratio": 8.033,
+      "relative_position_base": {
+        "dx": -133.59,
+        "dy": 54.85,
+        "horizontal": "left",
+        "vertical": "below"
+      },
+      "relative_position_ai": {
+        "horizontal": "left",
+        "vertical": "below"
+      },
+      "ordering_status": "OK",
+      "rotation_status": "NOT_VALIDATABLE",
+      "match_confidence": 0.142,
+      "missing": false,
+      "status": "UNCERTAIN",
+      "reason": "detection confidence 0.142 < 0.25 (cannot confirm)",
+      "detected_query": "a tv unit",
+      "identity_supported": false
+    },
+    {
+      "uid": "side-table-1787478946014",
+      "item_id": "side-table",
+      "room": null,
+      "base_bbox": [
+        405.66,
+        365.14,
+        76.59,
+        75.5
+      ],
+      "base_center": [
+        443.96,
+        402.9
+      ],
+      "ai_bbox": null,
+      "ai_center": null,
+      "center_delta": null,
+      "iou": 0.0,
+      "width_ratio": null,
+      "height_ratio": null,
+      "area_ratio": null,
+      "relative_position_base": {
+        "dx": -230.55,
+        "dy": 85.63,
+        "horizontal": "left",
+        "vertical": "below"
+      },
+      "relative_position_ai": null,
+      "ordering_status": "UNCERTAIN",
+      "rotation_status": "NOT_VALIDATABLE",
+      "match_confidence": null,
+      "missing": true,
+      "status": "UNCERTAIN",
+      "reason": "no valid AI match: nearest detection is type-inconsistent, non-overlapping (IoU 0.0) and displaced 318.8px > 294.7 \u2014 probable MISSING; detection returned to extras",
+      "detected_query": "a door",
+      "identity_supported": false
+    },
+    {
+      "uid": "side-table-1787478947384",
+      "item_id": "side-table",
+      "room": null,
+      "base_bbox": [
+        502.76,
+        301.69,
+        65.3,
+        65.76
+      ],
+      "base_center": [
+        535.4,
+        334.57
+      ],
+      "ai_bbox": [
+        660.6,
+        214.0,
+        83.6,
+        101.0
+      ],
+      "ai_center": [
+        702.4,
+        264.5
+      ],
+      "center_delta": [
+        167.0,
+        -70.1
+      ],
+      "iou": 0.0,
+      "width_ratio": 1.28,
+      "height_ratio": 1.536,
+      "area_ratio": 1.966,
+      "relative_position_base": {
+        "dx": -139.1,
+        "dy": 17.3,
+        "horizontal": "left",
+        "vertical": "center"
+      },
+      "relative_position_ai": {
+        "horizontal": "left",
+        "vertical": "center"
+      },
+      "ordering_status": "OK",
+      "rotation_status": "NOT_VALIDATABLE",
+      "match_confidence": 0.085,
+      "missing": false,
+      "status": "UNCERTAIN",
+      "reason": "detection confidence 0.085 < 0.25 (cannot confirm)",
+      "detected_query": "a tv unit",
+      "identity_supported": false
+    },
+    {
+      "uid": "wardrobe-1787646602167",
+      "item_id": "wardrobe",
+      "room": null,
+      "base_bbox": [
+        604.33,
+        225.86,
+        140.35,
+        182.83
+      ],
+      "base_center": [
+        674.51,
+        317.27
+      ],
+      "ai_bbox": [
+        706.4,
+        261.7,
+        80.6,
+        62.3
+      ],
+      "ai_center": [
+        746.7,
+        292.9
+      ],
+      "center_delta": [
+        72.2,
+        -24.4
+      ],
+      "iou": 0.084,
+      "width_ratio": 0.574,
+      "height_ratio": 0.341,
+      "area_ratio": 0.196,
+      "relative_position_base": {
+        "dx": 0.0,
+        "dy": 0.0,
+        "horizontal": "center",
+        "vertical": "center"
+      },
+      "relative_position_ai": {
+        "horizontal": "center",
+        "vertical": "center"
+      },
+      "ordering_status": "ANCHOR",
+      "rotation_status": "NOT_VALIDATABLE",
+      "match_confidence": 0.096,
+      "missing": false,
+      "status": "UNCERTAIN",
+      "reason": "detection confidence 0.096 < 0.25 (cannot confirm)",
+      "detected_query": "a tv unit",
+      "identity_supported": false
+    },
+    {
+      "uid": "dressing-table-1787646642783",
+      "item_id": "dressing-table",
+      "room": null,
+      "base_bbox": [
+        553.14,
+        402.8,
+        99.81,
+        106.17
+      ],
+      "base_center": [
+        603.05,
+        455.88
+      ],
+      "ai_bbox": [
+        562.7,
+        450.6,
+        81.8,
+        85.9
+      ],
+      "ai_center": [
+        603.6,
+        493.5
+      ],
+      "center_delta": [
+        0.6,
+        37.6
+      ],
+      "iou": 0.372,
+      "width_ratio": 0.82,
+      "height_ratio": 0.809,
+      "area_ratio": 0.663,
+      "relative_position_base": {
+        "dx": -71.46,
+        "dy": 138.61,
+        "horizontal": "left",
+        "vertical": "below"
+      },
+      "relative_position_ai": {
+        "horizontal": "left",
+        "vertical": "below"
+      },
+      "ordering_status": "OK",
+      "rotation_status": "NOT_VALIDATABLE",
+      "match_confidence": 0.286,
+      "missing": false,
+      "status": "PASS",
+      "reason": "within center/IoU/scale tolerances, ordering consistent",
+      "detected_query": "a chest of drawers",
+      "identity_supported": true
+    }
+  ],
+  "extras": [
+    {
+      "index": 1,
+      "query": "a door",
+      "score": 0.255,
+      "center": [
+        754.5,
+        475.1
+      ],
+      "dissolved_from_base": true,
+      "classification": "AMBIGUOUS_IGNORED"
+    }
+  ],
+  "openings_overall": "UNCERTAIN",
+  "openings": [
+    {
+      "opening_id": "window-1788864839886",
+      "type": "window",
+      "room": "Bedroom 1",
+      "wall": "wall_086",
+      "base_bbox": [
+        412.78,
+        178.48,
+        108.06,
+        229.97
+      ],
+      "base_center": [
+        466.81,
+        293.47
+      ],
+      "ai_bbox": [
+        362.4,
+        164.8,
+        492.3,
+        406.5
+      ],
+      "normalized_wall_position": 0.478858,
+      "ai_wall_association": "NOT_VALIDATABLE",
+      "status": "UNCERTAIN",
+      "reason": "a candidate opening-like box was localized, but wall association remains NOT_VALIDATABLE from pixels"
+    },
+    {
+      "opening_id": "door-1789215824220",
+      "type": "door",
+      "room": "Bedroom 1",
+      "wall": "wall_077",
+      "base_bbox": [
+        640.18,
+        337.39,
+        109.92,
+        202.85
+      ],
+      "base_center": [
+        695.14,
+        438.82
+      ],
+      "ai_bbox": [
+        736.4,
+        379.0,
+        36.2,
+        192.1
+      ],
+      "normalized_wall_position": 0.8603,
+      "ai_wall_association": "NOT_VALIDATABLE",
+      "status": "UNCERTAIN",
+      "reason": "a candidate opening-like box was localized, but wall association remains NOT_VALIDATABLE from pixels"
+    }
+  ]
+}

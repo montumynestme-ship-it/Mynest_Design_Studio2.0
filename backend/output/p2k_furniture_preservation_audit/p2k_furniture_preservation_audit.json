@@ -1,0 +1,168 @@
+{
+  "phase": "2K",
+  "mode": "audit_only_no_fal_no_code_changes",
+  "verified_pair": {
+    "room": "bedroom-1",
+    "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+    "design_version_id": "1831bf84-f9d6-4d4f-aedc-4ad95d6145fe",
+    "base_image": "p2h4_bedroom1_preservation/base_render.png",
+    "base_sha256": "04ea7854...",
+    "ai_output": "p2h4_bedroom1_preservation/ai_output.png",
+    "output_sha256": "b6c9580e...",
+    "fal_request_id": "01a133ca-ae45-70b2-a3ed-95dcf5a04daa",
+    "model": "fal-ai/flux-kontext/dev",
+    "seed": 1558158484,
+    "prompt_sha256": "7fe63b11...",
+    "provenance": "PASS (version_match + byte_match via render_input_contract)"
+  },
+  "not_auditable": {
+    "other_rooms": "no verified same-attempt base<->output pair on disk",
+    "production_generations": "storage/generations/* have AI outputs but NO persisted base image -> NOT_AUDITABLE",
+    "furniture_missing_artifacts": "1280x720 UI screenshots, no FAL linkage -> NOT production FAL evidence",
+    "purged": "Phase 2C p2c pair (prior scratchpad) purged -> its 'bench'/'round' findings NOT re-verifiable"
+  },
+  "per_item": [
+    {
+      "uid": "bed-1787478891845",
+      "type": "bed",
+      "room": "bedroom-1",
+      "canonical": "c(504.3,671.8) 155.5x281.3 rot-90.3",
+      "base_identifiable": true,
+      "ai_identifiable": true,
+      "type_changed": false,
+      "classification": "PRESERVED",
+      "confidence": "HIGH",
+      "geometry_proven": false,
+      "evidence": "base shows a bed; output shows a bed (mattress/pillows/throw). Recomposed position; exact geometry NOT PROVEN."
+    },
+    {
+      "uid": "wardrobe-1787646602167",
+      "type": "wardrobe",
+      "room": "bedroom-1",
+      "canonical": "c(675.8,513.2) 216.9x90 rot0",
+      "base_identifiable": true,
+      "ai_identifiable": true,
+      "type_changed": false,
+      "classification": "PRESERVED",
+      "confidence": "HIGH",
+      "geometry_proven": false,
+      "evidence": "2-door wardrobe in both; exact geometry NOT PROVEN."
+    },
+    {
+      "uid": "dressing-table-1787646642783",
+      "type": "dressing-table",
+      "room": "bedroom-1",
+      "canonical": "c(725.7,836.1) 119.8x90 rot0",
+      "base_identifiable": true,
+      "ai_identifiable": true,
+      "type_changed": false,
+      "classification": "PRESERVED",
+      "confidence": "MEDIUM-HIGH",
+      "geometry_proven": false,
+      "evidence": "base=3-drawer chest; output=table+drawer+WALL MIRROR = dressing table (identity matches 'dressing table with a mirror'). REVISES the earlier purged-run 'bench' finding. Relocated to right wall; geometry NOT PROVEN."
+    },
+    {
+      "uid": "side-table-1787478946014",
+      "type": "side-table",
+      "room": "bedroom-1",
+      "canonical": "c(402.6,822.1) 67.5x113.8 rot0",
+      "base_identifiable": true,
+      "ai_identifiable": false,
+      "type_changed": "unprovable",
+      "classification": "AMBIGUOUS",
+      "confidence": "LOW",
+      "geometry_proven": false,
+      "evidence": "base=side table front-left; output region=window+bench. A bench appears front-left; cannot prove this uid is missing vs merged vs repositioned-as-bench (strong recomposition). Prior 'not identifiable' CONFIRMED as AMBIGUOUS."
+    },
+    {
+      "uid": "side-table-1787478947384",
+      "type": "side-table",
+      "room": "bedroom-1",
+      "canonical": "c(402.6,541.0) 67.5x118.8 rot0",
+      "base_identifiable": true,
+      "ai_identifiable": false,
+      "type_changed": "unprovable",
+      "classification": "AMBIGUOUS",
+      "confidence": "LOW",
+      "geometry_proven": false,
+      "evidence": "base=side table near bed head; output at box=wall/wardrobe edge (no table). The prior 'round form' was the PURGED p2c run, NOT this verified pair. Cannot bind uid under recomposition."
+    }
+  ],
+  "totals": {
+    "canonical": 5,
+    "distinct_output_objects": 4,
+    "PRESERVED": 3,
+    "AMBIGUOUS": 2,
+    "MISSING_OR_NOT_IDENTIFIABLE": 0,
+    "TYPE_MISMATCH": 0,
+    "POSSIBLE_DUPLICATE": 0,
+    "POSSIBLE_MERGE": 0,
+    "count_fact": "5 canonical -> 4 distinct output objects => >=1 side table not distinctly identifiable"
+  },
+  "ai_added_decor": "none proven non-canonical this run (mirror is the canonical dressing-table feature; bed pillows canonical; no lamp/plant). The front-left bench is AMBIGUOUS (altered side table vs addition).",
+  "earliest_divergence": {
+    "bed": "none (canonical->scene->base PASS; AI preserved identity; geometry UNPROVEN)",
+    "wardrobe": "none (same)",
+    "dressing-table": "none in this run (preserved with mirror; geometry UNPROVEN)",
+    "side-table-6014": "AI OUTPUT stage (base identifiable -> output not identifiable); mechanism UNPROVEN",
+    "side-table-7384": "AI OUTPUT stage (base identifiable -> output not identifiable); mechanism UNPROVEN",
+    "note": "Canonical->scene verified exact (2H-2); base shows all 5 (2H-4). Prompt/base pixel-identical. The only proven divergence is at the FAL raw output (image-to-image), which also RECOMPOSED positions. Input contract PASS/UNCERTAIN is NOT treated as output-preservation proof."
+  },
+  "confirmed": [
+    "base contains all 5 identifiable items",
+    "pair is same-attempt (provenance PASS)",
+    "output has 4 distinct objects -> >=1 side table not distinctly identifiable",
+    "bed/wardrobe/dressing identity preserved",
+    "dressing-table preserved WITH mirror this run (revises purged-run 'bench')",
+    "positions strongly recomposed (base->output diff 15.47)"
+  ],
+  "ambiguous_unauditable": [
+    "which specific side-table uid is lost/merged/repositioned (recomposition prevents binding)",
+    "exact 3D position/scale/rotation of any item (image-space only)",
+    "all non-bedroom-1 rooms (no verified pair)",
+    "FAL mechanism (drop vs merge vs reposition)"
+  ],
+  "camera_opening_register": {
+    "openings": [
+      {
+        "room": "bedroom-3",
+        "issue": "editor door wall_id=None verified=False (NEEDS_REVIEW)",
+        "evidence": "live /scene opening_placements"
+      },
+      {
+        "room": "kitchen-dining-area",
+        "issue": "editor door wall_id=None NEEDS_REVIEW",
+        "evidence": "live /scene"
+      },
+      {
+        "room": "bedroom-3-2 (dup room)",
+        "issue": "editor window wall_id=None NEEDS_REVIEW",
+        "evidence": "live /scene"
+      },
+      {
+        "room": "bedroom-1",
+        "issue": "door+window PLACED/verified; base shows window on left wall, door right; AI output shows a left-wall window",
+        "evidence": "p2h4 base+output"
+      }
+    ],
+    "camera": [
+      {
+        "room": "all audited",
+        "issue": "no furniture clipping; all boxes in-frame (0.42%-1.55% of frame)",
+        "evidence": "Phase 2H-2 captures"
+      },
+      {
+        "room": "bedroom-1",
+        "issue": "AI output RECOMPOSED furniture positions (model behavior, not camera); camera solver unchanged/no clipping",
+        "evidence": "output_with_base_boxes.png"
+      }
+    ],
+    "note": "RECORD ONLY \u2014 not modified in this phase."
+  },
+  "recommendations_only": [
+    "Structured conditioning experiment (depth/canny via existing FAL_USE_CONTROLNET path) to give the model a geometric lock - SEPARATE APPROVED experiment, not a prompt/param change.",
+    "Seed-variance study (2-3 linked single-room FAL calls on the persisted base, vary only seed) to quantify per-item preservation and recomposition frequency - needs FAL approval.",
+    "Persist base PNG sha256 in production generation metadata (render_debug.json currently lacks it) so future pairs are auditable without re-capture."
+  ],
+  "invariants": "No production code changed, no FAL calls, no prompt/model/seed/param/threshold changes, no canonical furniture move/resize/rotate/reassign, no mesh/wall/room/door/window changes, render_input_contract.py unchanged."
+}

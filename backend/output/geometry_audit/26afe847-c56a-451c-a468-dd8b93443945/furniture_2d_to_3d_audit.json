@@ -1,0 +1,1241 @@
+{
+  "run_id": "26afe847-c56a-451c-a468-dd8b93443945",
+  "design_version_id": "26afe847-c56a-451c-a468-dd8b93443945",
+  "plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "generated_at": "2026-10-04T05:08:56.344979+00:00",
+  "coordinate_systems": {
+    "canonical_2d": {
+      "origin": "pdf top-left",
+      "x_axis": "right (+x)",
+      "y_axis": "down (+y)",
+      "units": "world px",
+      "rotation": "degrees (plan frame)"
+    },
+    "room_transform": {
+      "room_center": "bbox.x+bbox.w/2, bbox.y+bbox.h/2 (world px)",
+      "mpp": "metres per plan pixel (computeMpp: 2.0/max(bed.w,bed.h), else 0.45/max(side_table), else 0.01)"
+    },
+    "scene_3d": {
+      "origin": "room centre",
+      "x_axis": "+x = plan +x",
+      "z_axis": "+z = plan +y (down)",
+      "y_axis": "up (furniture y=0 on floor)",
+      "units": "metres",
+      "rotation_y": "radians = -plan_rotation_deg * pi/180"
+    }
+  },
+  "mpp": 0.008022725126047845,
+  "furniture_count": 22,
+  "items": [
+    {
+      "item_id": "bed-1787478891845",
+      "item_type": "bed",
+      "room_id": "bedroom-1",
+      "room_name": "Bedroom 1",
+      "canonical_2d": {
+        "cx": 504.33538738728373,
+        "cy": 671.776086115616,
+        "w": 155.47377080788036,
+        "h": 281.31892502433715,
+        "rotation": -90.31767451191246
+      },
+      "room_transform": {
+        "room_bbox": [
+          380.7,
+          475.3,
+          516.48,
+          399.36
+        ],
+        "room_center": {
+          "cx": 638.94,
+          "cy": 674.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -1.079896,
+        "y": 0.0,
+        "z": -0.025704,
+        "width": 1.247323,
+        "depth": 2.256944,
+        "rotation_y_deg": 90.317675
+      },
+      "actual_3d": {
+        "x": -1.079896,
+        "y": 0.0,
+        "z": -0.025704,
+        "width": 1.247323,
+        "depth": 2.256944,
+        "rotation_y_deg": 90.317675
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-1",
+        "scene_room_id": "bedroom-1",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "dressing-table-1787646642783",
+      "item_type": "dressing-table",
+      "room_id": "bedroom-1",
+      "room_name": "Bedroom 1",
+      "canonical_2d": {
+        "cx": 725.7197574682051,
+        "cy": 836.1289559301978,
+        "w": 119.82605348314002,
+        "h": 90.0,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          380.7,
+          475.3,
+          516.48,
+          399.36
+        ],
+        "room_center": {
+          "cx": 638.94,
+          "cy": 674.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 0.69621,
+        "y": 0.0,
+        "z": 1.292854,
+        "width": 0.961331,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": 0.69621,
+        "y": 0.0,
+        "z": 1.292854,
+        "width": 0.961331,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-1",
+        "scene_room_id": "bedroom-1",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "side-table-1787478946014",
+      "item_type": "side-table",
+      "room_id": "bedroom-1",
+      "room_name": "Bedroom 1",
+      "canonical_2d": {
+        "cx": 402.61011977209665,
+        "cy": 822.1006146711104,
+        "w": 67.49999999999993,
+        "h": 113.75751327278171,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          380.7,
+          475.3,
+          516.48,
+          399.36
+        ],
+        "room_center": {
+          "cx": 638.94,
+          "cy": 674.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -1.89601,
+        "y": 0.0,
+        "z": 1.180308,
+        "width": 0.541534,
+        "depth": 0.912645,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -1.89601,
+        "y": 0.0,
+        "z": 1.180308,
+        "width": 0.541534,
+        "depth": 0.912645,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-1",
+        "scene_room_id": "bedroom-1",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "side-table-1787478947384",
+      "item_type": "side-table",
+      "room_id": "bedroom-1",
+      "room_name": "Bedroom 1",
+      "canonical_2d": {
+        "cx": 402.6101197720959,
+        "cy": 541.020905167916,
+        "w": 67.49999999999996,
+        "h": 118.83059241053404,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          380.7,
+          475.3,
+          516.48,
+          399.36
+        ],
+        "room_center": {
+          "cx": 638.94,
+          "cy": 674.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -1.89601,
+        "y": 0.0,
+        "z": -1.074717,
+        "width": 0.541534,
+        "depth": 0.953345,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -1.89601,
+        "y": 0.0,
+        "z": -1.074717,
+        "width": 0.541534,
+        "depth": 0.953345,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-1",
+        "scene_room_id": "bedroom-1",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "wardrobe-1787646602167",
+      "item_type": "wardrobe",
+      "room_id": "bedroom-1",
+      "room_name": "Bedroom 1",
+      "canonical_2d": {
+        "cx": 675.8158828748886,
+        "cy": 513.2215320910985,
+        "w": 216.85978539907532,
+        "h": 89.99999999999997,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          380.7,
+          475.3,
+          516.48,
+          399.36
+        ],
+        "room_center": {
+          "cx": 638.94,
+          "cy": 674.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 0.295845,
+        "y": 0.0,
+        "z": -1.297744,
+        "width": 1.739806,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": 0.295845,
+        "y": 0.0,
+        "z": -1.297744,
+        "width": 1.739806,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-1",
+        "scene_room_id": "bedroom-1",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "bed-1787478895814",
+      "item_type": "bed",
+      "room_id": "bedroom-2",
+      "room_name": "Bedroom 2",
+      "canonical_2d": {
+        "cx": 1305.5120808756933,
+        "cy": 1257.0788887541864,
+        "w": 145.36773386599717,
+        "h": 196.63013348266125,
+        "rotation": -178.9522417010842
+      },
+      "room_transform": {
+        "room_bbox": [
+          1097.34,
+          907.3,
+          388.8,
+          432.0
+        ],
+        "room_center": {
+          "cx": 1291.74,
+          "cy": 1123.3
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 0.11049,
+        "y": 0.0,
+        "z": 1.073271,
+        "width": 1.166245,
+        "depth": 1.57751,
+        "rotation_y_deg": 178.952242
+      },
+      "actual_3d": {
+        "x": 0.11049,
+        "y": 0.0,
+        "z": 1.073271,
+        "width": 1.166245,
+        "depth": 1.57751,
+        "rotation_y_deg": 178.952242
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-2",
+        "scene_room_id": "bedroom-2",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "dressing-table-1787646647163",
+      "item_type": "dressing-table",
+      "room_id": "bedroom-2",
+      "room_name": "Bedroom 2",
+      "canonical_2d": {
+        "cx": 1430.2450458444252,
+        "cy": 953.5498373262348,
+        "w": 125.55690553236633,
+        "h": 89.99999999999994,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          1097.34,
+          907.3,
+          388.8,
+          432.0
+        ],
+        "room_center": {
+          "cx": 1291.74,
+          "cy": 1123.3
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 1.111188,
+        "y": 0.0,
+        "z": -1.361859,
+        "width": 1.007309,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": 1.111188,
+        "y": 0.0,
+        "z": -1.361859,
+        "width": 1.007309,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-2",
+        "scene_room_id": "bedroom-2",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "side-table-1787479146522",
+      "item_type": "side-table",
+      "room_id": "bedroom-2",
+      "room_name": "Bedroom 2",
+      "canonical_2d": {
+        "cx": 1437.2527822782806,
+        "cy": 1314.5655585439465,
+        "w": 117.41173549561746,
+        "h": 76.54023384578892,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          1097.34,
+          907.3,
+          388.8,
+          432.0
+        ],
+        "room_center": {
+          "cx": 1291.74,
+          "cy": 1123.3
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 1.167409,
+        "y": 0.0,
+        "z": 1.534471,
+        "width": 0.941962,
+        "depth": 0.614061,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": 1.167409,
+        "y": 0.0,
+        "z": 1.534471,
+        "width": 0.941962,
+        "depth": 0.614061,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-2",
+        "scene_room_id": "bedroom-2",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "side-table-1787479147677",
+      "item_type": "side-table",
+      "room_id": "bedroom-2",
+      "room_name": "Bedroom 2",
+      "canonical_2d": {
+        "cx": 1166.5942444762668,
+        "cy": 1315.1451271473768,
+        "w": 129.91551446758885,
+        "h": 79.93032153796024,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          1097.34,
+          907.3,
+          388.8,
+          432.0
+        ],
+        "room_center": {
+          "cx": 1291.74,
+          "cy": 1123.3
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -1.00401,
+        "y": 0.0,
+        "z": 1.539121,
+        "width": 1.042276,
+        "depth": 0.641259,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -1.00401,
+        "y": 0.0,
+        "z": 1.539121,
+        "width": 1.042276,
+        "depth": 0.641259,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-2",
+        "scene_room_id": "bedroom-2",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "wardrobe-1787646614206",
+      "item_type": "wardrobe",
+      "room_id": "bedroom-2",
+      "room_name": "Bedroom 2",
+      "canonical_2d": {
+        "cx": 1148.290324555819,
+        "cy": 1162.0626365407736,
+        "w": 179.99999999999997,
+        "h": 81.32675371412877,
+        "rotation": -91.14295398796757
+      },
+      "room_transform": {
+        "room_bbox": [
+          1097.34,
+          907.3,
+          388.8,
+          432.0
+        ],
+        "room_center": {
+          "cx": 1291.74,
+          "cy": 1123.3
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -1.150857,
+        "y": 0.0,
+        "z": 0.310982,
+        "width": 1.444091,
+        "depth": 0.652462,
+        "rotation_y_deg": 91.142954
+      },
+      "actual_3d": {
+        "x": -1.150857,
+        "y": 0.0,
+        "z": 0.310982,
+        "width": 1.444091,
+        "depth": 0.652462,
+        "rotation_y_deg": 91.142954
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-2",
+        "scene_room_id": "bedroom-2",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "bed-1787479187466",
+      "item_type": "bed",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "canonical_2d": {
+        "cx": 869.8551195199075,
+        "cy": 1407.2965350928478,
+        "w": 149.16775838141075,
+        "h": 249.29185140676006,
+        "rotation": -180.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          673.02,
+          934.66,
+          388.8,
+          584.64
+        ],
+        "room_center": {
+          "cx": 867.42,
+          "cy": 1226.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 0.019536,
+        "y": 0.0,
+        "z": 1.44663,
+        "width": 1.196732,
+        "depth": 2.0,
+        "rotation_y_deg": 180.0
+      },
+      "actual_3d": {
+        "x": 0.019536,
+        "y": 0.0,
+        "z": 1.44663,
+        "width": 1.196732,
+        "depth": 2.0,
+        "rotation_y_deg": 180.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-3",
+        "scene_room_id": "bedroom-3",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "dressing-table-1787646652625",
+      "item_type": "dressing-table",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "canonical_2d": {
+        "cx": 721.3727136073246,
+        "cy": 1110.600186382961,
+        "w": 130.7703963093347,
+        "h": 90.00000000000053,
+        "rotation": 89.91869014797797
+      },
+      "room_transform": {
+        "room_bbox": [
+          673.02,
+          934.66,
+          388.8,
+          584.64
+        ],
+        "room_center": {
+          "cx": 867.42,
+          "cy": 1226.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -1.171697,
+        "y": 0.0,
+        "z": -0.933683,
+        "width": 1.049135,
+        "depth": 0.722045,
+        "rotation_y_deg": -89.91869
+      },
+      "actual_3d": {
+        "x": -1.171697,
+        "y": 0.0,
+        "z": -0.933683,
+        "width": 1.049135,
+        "depth": 0.722045,
+        "rotation_y_deg": -89.91869
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-3",
+        "scene_room_id": "bedroom-3",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "side-table-1787479219083",
+      "item_type": "side-table",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "canonical_2d": {
+        "cx": 1000.2580552917298,
+        "cy": 1494.8113942108155,
+        "w": 108.28871513471032,
+        "h": 75.41020461506496,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          673.02,
+          934.66,
+          388.8,
+          584.64
+        ],
+        "room_center": {
+          "cx": 867.42,
+          "cy": 1226.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 1.065723,
+        "y": 0.0,
+        "z": 2.148738,
+        "width": 0.868771,
+        "depth": 0.604995,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": 1.065723,
+        "y": 0.0,
+        "z": 2.148738,
+        "width": 0.868771,
+        "depth": 0.604995,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-3",
+        "scene_room_id": "bedroom-3",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "side-table-1787479220302",
+      "item_type": "side-table",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "canonical_2d": {
+        "cx": 734.2360663171567,
+        "cy": 1493.072688400525,
+        "w": 111.6892297396642,
+        "h": 74.28017538434187,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          673.02,
+          934.66,
+          388.8,
+          584.64
+        ],
+        "room_center": {
+          "cx": 867.42,
+          "cy": 1226.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -1.068498,
+        "y": 0.0,
+        "z": 2.134788,
+        "width": 0.896052,
+        "depth": 0.595929,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -1.068498,
+        "y": 0.0,
+        "z": 2.134788,
+        "width": 0.896052,
+        "depth": 0.595929,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-3",
+        "scene_room_id": "bedroom-3",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "wardrobe-1787646606853",
+      "item_type": "wardrobe",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "canonical_2d": {
+        "cx": 1023.6192325522331,
+        "cy": 1241.2170884342315,
+        "w": 237.30844810432785,
+        "h": 73.22621664294726,
+        "rotation": 89.90893298128742
+      },
+      "room_transform": {
+        "room_bbox": [
+          673.02,
+          934.66,
+          388.8,
+          584.64
+        ],
+        "room_center": {
+          "cx": 867.42,
+          "cy": 1226.98
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 1.253144,
+        "y": 0.0,
+        "z": 0.11422,
+        "width": 1.90386,
+        "depth": 0.587474,
+        "rotation_y_deg": -89.908933
+      },
+      "actual_3d": {
+        "x": 1.253144,
+        "y": 0.0,
+        "z": 0.11422,
+        "width": 1.90386,
+        "depth": 0.587474,
+        "rotation_y_deg": -89.908933
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "bedroom-3",
+        "scene_room_id": "bedroom-3",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "chimney-1787478686293",
+      "item_type": "chimney",
+      "room_id": "kitchen",
+      "room_name": "Kitchen",
+      "canonical_2d": {
+        "cx": 1229.5973550114113,
+        "cy": 368.25889298560054,
+        "w": 136.81261989720548,
+        "h": 71.43224451300306,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          1094.46,
+          326.5,
+          391.68,
+          548.16
+        ],
+        "room_center": {
+          "cx": 1290.3,
+          "cy": 600.58
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -0.487001,
+        "y": 0.0,
+        "z": -1.863848,
+        "width": 1.09761,
+        "depth": 0.573081,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -0.487001,
+        "y": 0.0,
+        "z": -1.863848,
+        "width": 1.09761,
+        "depth": 0.573081,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "kitchen",
+        "scene_room_id": "kitchen",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "dining-table-1787478800756",
+      "item_type": "dining-table",
+      "room_id": "kitchen",
+      "room_name": "Kitchen",
+      "canonical_2d": {
+        "cx": 1210.714284593772,
+        "cy": 632.9123486593392,
+        "w": 224.99999999999727,
+        "h": 134.99999999999952,
+        "rotation": -89.90775583223486
+      },
+      "room_transform": {
+        "room_bbox": [
+          1094.46,
+          326.5,
+          391.68,
+          548.16
+        ],
+        "room_center": {
+          "cx": 1290.3,
+          "cy": 600.58
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -0.638494,
+        "y": 0.0,
+        "z": 0.259394,
+        "width": 1.805113,
+        "depth": 1.083068,
+        "rotation_y_deg": 89.907756
+      },
+      "actual_3d": {
+        "x": -0.638494,
+        "y": 0.0,
+        "z": 0.259394,
+        "width": 1.805113,
+        "depth": 1.083068,
+        "rotation_y_deg": 89.907756
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "kitchen",
+        "scene_room_id": "kitchen",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "kitchen-base-1787478607029",
+      "item_type": "kitchen-base",
+      "room_id": "kitchen-2",
+      "room_name": "Kitchen",
+      "canonical_2d": {
+        "cx": 1604.7921431635318,
+        "cy": 389.1973056943665,
+        "w": 191.43389689744208,
+        "h": 105.51708475166814,
+        "rotation": -89.81128039303478
+      },
+      "room_transform": {
+        "room_bbox": [
+          1112.76,
+          178.89,
+          607.75,
+          283.06
+        ],
+        "room_center": {
+          "cx": 1416.635,
+          "cy": 320.42
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 1.509533,
+        "y": 0.0,
+        "z": 0.551781,
+        "width": 1.535822,
+        "depth": 0.846535,
+        "rotation_y_deg": 89.81128
+      },
+      "actual_3d": {
+        "x": 1.509533,
+        "y": 0.0,
+        "z": 0.551781,
+        "width": 1.535822,
+        "depth": 0.846535,
+        "rotation_y_deg": 89.81128
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "kitchen-2",
+        "scene_room_id": "kitchen-2",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "kitchen-base-1787478608231",
+      "item_type": "kitchen-base",
+      "room_id": "kitchen-2",
+      "room_name": "Kitchen",
+      "canonical_2d": {
+        "cx": 1395.605443419899,
+        "cy": 243.893072113842,
+        "w": 525.7007594581163,
+        "h": 89.99999999999999,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          1112.76,
+          178.89,
+          607.75,
+          283.06
+        ],
+        "room_center": {
+          "cx": 1416.635,
+          "cy": 320.42
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -0.168714,
+        "y": 0.0,
+        "z": -0.613955,
+        "width": 4.217553,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -0.168714,
+        "y": 0.0,
+        "z": -0.613955,
+        "width": 4.217553,
+        "depth": 0.722045,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "kitchen-2",
+        "scene_room_id": "kitchen-2",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "console-1787478438948",
+      "item_type": "console",
+      "room_id": "living-area",
+      "room_name": "Living Area",
+      "canonical_2d": {
+        "cx": 1676.828896776102,
+        "cy": 566.0609287193129,
+        "w": 253.6357981850792,
+        "h": 52.500000000000014,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          1544.7,
+          529.54,
+          405.12,
+          654.24
+        ],
+        "room_center": {
+          "cx": 1747.26,
+          "cy": 856.66
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -0.565049,
+        "y": 0.0,
+        "z": -2.331396,
+        "width": 2.03485,
+        "depth": 0.421193,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -0.565049,
+        "y": 0.0,
+        "z": -2.331396,
+        "width": 2.03485,
+        "depth": 0.421193,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "living-area",
+        "scene_room_id": "living-area",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "lounger-sofa-1787478478712",
+      "item_type": "lounger-sofa",
+      "room_id": "living-area",
+      "room_name": "Living Area",
+      "canonical_2d": {
+        "cx": 1872.0411120970357,
+        "cy": 1032.8089322685635,
+        "w": 285.0000000000001,
+        "h": 135.00000000000338,
+        "rotation": -90.13445741521568
+      },
+      "room_transform": {
+        "room_bbox": [
+          1544.7,
+          529.54,
+          405.12,
+          654.24
+        ],
+        "room_center": {
+          "cx": 1747.26,
+          "cy": 856.66
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": 1.001085,
+        "y": 0.0,
+        "z": 1.413194,
+        "width": 2.286477,
+        "depth": 1.083068,
+        "rotation_y_deg": 90.134457
+      },
+      "actual_3d": {
+        "x": 1.001085,
+        "y": 0.0,
+        "z": 1.413194,
+        "width": 2.286477,
+        "depth": 1.083068,
+        "rotation_y_deg": 90.134457
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "living-area",
+        "scene_room_id": "living-area",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    },
+    {
+      "item_id": "lounger-sofa-1787478572349",
+      "item_type": "lounger-sofa",
+      "room_id": "living-area",
+      "room_name": "Living Area",
+      "canonical_2d": {
+        "cx": 1675.361135758668,
+        "cy": 1106.1969831410925,
+        "w": 250.30970466722314,
+        "h": 135.0000000000025,
+        "rotation": 0.0
+      },
+      "room_transform": {
+        "room_bbox": [
+          1544.7,
+          529.54,
+          405.12,
+          654.24
+        ],
+        "room_center": {
+          "cx": 1747.26,
+          "cy": 856.66
+        },
+        "mpp": 0.008022725126047845
+      },
+      "expected_3d": {
+        "x": -0.576825,
+        "y": 0.0,
+        "z": 2.001967,
+        "width": 2.008166,
+        "depth": 1.083068,
+        "rotation_y_deg": -0.0
+      },
+      "actual_3d": {
+        "x": -0.576825,
+        "y": 0.0,
+        "z": 2.001967,
+        "width": 2.008166,
+        "depth": 1.083068,
+        "rotation_y_deg": -0.0
+      },
+      "delta": {
+        "x": 0.0,
+        "z": 0.0,
+        "width": 0.0,
+        "depth": 0.0,
+        "rotation": 0.0
+      },
+      "room_association": {
+        "canonical_room_id": "living-area",
+        "scene_room_id": "living-area",
+        "match": true
+      },
+      "canonical_source_of_truth_match": true
+    }
+  ]
+}

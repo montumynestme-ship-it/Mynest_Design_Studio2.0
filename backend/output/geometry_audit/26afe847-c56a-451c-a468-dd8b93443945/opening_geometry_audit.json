@@ -1,0 +1,1058 @@
+{
+  "run_id": "26afe847-c56a-451c-a468-dd8b93443945",
+  "design_version_id": "26afe847-c56a-451c-a468-dd8b93443945",
+  "plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "generated_at": "2026-10-04T05:55:00.098787+00:00",
+  "coordinate_systems": {
+    "pdf_source": {
+      "origin": "top-left of the page",
+      "x_axis": "right (+x)",
+      "y_axis": "down (+y)",
+      "units": "world px (pdf points x WORLD_SCALE)",
+      "rotation_convention": "degrees, atan2(dy,dx); 0 = +x; increases toward +y",
+      "scale": "geometry_extraction_service.WORLD_SCALE (page['scale'])"
+    },
+    "canonical_room": {
+      "origin": "same as pdf_source (no separate room-local transform)",
+      "x_axis": "right (+x)",
+      "y_axis": "down (+y)",
+      "units": "world px",
+      "rotation_convention": "degrees (same as source)",
+      "scale": "1:1 with pdf_source"
+    },
+    "scene": {
+      "origin": "same world-px frame as source",
+      "x_axis": "right (+x)",
+      "y_axis": "down (+y)",
+      "units": "world px",
+      "note": "opening placement cx/cy are projected ONTO the supporting wall; w/h/rotation preserved from source"
+    },
+    "three_d": {
+      "computed_in": "frontend RoomScene3D (Three.js)",
+      "mapping": "world px -> metres via mpp; plan X -> scene x; plan Y(down) -> scene z; up = y",
+      "origin": "room bbox centre",
+      "units": "metres",
+      "note": "the deterministic transform is transcribed from RoomScene3D and applied here to the projected opening placement (scene_3d); it is NOT a separate production code path"
+    }
+  },
+  "mpp": 0.008022725126047845,
+  "wall_count": 179,
+  "opening_count": 13,
+  "verified_count": 11,
+  "unable_to_verify_count": 2,
+  "max_wall_relative_delta": 0.0,
+  "openings": [
+    {
+      "opening_id": "door-1789215824220",
+      "type": "door",
+      "representation": "editor",
+      "room_id": "bedroom-1",
+      "room_name": "Bedroom 1",
+      "source": {
+        "cx": 862.1529349498252,
+        "cy": 822.918648759934,
+        "width": 134.99999999999972,
+        "height": 154.89914749329887,
+        "rotation": -179.61745003402098
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 862.1529349498252,
+        "cy": 822.918648759934,
+        "width": 134.99999999999972,
+        "height": 154.89914749329887,
+        "rotation": -179.61745003402098
+      },
+      "wall": {
+        "wall_id": "wall_077",
+        "start": {
+          "x": 626.4,
+          "y": 879.82
+        },
+        "end": {
+          "x": 900.42,
+          "y": 879.82
+        },
+        "length": 274.02,
+        "direction_deg": 0.0
+      },
+      "wall_relative": {
+        "distance_from_start": 235.753,
+        "distance_from_end": 38.267,
+        "normalized_position": 0.8603,
+        "wall_length": 274.02,
+        "direction_deg": 0.0,
+        "perpendicular_distance": 56.901,
+        "foot_on_wall": {
+          "x": 862.153,
+          "y": 879.82
+        }
+      },
+      "scene": {
+        "cx": 862.153,
+        "cy": 879.82,
+        "width": 134.99999999999972,
+        "height": 154.89914749329887,
+        "rotation": -179.61745003402098,
+        "wall_angle_deg": 0.0,
+        "verified": true,
+        "perp_removed_px": 56.901
+      },
+      "scene_3d": {
+        "x": 1.790776,
+        "z": 1.643375,
+        "width": 1.083068,
+        "depth": 1.242713,
+        "rotation_y_deg": 179.61745
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.860349,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 2.198387
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": -0.0,
+        "height_m": 0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 56.901
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "window-1788864839886",
+      "type": "window",
+      "representation": "editor",
+      "room_id": "bedroom-1",
+      "room_name": "Bedroom 1",
+      "source": {
+        "cx": 333.55576229837294,
+        "cy": 676.5706113955309,
+        "width": 237.27951662594575,
+        "height": 28.157843832612723,
+        "rotation": -90.53078472185281
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 333.55576229837294,
+        "cy": 676.5706113955309,
+        "width": 237.27951662594575,
+        "height": 28.157843832612723,
+        "rotation": -90.53078472185281
+      },
+      "wall": {
+        "wall_id": "wall_086",
+        "start": {
+          "x": 364.86,
+          "y": 656.2
+        },
+        "end": {
+          "x": 364.86,
+          "y": 698.74
+        },
+        "length": 42.54,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 20.371,
+        "distance_from_end": 22.169,
+        "normalized_position": 0.4789,
+        "wall_length": 42.54,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 31.304,
+        "foot_on_wall": {
+          "x": 364.86,
+          "y": 676.571
+        }
+      },
+      "scene": {
+        "cx": 364.86,
+        "cy": 676.571,
+        "width": 237.27951662594575,
+        "height": 28.157843832612723,
+        "rotation": -90.53078472185281,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 31.304
+      },
+      "scene_3d": {
+        "x": -2.198869,
+        "z": 0.012761,
+        "width": 1.903628,
+        "depth": 0.225903,
+        "rotation_y_deg": 90.530785
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.478858,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 0.341287
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": 0.0,
+        "height_m": -0.0,
+        "rotation_deg": -0.0,
+        "perp_removed_px": 31.304
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": true,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "door-1787479359667",
+      "type": "door",
+      "representation": "editor",
+      "room_id": "bedroom-2",
+      "room_name": "Bedroom 2",
+      "source": {
+        "cx": 1161.1796177794702,
+        "cy": 942.3998104152522,
+        "width": 135.0000000000006,
+        "height": 163.2704317794349,
+        "rotation": 90.62571576985808
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 1161.1796177794702,
+        "cy": 942.3998104152522,
+        "width": 135.0000000000006,
+        "height": 163.2704317794349,
+        "rotation": 90.62571576985808
+      },
+      "wall": {
+        "wall_id": "wall_052",
+        "start": {
+          "x": 1093.8,
+          "y": 901.36
+        },
+        "end": {
+          "x": 1093.8,
+          "y": 1374.16
+        },
+        "length": 472.8,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 41.04,
+        "distance_from_end": 431.76,
+        "normalized_position": 0.0868,
+        "wall_length": 472.8,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 67.38,
+        "foot_on_wall": {
+          "x": 1093.8,
+          "y": 942.4
+        }
+      },
+      "scene": {
+        "cx": 1093.8,
+        "cy": 942.4,
+        "width": 135.0000000000006,
+        "height": 163.2704317794349,
+        "rotation": 90.62571576985808,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 67.38
+      },
+      "scene_3d": {
+        "x": -1.588018,
+        "z": -1.451312,
+        "width": 1.083068,
+        "depth": 1.309874,
+        "rotation_y_deg": -90.625716
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.086802,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 3.793144
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": -0.0,
+        "height_m": -0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 67.38
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "window-1788864844487",
+      "type": "window",
+      "representation": "editor",
+      "room_id": "bedroom-2",
+      "room_name": "Bedroom 2",
+      "source": {
+        "cx": 1290.8077491866304,
+        "cy": 1382.1360544217678,
+        "width": 260.23192868914623,
+        "height": 29.99999999999995,
+        "rotation": 0.0
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 1290.8077491866304,
+        "cy": 1382.1360544217678,
+        "width": 260.23192868914623,
+        "height": 29.99999999999995,
+        "rotation": 0.0
+      },
+      "wall": {
+        "wall_id": "wall_045",
+        "start": {
+          "x": 1276.74,
+          "y": 1356.22
+        },
+        "end": {
+          "x": 1319.28,
+          "y": 1356.22
+        },
+        "length": 42.54,
+        "direction_deg": 0.0
+      },
+      "wall_relative": {
+        "distance_from_start": 14.068,
+        "distance_from_end": 28.472,
+        "normalized_position": 0.3307,
+        "wall_length": 42.54,
+        "direction_deg": 0.0,
+        "perpendicular_distance": 25.916,
+        "foot_on_wall": {
+          "x": 1290.808,
+          "y": 1356.22
+        }
+      },
+      "scene": {
+        "cx": 1290.808,
+        "cy": 1356.22,
+        "width": 260.23192868914623,
+        "height": 29.99999999999995,
+        "rotation": 0.0,
+        "wall_angle_deg": 0.0,
+        "verified": true,
+        "perp_removed_px": 25.916
+      },
+      "scene_3d": {
+        "x": -0.007479,
+        "z": 1.868653,
+        "width": 2.087769,
+        "depth": 0.240682,
+        "rotation_y_deg": -0.0
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.330695,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 0.341287
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": 0.0,
+        "height_m": -0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 25.916
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": true,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "door-1789215885236",
+      "type": "door",
+      "representation": "editor",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "source": {
+        "cx": 587.7378679464613,
+        "cy": 945.0993262739817,
+        "width": 135.00000000000006,
+        "height": 154.88762378225695,
+        "rotation": 91.94440231002518
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 587.7378679464613,
+        "cy": 945.0993262739817,
+        "width": 135.00000000000006,
+        "height": 154.88762378225695,
+        "rotation": 91.94440231002518
+      },
+      "wall": {
+        "wall_id": "wall_066",
+        "start": {
+          "x": 638.94,
+          "y": 901.36
+        },
+        "end": {
+          "x": 638.94,
+          "y": 1200.4
+        },
+        "length": 299.04,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 43.739,
+        "distance_from_end": 255.301,
+        "normalized_position": 0.1463,
+        "wall_length": 299.04,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 51.202,
+        "foot_on_wall": {
+          "x": 638.94,
+          "y": 945.099
+        }
+      },
+      "scene": {
+        "cx": 638.94,
+        "cy": 945.099,
+        "width": 135.00000000000006,
+        "height": 154.88762378225695,
+        "rotation": 91.94440231002518,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 51.202
+      },
+      "scene_3d": {
+        "x": -1.833032,
+        "z": -2.261451,
+        "width": 1.083068,
+        "depth": 1.242621,
+        "rotation_y_deg": -91.944402
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.146266,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 2.399116
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": -0.0,
+        "height_m": -0.0,
+        "rotation_deg": -0.0,
+        "perp_removed_px": 51.202
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "door-1789635571944",
+      "type": "door",
+      "representation": "editor",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "source": {
+        "cx": 1019.2703805436214,
+        "cy": 944.6158537985822,
+        "width": 134.9999999999999,
+        "height": 154.89806049082122,
+        "rotation": 89.28937153496588
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 1019.2703805436214,
+        "cy": 944.6158537985822,
+        "width": 134.9999999999999,
+        "height": 154.89806049082122,
+        "rotation": 89.28937153496588
+      },
+      "wall": {
+        "wall_id": "wall_055",
+        "start": {
+          "x": 1081.26,
+          "y": 901.36
+        },
+        "end": {
+          "x": 1081.26,
+          "y": 1354.48
+        },
+        "length": 453.12,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 43.256,
+        "distance_from_end": 409.864,
+        "normalized_position": 0.0955,
+        "wall_length": 453.12,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 61.99,
+        "foot_on_wall": {
+          "x": 1081.26,
+          "y": 944.616
+        }
+      },
+      "scene": {
+        "cx": 1081.26,
+        "cy": 944.616,
+        "width": 134.9999999999999,
+        "height": 154.89806049082122,
+        "rotation": 89.28937153496588,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 61.99
+      },
+      "scene_3d": {
+        "x": 1.71558,
+        "z": -2.26533,
+        "width": 1.083068,
+        "depth": 1.242705,
+        "rotation_y_deg": -89.289372
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.095462,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 3.635257
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": -0.0,
+        "height_m": -0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 61.99
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "door_007",
+      "type": "door",
+      "representation": "pdf",
+      "room_id": "bedroom-3",
+      "room_name": "Bedroom 3",
+      "source": {
+        "cx": 647.88,
+        "cy": 1252.36,
+        "width": 17.88,
+        "height": 103.92,
+        "rotation": 90.0
+      },
+      "canonical_or_supplemental": {
+        "representation": "pdf",
+        "cx": 647.88,
+        "cy": 1252.36,
+        "width": 17.88,
+        "height": 103.92,
+        "rotation": 90.0
+      },
+      "wall": {
+        "wall_id": "wall_103",
+        "start": {
+          "x": 674.76,
+          "y": 1223.8
+        },
+        "end": {
+          "x": 674.76,
+          "y": 1266.34
+        },
+        "length": 42.54,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 28.56,
+        "distance_from_end": 13.98,
+        "normalized_position": 0.6714,
+        "wall_length": 42.54,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 26.88,
+        "foot_on_wall": {
+          "x": 674.76,
+          "y": 1252.36
+        }
+      },
+      "scene": {
+        "cx": 674.76,
+        "cy": 1252.36,
+        "width": 17.88,
+        "height": 103.92,
+        "rotation": 90.0,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 26.88
+      },
+      "scene_3d": {
+        "x": -1.545658,
+        "z": 0.203617,
+        "width": 0.143446,
+        "depth": 0.833722,
+        "rotation_y_deg": -90.0
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.671368,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 0.341287
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": 0.0,
+        "height_m": -0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 26.88
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "window-1788864843279",
+      "type": "window",
+      "representation": "editor",
+      "room_id": "bedroom-3-2",
+      "room_name": "Bedroom 3",
+      "source": {
+        "cx": 875.4313812481515,
+        "cy": 1546.525288376216,
+        "width": 234.5046230547574,
+        "height": 29.999999999999975,
+        "rotation": 0.0
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 875.4313812481515,
+        "cy": 1546.525288376216,
+        "width": 234.5046230547574,
+        "height": 29.999999999999975,
+        "rotation": 0.0
+      },
+      "wall": {
+        "value": null,
+        "reason": "no structured wall qualified (perp>max or rotation mismatch); production renders at authored position, verified=false"
+      },
+      "wall_relative": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "scene": {
+        "cx": 875.4313812481515,
+        "cy": 1546.525288376216,
+        "width": 234.5046230547574,
+        "height": 29.999999999999975,
+        "rotation": 0.0,
+        "verified": false
+      },
+      "scene_3d": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "final_3d_wall_relative": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "deltas": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "room_association_match": true,
+      "wall_association_match": null,
+      "status": "UNABLE_TO_VERIFY",
+      "first_divergence_stage": "wall_association (no supporting wall; verified=false)",
+      "width_exceeds_wall": null
+    },
+    {
+      "opening_id": "door-1789635608770",
+      "type": "door",
+      "representation": "editor",
+      "room_id": "dining-area",
+      "room_name": "Dining Area",
+      "source": {
+        "cx": 1058.901508429467,
+        "cy": 718.708074534169,
+        "width": 135.00000000000017,
+        "height": 135.000000000003,
+        "rotation": -89.52531962011241
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 1058.901508429467,
+        "cy": 718.708074534169,
+        "width": 135.00000000000017,
+        "height": 135.000000000003,
+        "rotation": -89.52531962011241
+      },
+      "wall": {
+        "wall_id": "wall_031",
+        "start": {
+          "x": 1117.08,
+          "y": 466.12
+        },
+        "end": {
+          "x": 1117.08,
+          "y": 734.74
+        },
+        "length": 268.62,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 252.588,
+        "distance_from_end": 16.032,
+        "normalized_position": 0.9403,
+        "wall_length": 268.62,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 58.178,
+        "foot_on_wall": {
+          "x": 1117.08,
+          "y": 718.708
+        }
+      },
+      "scene": {
+        "cx": 1117.08,
+        "cy": 718.708,
+        "width": 135.00000000000017,
+        "height": 135.000000000003,
+        "rotation": -89.52531962011241,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 58.178
+      },
+      "scene_3d": {
+        "x": 0.466762,
+        "z": -1.5e-05,
+        "width": 1.083068,
+        "depth": 1.083068,
+        "rotation_y_deg": 89.52532
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.940317,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 2.155064
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": -0.0,
+        "height_m": -0.0,
+        "rotation_deg": -0.0,
+        "perp_removed_px": 58.178
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "door-1789215945981",
+      "type": "door",
+      "representation": "editor",
+      "room_id": "kitchen",
+      "room_name": "Kitchen",
+      "source": {
+        "cx": 1105.2299810045658,
+        "cy": 417.08036725334443,
+        "width": 134.99999999999986,
+        "height": 176.28174202668063,
+        "rotation": -178.27763785044266
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 1105.2299810045658,
+        "cy": 417.08036725334443,
+        "width": 134.99999999999986,
+        "height": 176.28174202668063,
+        "rotation": -178.27763785044266
+      },
+      "wall": {
+        "value": null,
+        "reason": "no structured wall qualified (perp>max or rotation mismatch); production renders at authored position, verified=false"
+      },
+      "wall_relative": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "scene": {
+        "cx": 1105.2299810045658,
+        "cy": 417.08036725334443,
+        "width": 134.99999999999986,
+        "height": 176.28174202668063,
+        "rotation": -178.27763785044266,
+        "verified": false
+      },
+      "scene_3d": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "final_3d_wall_relative": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "deltas": {
+        "value": null,
+        "reason": "no supporting wall"
+      },
+      "room_association_match": true,
+      "wall_association_match": null,
+      "status": "UNABLE_TO_VERIFY",
+      "first_divergence_stage": "wall_association (no supporting wall; verified=false)",
+      "width_exceeds_wall": null
+    },
+    {
+      "opening_id": "window_004",
+      "type": "window",
+      "representation": "pdf",
+      "room_id": "kitchen-2",
+      "room_name": "Kitchen",
+      "source": {
+        "cx": 1127.85,
+        "cy": 281.65,
+        "width": 21.54,
+        "height": 93.18,
+        "rotation": 90.0
+      },
+      "canonical_or_supplemental": {
+        "representation": "pdf",
+        "cx": 1127.85,
+        "cy": 281.65,
+        "width": 21.54,
+        "height": 93.18,
+        "rotation": 90.0
+      },
+      "wall": {
+        "wall_id": "wall_032",
+        "start": {
+          "x": 1138.62,
+          "y": 310.3
+        },
+        "end": {
+          "x": 1138.62,
+          "y": 360.46
+        },
+        "length": 50.16,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 0.0,
+        "distance_from_end": 50.16,
+        "normalized_position": 0.0,
+        "wall_length": 50.16,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 30.607,
+        "foot_on_wall": {
+          "x": 1138.62,
+          "y": 310.3
+        }
+      },
+      "scene": {
+        "cx": 1138.62,
+        "cy": 310.3,
+        "width": 21.54,
+        "height": 93.18,
+        "rotation": 90.0,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 30.607
+      },
+      "scene_3d": {
+        "x": -2.230438,
+        "z": -0.08119,
+        "width": 0.172809,
+        "depth": 0.747558,
+        "rotation_y_deg": -90.0
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.0,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 0.40242
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": 0.0,
+        "height_m": -0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 30.607
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "door-1787479363147",
+      "type": "door",
+      "representation": "editor",
+      "room_id": "living-area",
+      "room_name": "Living Area",
+      "source": {
+        "cx": 1890.929389503,
+        "cy": 568.6835384468682,
+        "width": 135.0000000000008,
+        "height": 191.58671758714925,
+        "rotation": 90.1233706203643
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 1890.929389503,
+        "cy": 568.6835384468682,
+        "width": 135.0000000000008,
+        "height": 191.58671758714925,
+        "rotation": 90.1233706203643
+      },
+      "wall": {
+        "wall_id": "wall_001",
+        "start": {
+          "x": 1966.02,
+          "y": 493.0
+        },
+        "end": {
+          "x": 1966.02,
+          "y": 1198.66
+        },
+        "length": 705.66,
+        "direction_deg": 90.0
+      },
+      "wall_relative": {
+        "distance_from_start": 75.684,
+        "distance_from_end": 629.976,
+        "normalized_position": 0.1073,
+        "wall_length": 705.66,
+        "direction_deg": 90.0,
+        "perpendicular_distance": 75.091,
+        "foot_on_wall": {
+          "x": 1966.02,
+          "y": 568.684
+        }
+      },
+      "scene": {
+        "cx": 1966.02,
+        "cy": 568.684,
+        "width": 135.0000000000008,
+        "height": 191.58671758714925,
+        "rotation": 90.1233706203643,
+        "wall_angle_deg": 90.0,
+        "verified": true,
+        "perp_removed_px": 75.091
+      },
+      "scene_3d": {
+        "x": 1.755051,
+        "z": -2.310356,
+        "width": 1.083068,
+        "depth": 1.537048,
+        "rotation_y_deg": -90.123371
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.107252,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 5.661316
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": -0.0,
+        "height_m": -0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 75.091
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": false,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    },
+    {
+      "opening_id": "window-1788864845791",
+      "type": "window",
+      "representation": "editor",
+      "room_id": "living-area",
+      "room_name": "Living Area",
+      "source": {
+        "cx": 1813.3306713989946,
+        "cy": 1204.5369713102616,
+        "width": 312.2417008323678,
+        "height": 27.440196015216916,
+        "rotation": 0.0
+      },
+      "canonical_or_supplemental": {
+        "representation": "editor",
+        "cx": 1813.3306713989946,
+        "cy": 1204.5369713102616,
+        "width": 312.2417008323678,
+        "height": 27.440196015216916,
+        "rotation": 0.0
+      },
+      "wall": {
+        "wall_id": "wall_017",
+        "start": {
+          "x": 1789.2,
+          "y": 1184.32
+        },
+        "end": {
+          "x": 1831.68,
+          "y": 1184.32
+        },
+        "length": 42.48,
+        "direction_deg": 0.0
+      },
+      "wall_relative": {
+        "distance_from_start": 24.131,
+        "distance_from_end": 18.349,
+        "normalized_position": 0.568,
+        "wall_length": 42.48,
+        "direction_deg": 0.0,
+        "perpendicular_distance": 20.217,
+        "foot_on_wall": {
+          "x": 1813.331,
+          "y": 1184.32
+        }
+      },
+      "scene": {
+        "cx": 1813.331,
+        "cy": 1184.32,
+        "width": 312.2417008323678,
+        "height": 27.440196015216916,
+        "rotation": 0.0,
+        "wall_angle_deg": 0.0,
+        "verified": true,
+        "perp_removed_px": 20.217
+      },
+      "scene_3d": {
+        "x": 0.530067,
+        "z": 2.628726,
+        "width": 2.505029,
+        "depth": 0.220145,
+        "rotation_y_deg": -0.0
+      },
+      "final_3d_wall_relative": {
+        "normalized": 0.568048,
+        "perpendicular_m": 0.0,
+        "wall_length_m": 0.340805
+      },
+      "deltas": {
+        "wall_relative_normalized": 0.0,
+        "width_m": 0.0,
+        "height_m": 0.0,
+        "rotation_deg": 0.0,
+        "perp_removed_px": 20.217
+      },
+      "room_association_match": true,
+      "wall_association_match": true,
+      "status": "VERIFIED",
+      "first_divergence_stage": "NONE",
+      "width_exceeds_wall": true,
+      "projection_note": "perpendicular on-wall projection is INTENTIONAL architectural normalization; along-wall position preserved into 3D"
+    }
+  ]
+}

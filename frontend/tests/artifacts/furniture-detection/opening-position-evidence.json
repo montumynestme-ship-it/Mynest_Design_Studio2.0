@@ -1,0 +1,148 @@
+{
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "openings": [
+    {
+      "room": "Living Area",
+      "kind": "door",
+      "src": "editor",
+      "src_cx": 1891,
+      "src_cy": 569,
+      "snapped_cx": 1891,
+      "snapped_cy": 530,
+      "perp_drift_px": 39.1,
+      "along_wall_pct": 14.5
+    },
+    {
+      "room": "Living Area",
+      "kind": "window",
+      "src": "editor",
+      "src_cx": 1813,
+      "src_cy": 1205,
+      "snapped_cx": 1813,
+      "snapped_cy": 1184,
+      "perp_drift_px": 20.8,
+      "along_wall_pct": 66.3
+    },
+    {
+      "room": "Bedroom 3",
+      "kind": "door",
+      "src": "editor",
+      "src_cx": 1019,
+      "src_cy": 945,
+      "snapped_cx": 1019,
+      "snapped_cy": 935,
+      "perp_drift_px": 10.0,
+      "along_wall_pct": 10.9
+    },
+    {
+      "room": "Bedroom 3",
+      "kind": "door",
+      "src": "editor",
+      "src_cx": 588,
+      "src_cy": 945,
+      "snapped_cx": 673,
+      "snapped_cy": 945,
+      "perp_drift_px": 85.3,
+      "along_wall_pct": 1.8
+    },
+    {
+      "room": "Bedroom 3",
+      "kind": "door",
+      "src": "pdf",
+      "src_cx": 648,
+      "src_cy": 1252,
+      "snapped_cx": 673,
+      "snapped_cy": 1252,
+      "perp_drift_px": 25.1,
+      "along_wall_pct": 54.3
+    },
+    {
+      "room": "Bedroom 1",
+      "kind": "door",
+      "src": "editor",
+      "src_cx": 862,
+      "src_cy": 823,
+      "snapped_cx": 897,
+      "snapped_cy": 823,
+      "perp_drift_px": 35.0,
+      "along_wall_pct": 13.0
+    },
+    {
+      "room": "Bedroom 1",
+      "kind": "window",
+      "src": "editor",
+      "src_cx": 334,
+      "src_cy": 677,
+      "snapped_cx": 381,
+      "snapped_cy": 677,
+      "perp_drift_px": 47.1,
+      "along_wall_pct": 50.4
+    },
+    {
+      "room": "Kitchen",
+      "kind": "door",
+      "src": "editor",
+      "src_cx": 1105,
+      "src_cy": 417,
+      "snapped_cx": 1154,
+      "snapped_cy": 417,
+      "perp_drift_px": 49.2,
+      "along_wall_pct": 21.0
+    },
+    {
+      "room": "Bedroom 2",
+      "kind": "door",
+      "src": "editor",
+      "src_cx": 1161,
+      "src_cy": 942,
+      "snapped_cx": 1161,
+      "snapped_cy": 907,
+      "perp_drift_px": 35.1,
+      "along_wall_pct": 83.6
+    },
+    {
+      "room": "Bedroom 2",
+      "kind": "window",
+      "src": "editor",
+      "src_cx": 1291,
+      "src_cy": 1382,
+      "snapped_cx": 1291,
+      "snapped_cy": 1339,
+      "perp_drift_px": 42.8,
+      "along_wall_pct": 49.8
+    },
+    {
+      "room": "Kitchen",
+      "kind": "window",
+      "src": "pdf",
+      "src_cx": 1128,
+      "src_cy": 282,
+      "snapped_cx": 1113,
+      "snapped_cy": 282,
+      "perp_drift_px": 15.1,
+      "along_wall_pct": 63.7
+    },
+    {
+      "room": "Dining Area",
+      "kind": "door",
+      "src": "editor",
+      "src_cx": 1059,
+      "src_cy": 719,
+      "snapped_cx": 1059,
+      "snapped_cy": 631,
+      "perp_drift_px": 87.5,
+      "along_wall_pct": 50.0
+    },
+    {
+      "room": "Bedroom 3",
+      "kind": "window",
+      "src": "editor",
+      "src_cx": 875,
+      "src_cy": 1547,
+      "snapped_cx": 875,
+      "snapped_cy": 1512,
+      "perp_drift_px": 35.0,
+      "along_wall_pct": 50.0
+    }
+  ]
+}

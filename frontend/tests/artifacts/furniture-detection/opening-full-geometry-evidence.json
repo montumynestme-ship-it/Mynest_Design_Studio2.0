@@ -1,0 +1,557 @@
+{
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "openings": [
+    {
+      "opening_id": "door-1787479363147",
+      "kind": "door",
+      "room": "Living Area",
+      "source": "editor",
+      "source_pos": {
+        "cx": 1890.9,
+        "cy": 568.7,
+        "width": 135.0,
+        "height": 191.6,
+        "rotation": 90.1
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_001",
+        "start": [
+          1966.0,
+          493.0
+        ],
+        "end": [
+          1966.0,
+          1198.7
+        ]
+      },
+      "final_scene": {
+        "cx": 1966.0,
+        "cy": 568.7,
+        "width": 135.0,
+        "height": 191.6,
+        "rotation": 90.1
+      },
+      "wall_relative": {
+        "normalized_final": 0.1073,
+        "perpendicular_px_removed": 75.09
+      },
+      "delta": {
+        "x": 75.1,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "window-1788864845791",
+      "kind": "window",
+      "room": "Living Area",
+      "source": "editor",
+      "source_pos": {
+        "cx": 1813.3,
+        "cy": 1204.5,
+        "width": 312.2,
+        "height": 27.4,
+        "rotation": 0.0
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_017",
+        "start": [
+          1789.2,
+          1184.3
+        ],
+        "end": [
+          1831.7,
+          1184.3
+        ]
+      },
+      "final_scene": {
+        "cx": 1813.3,
+        "cy": 1184.3,
+        "width": 312.2,
+        "height": 27.4,
+        "rotation": 0.0
+      },
+      "wall_relative": {
+        "normalized_final": 0.568,
+        "perpendicular_px_removed": 20.22
+      },
+      "delta": {
+        "x": 0.0,
+        "y": -20.2,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "door-1789635571944",
+      "kind": "door",
+      "room": "Bedroom 3",
+      "source": "editor",
+      "source_pos": {
+        "cx": 1019.3,
+        "cy": 944.6,
+        "width": 135.0,
+        "height": 154.9,
+        "rotation": 89.3
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_055",
+        "start": [
+          1081.3,
+          901.4
+        ],
+        "end": [
+          1081.3,
+          1354.5
+        ]
+      },
+      "final_scene": {
+        "cx": 1081.3,
+        "cy": 944.6,
+        "width": 135.0,
+        "height": 154.9,
+        "rotation": 89.3
+      },
+      "wall_relative": {
+        "normalized_final": 0.0955,
+        "perpendicular_px_removed": 61.99
+      },
+      "delta": {
+        "x": 62.0,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "door-1789215885236",
+      "kind": "door",
+      "room": "Bedroom 3",
+      "source": "editor",
+      "source_pos": {
+        "cx": 587.7,
+        "cy": 945.1,
+        "width": 135.0,
+        "height": 154.9,
+        "rotation": 91.9
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_066",
+        "start": [
+          638.9,
+          901.4
+        ],
+        "end": [
+          638.9,
+          1200.4
+        ]
+      },
+      "final_scene": {
+        "cx": 638.9,
+        "cy": 945.1,
+        "width": 135.0,
+        "height": 154.9,
+        "rotation": 91.9
+      },
+      "wall_relative": {
+        "normalized_final": 0.1463,
+        "perpendicular_px_removed": 51.2
+      },
+      "delta": {
+        "x": 51.2,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "door_007",
+      "kind": "door",
+      "room": "Bedroom 3",
+      "source": "pdf",
+      "source_pos": {
+        "cx": 647.9,
+        "cy": 1252.4,
+        "width": 17.9,
+        "height": 103.9,
+        "rotation": 90.0
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_103",
+        "start": [
+          674.8,
+          1223.8
+        ],
+        "end": [
+          674.8,
+          1266.3
+        ]
+      },
+      "final_scene": {
+        "cx": 674.8,
+        "cy": 1252.4,
+        "width": 17.9,
+        "height": 103.9,
+        "rotation": 90.0
+      },
+      "wall_relative": {
+        "normalized_final": 0.6714,
+        "perpendicular_px_removed": 26.88
+      },
+      "delta": {
+        "x": 26.9,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "door-1789215824220",
+      "kind": "door",
+      "room": "Bedroom 1",
+      "source": "editor",
+      "source_pos": {
+        "cx": 862.2,
+        "cy": 822.9,
+        "width": 135.0,
+        "height": 154.9,
+        "rotation": -179.6
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_077",
+        "start": [
+          626.4,
+          879.8
+        ],
+        "end": [
+          900.4,
+          879.8
+        ]
+      },
+      "final_scene": {
+        "cx": 862.2,
+        "cy": 879.8,
+        "width": 135.0,
+        "height": 154.9,
+        "rotation": -179.6
+      },
+      "wall_relative": {
+        "normalized_final": 0.8603,
+        "perpendicular_px_removed": 56.9
+      },
+      "delta": {
+        "x": 0.0,
+        "y": 56.9,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "window-1788864839886",
+      "kind": "window",
+      "room": "Bedroom 1",
+      "source": "editor",
+      "source_pos": {
+        "cx": 333.6,
+        "cy": 676.6,
+        "width": 237.3,
+        "height": 28.2,
+        "rotation": -90.5
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_086",
+        "start": [
+          364.9,
+          656.2
+        ],
+        "end": [
+          364.9,
+          698.7
+        ]
+      },
+      "final_scene": {
+        "cx": 364.9,
+        "cy": 676.6,
+        "width": 237.3,
+        "height": 28.2,
+        "rotation": -90.5
+      },
+      "wall_relative": {
+        "normalized_final": 0.4789,
+        "perpendicular_px_removed": 31.3
+      },
+      "delta": {
+        "x": 31.3,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "door-1789215945981",
+      "kind": "door",
+      "room": "Kitchen",
+      "source": "editor",
+      "source_pos": {
+        "cx": 1105.2,
+        "cy": 417.1,
+        "width": 135.0,
+        "height": 176.3,
+        "rotation": -178.3
+      },
+      "authoritative_wall": null,
+      "final_scene": {
+        "cx": 1105.2,
+        "cy": 417.1,
+        "width": 135.0,
+        "height": 176.3,
+        "rotation": -178.3
+      },
+      "wall_relative": {
+        "normalized_final": null,
+        "perpendicular_px_removed": null
+      },
+      "delta": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "UNABLE_TO_VERIFY",
+      "verified": false
+    },
+    {
+      "opening_id": "door-1787479359667",
+      "kind": "door",
+      "room": "Bedroom 2",
+      "source": "editor",
+      "source_pos": {
+        "cx": 1161.2,
+        "cy": 942.4,
+        "width": 135.0,
+        "height": 163.3,
+        "rotation": 90.6
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_052",
+        "start": [
+          1093.8,
+          901.4
+        ],
+        "end": [
+          1093.8,
+          1374.2
+        ]
+      },
+      "final_scene": {
+        "cx": 1093.8,
+        "cy": 942.4,
+        "width": 135.0,
+        "height": 163.3,
+        "rotation": 90.6
+      },
+      "wall_relative": {
+        "normalized_final": 0.0868,
+        "perpendicular_px_removed": 67.38
+      },
+      "delta": {
+        "x": -67.4,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "window-1788864844487",
+      "kind": "window",
+      "room": "Bedroom 2",
+      "source": "editor",
+      "source_pos": {
+        "cx": 1290.8,
+        "cy": 1382.1,
+        "width": 260.2,
+        "height": 30.0,
+        "rotation": 0.0
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_045",
+        "start": [
+          1276.7,
+          1356.2
+        ],
+        "end": [
+          1319.3,
+          1356.2
+        ]
+      },
+      "final_scene": {
+        "cx": 1290.8,
+        "cy": 1356.2,
+        "width": 260.2,
+        "height": 30.0,
+        "rotation": 0.0
+      },
+      "wall_relative": {
+        "normalized_final": 0.3307,
+        "perpendicular_px_removed": 25.92
+      },
+      "delta": {
+        "x": 0.0,
+        "y": -25.9,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "window_004",
+      "kind": "window",
+      "room": "Kitchen",
+      "source": "pdf",
+      "source_pos": {
+        "cx": 1127.8,
+        "cy": 281.6,
+        "width": 21.5,
+        "height": 93.2,
+        "rotation": 90.0
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_032",
+        "start": [
+          1138.6,
+          310.3
+        ],
+        "end": [
+          1138.6,
+          360.5
+        ]
+      },
+      "final_scene": {
+        "cx": 1138.6,
+        "cy": 310.3,
+        "width": 21.5,
+        "height": 93.2,
+        "rotation": 90.0
+      },
+      "wall_relative": {
+        "normalized_final": 0.0,
+        "perpendicular_px_removed": 30.61
+      },
+      "delta": {
+        "x": 10.8,
+        "y": 28.7,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "door-1789635608770",
+      "kind": "door",
+      "room": "Dining Area",
+      "source": "editor",
+      "source_pos": {
+        "cx": 1058.9,
+        "cy": 718.7,
+        "width": 135.0,
+        "height": 135.0,
+        "rotation": -89.5
+      },
+      "authoritative_wall": {
+        "wall_id": "wall_031",
+        "start": [
+          1117.1,
+          466.1
+        ],
+        "end": [
+          1117.1,
+          734.7
+        ]
+      },
+      "final_scene": {
+        "cx": 1117.1,
+        "cy": 718.7,
+        "width": 135.0,
+        "height": 135.0,
+        "rotation": -89.5
+      },
+      "wall_relative": {
+        "normalized_final": 0.9403,
+        "perpendicular_px_removed": 58.18
+      },
+      "delta": {
+        "x": 58.2,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "MATCH",
+      "verified": true
+    },
+    {
+      "opening_id": "window-1788864843279",
+      "kind": "window",
+      "room": "Bedroom 3",
+      "source": "editor",
+      "source_pos": {
+        "cx": 875.4,
+        "cy": 1546.5,
+        "width": 234.5,
+        "height": 30.0,
+        "rotation": 0.0
+      },
+      "authoritative_wall": null,
+      "final_scene": {
+        "cx": 875.4,
+        "cy": 1546.5,
+        "width": 234.5,
+        "height": 30.0,
+        "rotation": 0.0
+      },
+      "wall_relative": {
+        "normalized_final": null,
+        "perpendicular_px_removed": null
+      },
+      "delta": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 0,
+        "rotation": 0,
+        "wall_changed": false
+      },
+      "wall_association": "UNABLE_TO_VERIFY",
+      "verified": false
+    }
+  ]
+}

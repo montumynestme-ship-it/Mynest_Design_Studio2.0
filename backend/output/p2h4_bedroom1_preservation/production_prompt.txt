@@ -1,0 +1,191 @@
+Photorealistic architectural interior photograph of a bedroom 1 that contains exactly: 1x Bed, 2x Side Table, 1x Wardrobe, 1x Dressing Table, 1x Window, 2x Door. Render every one of these items and nothing else — no extra, duplicate, missing, or invented furniture or decor.
+STRICT ROOM ISOLATION: render only this bedroom 1; do NOT show or bleed in any other room, hallway, corridor, or adjacent space, and do NOT view another room through a doorway.
+BEDROOM FURNITURE LOCK: do NOT add a dresser/chest of drawers — none are in this room's plan. Render only the furniture listed above.
+This is STRICTLY a bedroom 1 — render only this one room and only the furniture listed; ignore every other room.
+PIECE APPEARANCE (render each piece true to its real-world type; apply the chosen style/materials as its finish):
+- Bed: a bed with a tall upholstered headboard, duvet and pillows
+- Side Table: a small low side/bedside table
+- Wardrobe: a tall two-door wardrobe cabinet
+- Dressing Table: a dressing table with a large mirror and a stool
+- Window: a glass window set into the exterior wall with a clean frame
+- Door: a hinged interior door
+SPATIAL LAYOUT (authoritative — reproduce these relative positions and rotations exactly; the front of the room is nearest the camera):
+- Bed: along the left wall, rotated 90° (long side running front-to-back)
+- Side Table: in the front-left corner
+- Side Table: in the back-left corner
+- Wardrobe: against the back wall
+- Dressing Table: in the front-right corner
+- Window: along the left wall, rotated 90° (long side running front-to-back)
+- Door: in the front-right corner
+- Door: against the front wall, rotated 90° (long side running front-to-back)
+- WINDOW SPECIFICATION: Architectural window positioned on the West (left) wall with tailored floor-to-ceiling sheer linen curtains, allowing diffuse natural daylight to illuminate the interior.
+- The Side Table is situated directly adjacent to / along the window wall.
+ROOM OPENINGS: preserve exactly this room's 0 door(s) and 1 window(s) (window on the West (left) wall) in their given positions, and keep the window visible in the framed view; do not add, remove, relocate, resize, or borrow another room's openings.
+APPROXIMATE ROOM DIMENSIONS & PROPORTIONS (estimated from furniture placement — no closed architectural boundary available): 7.5m width × 6.0m depth × 2.7m ceiling height (45.0 m²). Treat the furniture layout below, not this estimate, as the authoritative boundary — do not redesign or expand the room.
+BEDROOM SPECIFICATION: Strictly preserve the bed dimensions and orientation, nightstand placement, wardrobe placement, dressing unit placement as specified — only the items actually listed below. Do not substitute a generic bedroom template or add furniture that isn't listed.
+Architectural interior photograph of the bedroom 1 in high-end Modern Luxury style. Camera at standing eye level (1.5m height) at the room's entrance/doorway, facing the room's central axis toward the bed and its upholstered headboard wall as the focal point. Natural 35mm perspective, straight vertical walls, no fisheye or wide-angle distortion, the whole room in frame with every listed piece visible in its correct relative position.
+DETERMINISTIC CAMERA VIEWPOINT: Camera positioned at standing eye level (1.5m height) at the entrance threshold, angled diagonally across the room toward the North (back/far) feature wall showcasing the upholstered headboard, flanking nightstands, adjoining wardrobe. 32mm architectural wide-angle lens, natural two-point perspective, strictly horizontal camera plane with straight vertical walls (no tilt or fisheye), entire room in frame. Frame the shot so the existing window on the West (left) wall stays visible in view — angle the camera to include that window wall; do not crop it out.
+AESTHETIC DIRECTION: sophisticated modern Indian urban-home interior — contemporary luxury residential design, professional architectural-interior photography, photorealistic and not CGI-looking. This governs materials/lighting/finish only, never the room's geometry or furniture placement above.
+MATERIAL & LIGHTING PALETTE — Bedroom Palette A (warm walnut): perimeter recessed cove ceiling with soft indirect warm 2700K headboard LED and reading sconces flanking the bed.
+FEATURE HEADBOARD WALL: warm walnut headboard with vertical fluted oak paneling and subtle champagne bronze reveals.
+TEXTILES & FLOOR: plush neutral beige carpet underfoot, crisp cotton and waffle-linen bedding, floor-to-ceiling sheer linen curtains diffusing soft daylight.
+
+================================================================================
+AUTHORITATIVE GEOMETRY & INVENTORY CONSTRAINT — NON-NEGOTIABLE
+================================================================================
+
+SOURCE OF TRUTH:
+The supplied 2D floor plan / geometry reference is the AUTHORITATIVE source of
+truth for this render. The generated image is a VISUALIZATION of the supplied design,
+NOT a redesign. Never reinterpret, optimize, beautify, simplify, or redesign the spatial layout.
+
+PRIORITY HIERARCHY:
+1. Room geometry and architectural boundaries
+2. Furniture inventory
+3. Furniture geometry (position, orientation, scale)
+4. Doors and windows
+5. Spatial relationships
+6. Camera
+7. Style references
+8. Visual variation
+9. Creativity
+
+FINAL PRIORITY ORDER:
+LAYOUT & INVENTORY FIDELITY > ARCHITECTURAL FIDELITY > CAMERA > STYLE REFERENCE CONSISTENCY > CONTROLLED VARIATION > CREATIVITY.
+
+STRICT INVENTORY (DO NOT BREAK):
+- Render ONLY the furniture explicitly listed for this room.
+- Do NOT omit any listed furniture.
+- Do NOT add, move, remove, or rotate any furniture.
+- Do NOT invent walls, windows, doors, or architectural features.
+- Do NOT use a generic room layout.
+- Render every listed furniture item exactly once unless its count explicitly says otherwise.
+- Preserve the exact furniture count.
+
+GEOMETRY — ABSOLUTELY FIXED:
+- Preserve the exact room boundary and room shape from the authoritative reference.
+- Preserve wall locations, wall lengths, wall angles, room proportions, and spatial relationships.
+- Do NOT add, move, remove, or rotate any furniture.
+- Do NOT invent walls, windows, doors, or architectural features.
+- Do NOT use a generic room layout.
+- Do NOT add, remove, move, resize, rotate, straighten, curve, or redesign walls.
+- Do NOT change the room dimensions or aspect ratio.
+- Do NOT expand or contract the room.
+- Do NOT create architectural elements that are not present in the reference.
+- Do NOT remove architectural elements that are present in the reference.
+
+DOORS & WINDOWS — ABSOLUTELY FIXED:
+- Preserve every door and window shown in the authoritative reference.
+- Preserve their approximate position, orientation, size, and relationship to walls.
+- Do NOT add, remove, relocate, enlarge, shrink, rotate, or redesign doors/windows.
+- Preserve every door/window opening exactly as represented.
+- Do NOT seal an existing opening or create a new opening.
+- Do NOT invent balconies, arches, partitions, columns, niches, skylights, or openings.
+
+FURNITURE GEOMETRY — ABSOLUTELY FIXED:
+For every furniture item preserve:
+- position
+- orientation
+- relative scale
+- width/depth proportions
+- relationship to walls
+- relationship to other furniture
+- clearance from walls and other objects
+
+Do NOT move furniture.
+Do NOT rotate furniture.
+Do NOT resize furniture.
+Do NOT mirror furniture.
+Do NOT change furniture proportions.
+
+The relative scale between furniture and room must remain physically believable and
+consistent with the supplied geometry. A sofa must not become larger or smaller,
+and a bed, table, chair, cabinet, or other item must not change its intended scale.
+
+SPATIAL RELATIONSHIPS — FIXED:
+- Preserve the exact spatial relationship between all listed furniture pieces.
+- Preserve which furniture is adjacent to, opposite, aligned with, or separated from another furniture item.
+- Preserve circulation spaces and clearances represented by the reference.
+- Do NOT rearrange furniture to create a more aesthetically pleasing composition.
+- Do NOT center furniture merely because it looks better.
+- Do NOT symmetrize an asymmetric layout.
+- Do NOT automatically align furniture to walls unless the reference already does so.
+
+ROOM ISOLATION:
+- Render ONLY the requested target room.
+- Do NOT show any adjacent room, corridor, balcony, bathroom, kitchen, bedroom, living area, dining area, or other space outside the target room.
+- Do NOT reveal adjacent rooms even partially through doors or openings.
+- Do NOT borrow furniture or architectural elements from adjacent rooms.
+
+REFERENCE IMAGE PRIORITY:
+When a geometry/reference image is supplied:
+- Treat it as authoritative for spatial structure.
+- Follow the reference geometry rather than inventing geometry from textual description.
+- Text descriptions explain the reference; they do not override the reference.
+- Never use a generic room template when a reference is available.
+
+CAMERA:
+- Camera may change ONLY to produce a realistic photographic view of the existing geometry.
+- Camera must not cause furniture, walls, doors, or windows to be repositioned.
+- Do not use camera perspective to hide missing furniture or incorrect geometry.
+- Do not crop out required furniture.
+- Every required furniture item must remain visible whenever physically possible.
+- Use natural architectural perspective with straight vertical lines.
+- Avoid fisheye distortion, extreme wide-angle distortion, tilted horizons, or unrealistic perspective.
+
+STYLE MAY CHANGE (VISUAL ONLY):
+The following are allowed ONLY as visual treatment:
+- materials
+- textures
+- finishes
+- colors
+- wood species
+- stone appearance
+- fabric appearance
+- metal finishes
+- wall treatment
+- ceiling treatment
+- realistic lighting
+- shadows
+- reflections
+- exposure
+- photographic quality
+
+STYLE MUST NOT CHANGE:
+- walls
+- room dimensions
+- doors
+- windows
+- openings
+- furniture count
+- furniture position
+- furniture rotation
+- furniture scale
+- major architectural structure
+
+CREATIVE FREEDOM — STRICTLY LIMITED:
+Creativity is allowed only for making the existing design look photorealistic, premium, realistic, and professionally photographed.
+
+FINAL VALIDATION BEFORE OUTPUT:
+Before producing the final render, internally verify:
+[ ] Correct room only
+[ ] Correct room boundary
+[ ] Correct walls
+[ ] Correct doors
+[ ] Correct windows
+[ ] Correct furniture count
+[ ] No extra furniture
+[ ] No missing furniture
+[ ] No furniture moved
+[ ] No furniture rotated
+[ ] No furniture resized
+[ ] Correct spatial relationships
+[ ] Correct furniture-to-room scale
+[ ] No adjacent-room content
+[ ] Camera does not hide or distort required geometry
+
+If any of these conditions cannot be satisfied, prioritize GEOMETRY AND INVENTORY FIDELITY over visual creativity.
+
+FINAL RULE:
+LAYOUT & INVENTORY FIDELITY > ARCHITECTURAL FIDELITY > CAMERA > STYLE REFERENCE CONSISTENCY > CONTROLLED VARIATION > CREATIVITY.
+================================================================================

@@ -1,0 +1,59 @@
+{
+  "created_at": 1793696170.29746,
+  "arms": [
+    {
+      "arm": "A",
+      "model": "fal-ai/flux-kontext/dev",
+      "conditioning_mode": "edit",
+      "control_source": null,
+      "control_strength": null,
+      "base_sha256": "c443d1b68d63254ee33711ef9e33b05a3eea7b4198fa9f34988997c5a1b41b76",
+      "structural_sha256": null,
+      "output_sha256": "32cf5639345f57ef6b2de5000e9b7f629919c8238aa1c8d39c5b108764926cab",
+      "output_bytes": 346379,
+      "seed": 1234567,
+      "provider_request_id": "01a1a09c-8f2b-7e41-b37b-6de645519e52",
+      "effective_prompt": "This is a photorealistic image-to-image EDIT. The provided image is the AUTHORITATIVE source of truth for the room's geometry, layout, walls, doors, windows, and furniture \u2014 reproduce it exactly and change only surface appearance. ROOM: Bedroom 1. EXACT EXISTING INVENTORY (render every one of these items exactly once and nothing else - no extra, duplicate, missing, substituted, or invented furniture, appliances, or decor): 1x Bed. Transform this interior layout into a photorealistic premium 3D interior render. The provided image is the AUTHORITATIVE source of truth for geometry and layout; reproduce it EXACTLY and treat it as fixed. PRESERVE, without any change: the room geometry, every wall, every door, every window, the camera composition and viewpoint, and each furniture object's identity, count, position, rotation, dimensions, and room assignment. Do NOT move, resize, rotate, add, remove, duplicate, or re-arrange any wall, door, window, room, or furniture object, and do NOT invent furniture, appliances, or decor/accessories that are not already present in the image. You MAY ONLY change surface appearance: materials, textures, colors, lighting, shadows, reflections, wall/ceiling finishes, and surface realism. The final image must remain structurally and spatially identical to the input layout, with the same objects in the same places from the same camera. Style: premium modern-luxury residential interior - warm 3000K concealed cove lighting, refined walnut and natural-stone finishes, boucle and linen upholstery, soft natural daylight, realistic shadows and reflections, architectural-digest photography, 8k photorealistic render. Do NOT add, remove, move, resize, rotate, duplicate, replace, or re-arrange any wall, door, window, or furniture object, and do NOT invent furniture, appliances, or decor/accessories (plants, artwork, rugs, cushions, curtains, mirrors, lamps, vases, ornaments) that are not already present. Avoid fisheye, dark unlit rooms, CGI/plastic look, generic showroom staging.",
+      "design_version_id": null,
+      "room_label": "Bedroom 1",
+      "elapsed_s": 12.95,
+      "output_path": "benchmarks\\fixtures\\bedroom-1\\output\\bench_A.png"
+    },
+    {
+      "arm": "B",
+      "model": "fal-ai/flux-control-lora-canny/image-to-image",
+      "conditioning_mode": "canny_controlnet",
+      "control_source": "base",
+      "control_strength": 1.0,
+      "base_sha256": "c443d1b68d63254ee33711ef9e33b05a3eea7b4198fa9f34988997c5a1b41b76",
+      "structural_sha256": null,
+      "output_sha256": "7ab0e37f8cc0a026d0f9e7c34261d12f0b016fa7c75e7e70d6bbbbb43c1648fd",
+      "output_bytes": 477160,
+      "seed": 1234567,
+      "provider_request_id": "01a1a09c-c4d5-7fa3-9913-a32b4b44a3ba",
+      "effective_prompt": "This is a photorealistic image-to-image EDIT. The provided image is the AUTHORITATIVE source of truth for the room's geometry, layout, walls, doors, windows, and furniture \u2014 reproduce it exactly and change only surface appearance. ROOM: Bedroom 1. EXACT EXISTING INVENTORY (render every one of these items exactly once and nothing else - no extra, duplicate, missing, substituted, or invented furniture, appliances, or decor): 1x Bed. Transform this interior layout into a photorealistic premium 3D interior render. The provided image is the AUTHORITATIVE source of truth for geometry and layout; reproduce it EXACTLY and treat it as fixed. PRESERVE, without any change: the room geometry, every wall, every door, every window, the camera composition and viewpoint, and each furniture object's identity, count, position, rotation, dimensions, and room assignment. Do NOT move, resize, rotate, add, remove, duplicate, or re-arrange any wall, door, window, room, or furniture object, and do NOT invent furniture, appliances, or decor/accessories that are not already present in the image. You MAY ONLY change surface appearance: materials, textures, colors, lighting, shadows, reflections, wall/ceiling finishes, and surface realism. The final image must remain structurally and spatially identical to the input layout, with the same objects in the same places from the same camera. Style: premium modern-luxury residential interior - warm 3000K concealed cove lighting, refined walnut and natural-stone finishes, boucle and linen upholstery, soft natural daylight, realistic shadows and reflections, architectural-digest photography, 8k photorealistic render. Do NOT add, remove, move, resize, rotate, duplicate, replace, or re-arrange any wall, door, window, or furniture object, and do NOT invent furniture, appliances, or decor/accessories (plants, artwork, rugs, cushions, curtains, mirrors, lamps, vases, ornaments) that are not already present. Avoid fisheye, dark unlit rooms, CGI/plastic look, generic showroom staging.",
+      "design_version_id": null,
+      "room_label": "Bedroom 1",
+      "elapsed_s": 171.84,
+      "output_path": "benchmarks\\fixtures\\bedroom-1\\output\\bench_B.png"
+    },
+    {
+      "arm": "C",
+      "model": "fal-ai/flux-control-lora-canny/image-to-image",
+      "conditioning_mode": "canny_controlnet",
+      "control_source": "structural",
+      "control_strength": 1.0,
+      "base_sha256": "c443d1b68d63254ee33711ef9e33b05a3eea7b4198fa9f34988997c5a1b41b76",
+      "structural_sha256": "ec1b6ab52ea889da605adf0329c2dbfca345fcabbef551574bddd5c3bc62198f",
+      "output_sha256": "6aefa15eebbdfa1dc5c3485b8e6cb82cf01bb87cc3862fc1d923c7b9d9273fca",
+      "output_bytes": 471775,
+      "seed": 1234567,
+      "provider_request_id": "01a1a09f-639e-7af0-81d6-3f6f848de9b3",
+      "effective_prompt": "This is a photorealistic image-to-image EDIT. The provided image is the AUTHORITATIVE source of truth for the room's geometry, layout, walls, doors, windows, and furniture \u2014 reproduce it exactly and change only surface appearance. ROOM: Bedroom 1. EXACT EXISTING INVENTORY (render every one of these items exactly once and nothing else - no extra, duplicate, missing, substituted, or invented furniture, appliances, or decor): 1x Bed. Transform this interior layout into a photorealistic premium 3D interior render. The provided image is the AUTHORITATIVE source of truth for geometry and layout; reproduce it EXACTLY and treat it as fixed. PRESERVE, without any change: the room geometry, every wall, every door, every window, the camera composition and viewpoint, and each furniture object's identity, count, position, rotation, dimensions, and room assignment. Do NOT move, resize, rotate, add, remove, duplicate, or re-arrange any wall, door, window, room, or furniture object, and do NOT invent furniture, appliances, or decor/accessories that are not already present in the image. You MAY ONLY change surface appearance: materials, textures, colors, lighting, shadows, reflections, wall/ceiling finishes, and surface realism. The final image must remain structurally and spatially identical to the input layout, with the same objects in the same places from the same camera. Style: premium modern-luxury residential interior - warm 3000K concealed cove lighting, refined walnut and natural-stone finishes, boucle and linen upholstery, soft natural daylight, realistic shadows and reflections, architectural-digest photography, 8k photorealistic render. Do NOT add, remove, move, resize, rotate, duplicate, replace, or re-arrange any wall, door, window, or furniture object, and do NOT invent furniture, appliances, or decor/accessories (plants, artwork, rugs, cushions, curtains, mirrors, lamps, vases, ornaments) that are not already present. Avoid fisheye, dark unlit rooms, CGI/plastic look, generic showroom staging.",
+      "design_version_id": null,
+      "room_label": "Bedroom 1",
+      "elapsed_s": 10.42,
+      "output_path": "benchmarks\\fixtures\\bedroom-1\\output\\bench_C.png"
+    }
+  ]
+}

@@ -1,0 +1,2617 @@
+{
+  "audit_name": "Phase 2H-2 — Live Full-Room Deterministic Furniture Audit",
+  "file_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "file_id_input": "f6b65d2b",
+  "design_version_id": "1831bf84-f9d6-4d4f-aedc-4ad95d6145fe",
+  "capture_timestamp": "2026-10-21T11:11:25.231Z",
+  "calibration_mpp": 0.008022725126047845,
+  "units_and_tolerances": {
+    "position_units": "metres (m)",
+    "position_tolerance_m": 0.001,
+    "rotation_units": "degrees (°)",
+    "rotation_tolerance_deg": 0.05,
+    "dimension_units": "metres (m)",
+    "dimension_footprint_tolerance_m": 0.05,
+    "scale_units": "metres per pixel (mpp)",
+    "canonical_units": "world pixels (px)"
+  },
+  "totals": {
+    "canonical_total_items": 34,
+    "canonical_furniture_count": 22,
+    "canonical_openings_count": 12,
+    "scene_rooms_count": 8,
+    "scene_total_furniture_entries": 34,
+    "captured_3d_transforms_count": 22,
+    "placement_pass_count": 22,
+    "placement_mismatch_count": 0,
+    "placement_inconclusive_count": 0,
+    "placement_not_captured_count": 0,
+    "position_check_pass": 22,
+    "rotation_check_pass": 22,
+    "dimension_check_inconclusive": 22,
+    "identity_check_pass": 22,
+    "coverage_check_pass": 22
+  },
+  "coverage_and_identity_checks": {
+    "check_1_every_canonical_uid_in_single_source_room": true,
+    "check_2_every_expected_uid_in_transform_captures": true,
+    "check_3_no_unexpected_uid_in_captures": true,
+    "check_4_no_uid_captured_more_than_once": true,
+    "check_5_no_room_silently_missing": true,
+    "check_6_empty_rooms_recorded_explicitly": true,
+    "room_ids_unique": true,
+    "duplicate_room_ids": [],
+    "duplicate_room_labels": [
+      "Bedroom 3"
+    ],
+    "uids_in_multiple_rooms": [],
+    "missing_from_scene": [],
+    "extra_in_scene": [],
+    "missing_from_3d_transforms": [],
+    "extra_in_3d_transforms": [],
+    "uids_captured_multiple_times": [],
+    "empty_rooms": [
+      "dining-area",
+      "bedroom-3-2"
+    ],
+    "overlapping_rooms_count": 3,
+    "overlapping_rooms": [
+      {
+        "room1": {
+          "id": "bedroom-3",
+          "label": "Bedroom 3"
+        },
+        "room2": {
+          "id": "bedroom-3-2",
+          "label": "Bedroom 3"
+        },
+        "overlapArea": 2132.8649999999952,
+        "overlapBox": [
+          738.18,
+          1511.53,
+          274.5,
+          7.769999999999982
+        ]
+      },
+      {
+        "room1": {
+          "id": "kitchen-dining-area",
+          "label": "Kitchen & Dining Area"
+        },
+        "room2": {
+          "id": "kitchen",
+          "label": "Kitchen"
+        },
+        "overlapArea": 50574.32100000001,
+        "overlapBox": [
+          1112.76,
+          326.5,
+          373.3800000000001,
+          135.45
+        ]
+      },
+      {
+        "room1": {
+          "id": "kitchen-dining-area",
+          "label": "Kitchen & Dining Area"
+        },
+        "room2": {
+          "id": "dining-area",
+          "label": "Dining Area"
+        },
+        "overlapArea": 9089.50000000001,
+        "overlapBox": [
+          1094.46,
+          631.21,
+          51.940000000000055,
+          175
+        ]
+      }
+    ]
+  },
+  "room_inventory": [
+    {
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "bbox": [
+        1544.7,
+        529.54,
+        405.12,
+        654.24
+      ],
+      "total_items": 5,
+      "furniture_count": 3,
+      "furniture_uids": [
+        "console-1787478438948",
+        "lounger-sofa-1787478478712",
+        "lounger-sofa-1787478572349"
+      ],
+      "openings_count": 2,
+      "openings_uids": [
+        "door-1787479363147",
+        "window-1788864845791"
+      ],
+      "measured_transforms_count": 3,
+      "empty_of_furniture": false
+    },
+    {
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "bbox": [
+        673.02,
+        934.66,
+        388.8,
+        584.64
+      ],
+      "total_items": 8,
+      "furniture_count": 5,
+      "furniture_uids": [
+        "bed-1787479187466",
+        "side-table-1787479219083",
+        "side-table-1787479220302",
+        "wardrobe-1787646606853",
+        "dressing-table-1787646652625"
+      ],
+      "openings_count": 3,
+      "openings_uids": [
+        "door-1789635571944",
+        "door-1791697527072-4e514847",
+        "door-1791697517482-ea84d67b"
+      ],
+      "measured_transforms_count": 5,
+      "empty_of_furniture": false
+    },
+    {
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "bbox": [
+        380.7,
+        475.3,
+        516.48,
+        399.36
+      ],
+      "total_items": 7,
+      "furniture_count": 5,
+      "furniture_uids": [
+        "bed-1787478891845",
+        "side-table-1787478946014",
+        "side-table-1787478947384",
+        "wardrobe-1787646602167",
+        "dressing-table-1787646642783"
+      ],
+      "openings_count": 2,
+      "openings_uids": [
+        "door-1789215824220",
+        "window-1788864839886"
+      ],
+      "measured_transforms_count": 5,
+      "empty_of_furniture": false
+    },
+    {
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area",
+      "bbox": [
+        1094.46,
+        326.5,
+        391.68,
+        548.16
+      ],
+      "total_items": 3,
+      "furniture_count": 2,
+      "furniture_uids": [
+        "chimney-1787478686293",
+        "dining-table-1787478800756"
+      ],
+      "openings_count": 1,
+      "openings_uids": [
+        "door-1789215945981"
+      ],
+      "measured_transforms_count": 2,
+      "empty_of_furniture": false
+    },
+    {
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "bbox": [
+        1097.34,
+        907.3,
+        388.8,
+        432
+      ],
+      "total_items": 7,
+      "furniture_count": 5,
+      "furniture_uids": [
+        "bed-1787478895814",
+        "side-table-1787479146522",
+        "side-table-1787479147677",
+        "wardrobe-1787646614206",
+        "dressing-table-1787646647163"
+      ],
+      "openings_count": 2,
+      "openings_uids": [
+        "door-1787479359667",
+        "window-1788864844487"
+      ],
+      "measured_transforms_count": 5,
+      "empty_of_furniture": false
+    },
+    {
+      "room_id": "kitchen",
+      "room_label": "Kitchen",
+      "bbox": [
+        1112.76,
+        178.89,
+        607.75,
+        283.06
+      ],
+      "total_items": 2,
+      "furniture_count": 2,
+      "furniture_uids": [
+        "kitchen-base-1787478607029",
+        "kitchen-base-1787478608231"
+      ],
+      "openings_count": 0,
+      "openings_uids": [],
+      "measured_transforms_count": 2,
+      "empty_of_furniture": false
+    },
+    {
+      "room_id": "dining-area",
+      "room_label": "Dining Area",
+      "bbox": [
+        971.4,
+        631.21,
+        175,
+        175
+      ],
+      "total_items": 1,
+      "furniture_count": 0,
+      "furniture_uids": [],
+      "openings_count": 1,
+      "openings_uids": [
+        "door-1789635608770"
+      ],
+      "measured_transforms_count": 0,
+      "empty_of_furniture": true
+    },
+    {
+      "room_id": "bedroom-3-2",
+      "room_label": "Bedroom 3",
+      "bbox": [
+        738.18,
+        1511.53,
+        274.5,
+        70
+      ],
+      "total_items": 1,
+      "furniture_count": 0,
+      "furniture_uids": [],
+      "openings_count": 1,
+      "openings_uids": [
+        "window-1788864843279"
+      ],
+      "measured_transforms_count": 0,
+      "empty_of_furniture": true
+    }
+  ],
+  "source_furniture_inventory": [
+    {
+      "uid": "console-1787478438948",
+      "item_id": "console",
+      "room_id": "living-area",
+      "cx": 1700.9841944938116,
+      "cy": 684.1534953392287,
+      "w": 253.6357981850792,
+      "h": 52.500000000000014,
+      "rotation": 0
+    },
+    {
+      "uid": "lounger-sofa-1787478478712",
+      "item_id": "lounger-sofa",
+      "room_id": "living-area",
+      "cx": 1872.0411120970357,
+      "cy": 1032.8089322685635,
+      "w": 285.0000000000001,
+      "h": 135.00000000000338,
+      "rotation": -90.13445741521568
+    },
+    {
+      "uid": "lounger-sofa-1787478572349",
+      "item_id": "lounger-sofa",
+      "room_id": "living-area",
+      "cx": 1675.3611357586647,
+      "cy": 1119.4068322981475,
+      "w": 250.30970466722255,
+      "h": 108.98734527327566,
+      "rotation": 0
+    },
+    {
+      "uid": "bed-1787479187466",
+      "item_id": "bed",
+      "room_id": "bedroom-3",
+      "cx": 869.8551195199075,
+      "cy": 1407.2965350928478,
+      "w": 149.16775838141075,
+      "h": 249.29185140676006,
+      "rotation": -180
+    },
+    {
+      "uid": "side-table-1787479219083",
+      "item_id": "side-table",
+      "room_id": "bedroom-3",
+      "cx": 1000.2580552917298,
+      "cy": 1494.8113942108155,
+      "w": 108.28871513471032,
+      "h": 75.41020461506496,
+      "rotation": 0
+    },
+    {
+      "uid": "side-table-1787479220302",
+      "item_id": "side-table",
+      "room_id": "bedroom-3",
+      "cx": 734.2360663171567,
+      "cy": 1493.072688400525,
+      "w": 111.6892297396642,
+      "h": 74.28017538434187,
+      "rotation": 0
+    },
+    {
+      "uid": "wardrobe-1787646606853",
+      "item_id": "wardrobe",
+      "room_id": "bedroom-3",
+      "cx": 1023.6192325522331,
+      "cy": 1241.2170884342315,
+      "w": 237.30844810432785,
+      "h": 73.22621664294726,
+      "rotation": 89.90893298128742
+    },
+    {
+      "uid": "dressing-table-1787646652625",
+      "item_id": "dressing-table",
+      "room_id": "bedroom-3",
+      "cx": 721.3727136073246,
+      "cy": 1110.600186382961,
+      "w": 130.7703963093347,
+      "h": 90.00000000000053,
+      "rotation": 89.91869014797797
+    },
+    {
+      "uid": "bed-1787478891845",
+      "item_id": "bed",
+      "room_id": "bedroom-1",
+      "cx": 504.33538738728373,
+      "cy": 671.776086115616,
+      "w": 155.47377080788036,
+      "h": 281.31892502433715,
+      "rotation": -90.31767451191246
+    },
+    {
+      "uid": "side-table-1787478946014",
+      "item_id": "side-table",
+      "room_id": "bedroom-1",
+      "cx": 402.61011977209665,
+      "cy": 822.1006146711104,
+      "w": 67.49999999999993,
+      "h": 113.75751327278171,
+      "rotation": 0
+    },
+    {
+      "uid": "side-table-1787478947384",
+      "item_id": "side-table",
+      "room_id": "bedroom-1",
+      "cx": 402.6101197720959,
+      "cy": 541.020905167916,
+      "w": 67.49999999999996,
+      "h": 118.83059241053404,
+      "rotation": 0
+    },
+    {
+      "uid": "wardrobe-1787646602167",
+      "item_id": "wardrobe",
+      "room_id": "bedroom-1",
+      "cx": 675.8158828748886,
+      "cy": 513.2215320910985,
+      "w": 216.85978539907532,
+      "h": 89.99999999999997,
+      "rotation": 0
+    },
+    {
+      "uid": "dressing-table-1787646642783",
+      "item_id": "dressing-table",
+      "room_id": "bedroom-1",
+      "cx": 725.7197574682051,
+      "cy": 836.1289559301978,
+      "w": 119.82605348314002,
+      "h": 90,
+      "rotation": 0
+    },
+    {
+      "uid": "chimney-1787478686293",
+      "item_id": "chimney",
+      "room_id": "kitchen-dining-area",
+      "cx": 1229.5973550114113,
+      "cy": 368.25889298560054,
+      "w": 136.81261989720548,
+      "h": 71.43224451300306,
+      "rotation": 0
+    },
+    {
+      "uid": "dining-table-1787478800756",
+      "item_id": "dining-table",
+      "room_id": "kitchen-dining-area",
+      "cx": 1210.714284593772,
+      "cy": 632.9123486593392,
+      "w": 224.99999999999727,
+      "h": 134.99999999999952,
+      "rotation": -89.90775583223486
+    },
+    {
+      "uid": "bed-1787478895814",
+      "item_id": "bed",
+      "room_id": "bedroom-2",
+      "cx": 1305.5120808756933,
+      "cy": 1257.0788887541864,
+      "w": 145.36773386599717,
+      "h": 196.63013348266125,
+      "rotation": -178.9522417010842
+    },
+    {
+      "uid": "side-table-1787479146522",
+      "item_id": "side-table",
+      "room_id": "bedroom-2",
+      "cx": 1437.2527822782806,
+      "cy": 1314.5655585439465,
+      "w": 117.41173549561746,
+      "h": 76.54023384578892,
+      "rotation": 0
+    },
+    {
+      "uid": "side-table-1787479147677",
+      "item_id": "side-table",
+      "room_id": "bedroom-2",
+      "cx": 1166.5942444762668,
+      "cy": 1315.1451271473768,
+      "w": 129.91551446758885,
+      "h": 79.93032153796024,
+      "rotation": 0
+    },
+    {
+      "uid": "wardrobe-1787646614206",
+      "item_id": "wardrobe",
+      "room_id": "bedroom-2",
+      "cx": 1148.290324555819,
+      "cy": 1162.0626365407736,
+      "w": 179.99999999999997,
+      "h": 81.32675371412877,
+      "rotation": -91.14295398796757
+    },
+    {
+      "uid": "dressing-table-1787646647163",
+      "item_id": "dressing-table",
+      "room_id": "bedroom-2",
+      "cx": 1430.2450458444252,
+      "cy": 953.5498373262348,
+      "w": 125.55690553236633,
+      "h": 89.99999999999994,
+      "rotation": 0
+    },
+    {
+      "uid": "kitchen-base-1787478607029",
+      "item_id": "kitchen-base",
+      "room_id": "kitchen",
+      "cx": 1604.7921431635318,
+      "cy": 389.1973056943665,
+      "w": 191.43389689744208,
+      "h": 105.51708475166814,
+      "rotation": -89.81128039303478
+    },
+    {
+      "uid": "kitchen-base-1787478608231",
+      "item_id": "kitchen-base",
+      "room_id": "kitchen",
+      "cx": 1395.605443419899,
+      "cy": 243.893072113842,
+      "w": 525.7007594581163,
+      "h": 89.99999999999999,
+      "rotation": 0
+    }
+  ],
+  "measured_transforms": [
+    {
+      "uid": "console-1787478438948",
+      "item_id": "console",
+      "world_pos": [
+        -0.3712580675626006,
+        0,
+        -1.3839722693486594
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        2.034860372543335,
+        0.8000099658966064,
+        0.4661930658530422
+      ],
+      "local_pos": [
+        -0.3712580675626006,
+        0,
+        -1.3839722693486594
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "living-area",
+      "room_label": "Living Area"
+    },
+    {
+      "uid": "lounger-sofa-1787478478712",
+      "item_id": "lounger-sofa",
+      "world_pos": [
+        1.001084563277081,
+        0,
+        1.4131944648375045
+      ],
+      "world_rot_y_deg": 90.13445741521569,
+      "world_bbox_size": [
+        1.0884306612494004,
+        0.6300099995136261,
+        2.2890220197919686
+      ],
+      "local_pos": [
+        1.001084563277081,
+        0,
+        1.4131944648375045
+      ],
+      "local_rot_y_deg": 90.13445741521568,
+      "in_frustum": true,
+      "room_id": "living-area",
+      "room_label": "Living Area"
+    },
+    {
+      "uid": "lounger-sofa-1787478572349",
+      "item_id": "lounger-sofa",
+      "world_pos": [
+        -0.5768248246832639,
+        0,
+        2.1079456132678276
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        2.0081759520302245,
+        0.6300099995136261,
+        0.8743755221366882
+      ],
+      "local_pos": [
+        -0.5768248246832639,
+        0,
+        2.1079456132678276
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "living-area",
+      "room_label": "Living Area"
+    },
+    {
+      "uid": "bed-1787479187466",
+      "item_id": "bed",
+      "world_pos": [
+        0.019536294557291597,
+        0,
+        1.4466299967312777
+      ],
+      "world_rot_y_deg": 180,
+      "world_bbox_size": [
+        1.1967419385910036,
+        0.8500099897384644,
+        2.029999996125698
+      ],
+      "local_pos": [
+        0.019536294557291597,
+        0,
+        1.4466299967312777
+      ],
+      "local_rot_y_deg": 180,
+      "in_frustum": true,
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3"
+    },
+    {
+      "uid": "side-table-1787479219083",
+      "item_id": "side-table",
+      "world_pos": [
+        1.0657232038842936,
+        0,
+        2.148737655879535
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        0.8687806129455566,
+        0.5500049903988838,
+        0.6049953699111938
+      ],
+      "local_pos": [
+        1.0657232038842936,
+        0,
+        2.148737655879535
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3"
+    },
+    {
+      "uid": "side-table-1787479220302",
+      "item_id": "side-table",
+      "world_pos": [
+        -1.068498091143237,
+        0,
+        2.1347884970885125
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        0.8960619568824768,
+        0.5500049903988838,
+        0.5959294438362122
+      ],
+      "local_pos": [
+        -1.068498091143237,
+        0,
+        2.1347884970885125
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3"
+    },
+    {
+      "uid": "wardrobe-1787646606853",
+      "item_id": "wardrobe",
+      "world_pos": [
+        1.2531435076661916,
+        0,
+        0.11422024710307431
+      ],
+      "world_rot_y_deg": -89.90893298128744,
+      "world_bbox_size": [
+        0.6340927084365368,
+        2.1000101566314697,
+        1.9048018003697875
+      ],
+      "local_pos": [
+        1.2531435076661916,
+        0,
+        0.11422024710307431
+      ],
+      "local_rot_y_deg": -89.90893298128742,
+      "in_frustum": true,
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3"
+    },
+    {
+      "uid": "dressing-table-1787646652625",
+      "item_id": "dressing-table",
+      "world_pos": [
+        -1.171697234133622,
+        0,
+        -0.9336832548701837
+      ],
+      "world_rot_y_deg": -89.918690147978,
+      "world_bbox_size": [
+        0.7679080209807827,
+        0.8000099658966064,
+        1.0501684794839612
+      ],
+      "local_pos": [
+        -1.171697234133622,
+        0,
+        -0.9336832548701837
+      ],
+      "local_rot_y_deg": -89.91869014797797,
+      "in_frustum": true,
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3"
+    },
+    {
+      "uid": "bed-1787478891845",
+      "item_id": "bed",
+      "world_pos": [
+        -1.079895807689976,
+        0,
+        -0.025704120421941586
+      ],
+      "world_rot_y_deg": 90.31767451191246,
+      "world_bbox_size": [
+        2.2976791318943866,
+        0.8500099897384644,
+        1.2600153062274018
+      ],
+      "local_pos": [
+        -1.079895807689976,
+        0,
+        -0.025704120421941586
+      ],
+      "local_rot_y_deg": 90.31767451191246,
+      "in_frustum": true,
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1"
+    },
+    {
+      "uid": "side-table-1787478946014",
+      "item_id": "side-table",
+      "world_pos": [
+        -1.8960096681402785,
+        0,
+        1.1803082518815207
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        0.5415439605712891,
+        0.5500049903988838,
+        0.9126452803611755
+      ],
+      "local_pos": [
+        -1.8960096681402785,
+        0,
+        1.1803082518815207
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1"
+    },
+    {
+      "uid": "side-table-1787478947384",
+      "item_id": "side-table",
+      "world_pos": [
+        -1.8960096681402845,
+        0,
+        -1.0747169959719864
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        0.5415439605712893,
+        0.5500049903988838,
+        0.9533451795578003
+      ],
+      "local_pos": [
+        -1.8960096681402845,
+        0,
+        -1.0747169959719864
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1"
+    },
+    {
+      "uid": "wardrobe-1787646602167",
+      "item_id": "wardrobe",
+      "world_pos": [
+        0.29584507208556615,
+        0,
+        -1.297743724843748
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        1.739816427230835,
+        2.1000101566314697,
+        0.7670452517300805
+      ],
+      "local_pos": [
+        0.29584507208556615,
+        0,
+        -1.297743724843748
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1"
+    },
+    {
+      "uid": "dressing-table-1787646642783",
+      "item_id": "dressing-table",
+      "world_pos": [
+        0.6962101406725067,
+        0,
+        1.2928537777775746
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        0.9613414406776428,
+        0.8000099658966064,
+        0.7670452517300805
+      ],
+      "local_pos": [
+        0.6962101406725067,
+        0,
+        1.2928537777775746
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1"
+    },
+    {
+      "uid": "chimney-1787478686293",
+      "item_id": "chimney",
+      "world_pos": [
+        -0.48700063516751246,
+        0,
+        -1.8638483825556724
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        1.0976200103759766,
+        0.7000100016593933,
+        0.5730812549591064
+      ],
+      "local_pos": [
+        -0.48700063516751246,
+        0,
+        -1.8638483825556724
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area"
+    },
+    {
+      "uid": "dining-table-1787478800756",
+      "item_id": "dining-table",
+      "world_pos": [
+        -0.6384943186640386,
+        0,
+        0.25939354597342024
+      ],
+      "world_rot_y_deg": 89.90775583223487,
+      "world_bbox_size": [
+        1.0859726730704415,
+        0.7500049993395805,
+        1.8068644513637548
+      ],
+      "local_pos": [
+        -0.6384943186640386,
+        0,
+        0.25939354597342024
+      ],
+      "local_rot_y_deg": 89.90775583223486,
+      "in_frustum": true,
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area"
+    },
+    {
+      "uid": "bed-1787478895814",
+      "item_id": "bed",
+      "world_pos": [
+        0.11048961927938758,
+        0,
+        1.0732712521429715
+      ],
+      "world_rot_y_deg": 178.9522417010842,
+      "world_bbox_size": [
+        1.1953391516797813,
+        0.8500099897384644,
+        1.6222303701712089
+      ],
+      "local_pos": [
+        0.11048961927938758,
+        0,
+        1.0732712521429715
+      ],
+      "local_rot_y_deg": 178.9522417010842,
+      "in_frustum": true,
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2"
+    },
+    {
+      "uid": "side-table-1787479146522",
+      "item_id": "side-table",
+      "world_pos": [
+        1.1674090545450915,
+        0,
+        1.5344710022780952
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        0.9419720768928528,
+        0.5500049903988838,
+        0.6140612363815308
+      ],
+      "local_pos": [
+        1.1674090545450915,
+        0,
+        1.5344710022780952
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2"
+    },
+    {
+      "uid": "side-table-1787479147677",
+      "item_id": "side-table",
+      "world_pos": [
+        -1.0040099972584955,
+        0,
+        1.5391207218751037
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        1.0422865152359009,
+        0.5500049903988838,
+        0.6412590146064758
+      ],
+      "local_pos": [
+        -1.0040099972584955,
+        0,
+        1.5391207218751037
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2"
+    },
+    {
+      "uid": "wardrobe-1787646614206",
+      "item_id": "wardrobe",
+      "world_pos": [
+        -1.1508573155094388,
+        0,
+        0.31098197812752515
+      ],
+      "world_rot_y_deg": 91.14295398796759,
+      "world_bbox_size": [
+        0.7127897740463645,
+        2.1000101566314697,
+        1.4568278344569543
+      ],
+      "local_pos": [
+        -1.1508573155094388,
+        0,
+        0.31098197812752515
+      ],
+      "local_rot_y_deg": 91.14295398796757,
+      "in_frustum": true,
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2"
+    },
+    {
+      "uid": "dressing-table-1787646647163",
+      "item_id": "dressing-table",
+      "world_pos": [
+        1.111187911380479,
+        0,
+        -1.361858895233525
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        1.0073184967041016,
+        0.8000099658966064,
+        0.7670452517300804
+      ],
+      "local_pos": [
+        1.111187911380479,
+        0,
+        -1.361858895233525
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2"
+    },
+    {
+      "uid": "kitchen-base-1787478607029",
+      "item_id": "kitchen-base",
+      "world_pos": [
+        1.5095330401034484,
+        0,
+        0.551781418496068
+      ],
+      "world_rot_y_deg": 89.81128039303479,
+      "world_bbox_size": [
+        0.8816872597820153,
+        0.9000099989771843,
+        1.5687101535330568
+      ],
+      "local_pos": [
+        1.5095330401034484,
+        0,
+        0.551781418496068
+      ],
+      "local_rot_y_deg": 89.81128039303478,
+      "in_frustum": true,
+      "room_id": "kitchen",
+      "room_label": "Kitchen"
+    },
+    {
+      "uid": "kitchen-base-1787478608231",
+      "item_id": "kitchen-base",
+      "world_pos": [
+        -0.16871435196482043,
+        0,
+        -0.6139545071715309
+      ],
+      "world_rot_y_deg": 0,
+      "world_bbox_size": [
+        4.247562885284424,
+        0.9000099989771843,
+        0.752045214176178
+      ],
+      "local_pos": [
+        -0.16871435196482043,
+        0,
+        -0.6139545071715309
+      ],
+      "local_rot_y_deg": 0,
+      "in_frustum": true,
+      "room_id": "kitchen",
+      "room_label": "Kitchen"
+    }
+  ],
+  "grouping_anomalies": {
+    "kitchen_dining_area": {
+      "description": "kitchen-dining-area containing chimney and dining-table",
+      "room_id": "kitchen-dining-area",
+      "label": "Kitchen & Dining Area",
+      "items": [
+        {
+          "uid": "chimney-1787478686293",
+          "item_id": "chimney"
+        },
+        {
+          "uid": "dining-table-1787478800756",
+          "item_id": "dining-table"
+        },
+        {
+          "uid": "door-1789215945981",
+          "item_id": "door"
+        }
+      ],
+      "verified": true,
+      "impact": "Room-grouping anomaly: combines architectural zones. All furniture instances are accurately captured in 3D with 0 position and rotation delta."
+    },
+    "fallback_kitchen": {
+      "description": "fallback kitchen containing kitchen-base instances",
+      "room_id": "kitchen",
+      "label": "Kitchen",
+      "items": [
+        {
+          "uid": "kitchen-base-1787478607029",
+          "item_id": "kitchen-base"
+        },
+        {
+          "uid": "kitchen-base-1787478608231",
+          "item_id": "kitchen-base"
+        }
+      ],
+      "verified": true,
+      "impact": "Separated fallback room generated around kitchen-base counters; both kitchen-base instances are captured with exact 3D transforms."
+    },
+    "empty_dining_area": {
+      "description": "empty dining-area",
+      "room_id": "dining-area",
+      "label": "Dining Area",
+      "items": [
+        {
+          "uid": "door-1789635608770",
+          "item_id": "door"
+        }
+      ],
+      "verified": true,
+      "furniture_count": 0,
+      "opening_count": 1,
+      "impact": "Contains no canonical furniture (only door opening). Does not cause missing furniture in 3D scene because the dining table is captured in kitchen-dining-area."
+    },
+    "duplicate_bedroom_3_labels": {
+      "description": "duplicate Bedroom 3 labels with different room IDs",
+      "rooms": [
+        {
+          "id": "bedroom-3",
+          "label": "Bedroom 3",
+          "bbox": [
+            673.02,
+            934.66,
+            388.8,
+            584.64
+          ],
+          "furniture_count": 5,
+          "items": [
+            {
+              "uid": "door-1789635571944",
+              "item_id": "door"
+            },
+            {
+              "uid": "bed-1787479187466",
+              "item_id": "bed"
+            },
+            {
+              "uid": "side-table-1787479219083",
+              "item_id": "side-table"
+            },
+            {
+              "uid": "side-table-1787479220302",
+              "item_id": "side-table"
+            },
+            {
+              "uid": "wardrobe-1787646606853",
+              "item_id": "wardrobe"
+            },
+            {
+              "uid": "dressing-table-1787646652625",
+              "item_id": "dressing-table"
+            },
+            {
+              "uid": "door-1791697527072-4e514847",
+              "item_id": "door"
+            },
+            {
+              "uid": "door-1791697517482-ea84d67b",
+              "item_id": "door"
+            }
+          ]
+        },
+        {
+          "id": "bedroom-3-2",
+          "label": "Bedroom 3",
+          "bbox": [
+            738.18,
+            1511.53,
+            274.5,
+            70
+          ],
+          "furniture_count": 0,
+          "items": [
+            {
+              "uid": "window-1788864843279",
+              "item_id": "window"
+            }
+          ]
+        }
+      ],
+      "verified": true,
+      "impact": "Distinct room IDs (bedroom-3 and bedroom-3-2) prevent ID collisions. bedroom-3 contains the main bedroom furniture (5 items), while bedroom-3-2 contains 1 window opening."
+    }
+  },
+  "instance_comparisons": [
+    {
+      "uid": "console-1787478438948",
+      "item_id": "console",
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "canonical": {
+        "cx": 1700.9841944938116,
+        "cy": 684.1534953392287,
+        "w": 253.6357981850792,
+        "h": 52.500000000000014,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -0.3712580675626006,
+        "y": 0,
+        "z": -1.3839722693486594,
+        "width": 2.0348502909646355,
+        "depth": 0.421193069117512,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 2.0348502909646355,
+        "expected_aabb_h": 0.8,
+        "expected_aabb_d": 0.421193069117512
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -0.3712580675626006,
+          0,
+          -1.3839722693486594
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          2.034860372543335,
+          0.8000099658966064,
+          0.4661930658530422
+        ],
+        "local_pos": [
+          -0.3712580675626006,
+          0,
+          -1.3839722693486594
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000010081578699416838,
+        "height_delta": 0.000009965896606400904,
+        "depth_delta": 0.044999996735530234
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "lounger-sofa-1787478478712",
+      "item_id": "lounger-sofa",
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "canonical": {
+        "cx": 1872.0411120970357,
+        "cy": 1032.8089322685635,
+        "w": 285.0000000000001,
+        "h": 135.00000000000338,
+        "rotation": -90.13445741521568
+      },
+      "computed_scene": {
+        "x": 1.001084563277081,
+        "y": 0,
+        "z": 1.4131944648375045,
+        "width": 2.2864766609236367,
+        "depth": 1.0830678920164862,
+        "rotation_y_deg": 90.13445741521568,
+        "expected_aabb_w": 1.0884306358282259,
+        "expected_aabb_h": 0.75,
+        "expected_aabb_d": 2.289012024711996
+      },
+      "measured_threejs": {
+        "world_pos": [
+          1.001084563277081,
+          0,
+          1.4131944648375045
+        ],
+        "world_rot_y_deg": 90.13445741521569,
+        "world_bbox_size": [
+          1.0884306612494004,
+          0.6300099995136261,
+          2.2890220197919686
+        ],
+        "local_pos": [
+          1.001084563277081,
+          0,
+          1.4131944648375045
+        ],
+        "local_rot_y_deg": 90.13445741521568
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 2.5421174498774235e-8,
+        "height_delta": 0.11999000048637387,
+        "depth_delta": 0.000009995079972568988
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "lounger-sofa-1787478572349",
+      "item_id": "lounger-sofa",
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "canonical": {
+        "cx": 1675.3611357586647,
+        "cy": 1119.4068322981475,
+        "w": 250.30970466722255,
+        "h": 108.98734527327566,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -0.5768248246832639,
+        "y": 0,
+        "z": 2.1079456132678276,
+        "width": 2.008165956927342,
+        "depth": 0.8743755133451605,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 2.008165956927342,
+        "expected_aabb_h": 0.75,
+        "expected_aabb_d": 0.8743755133451605
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -0.5768248246832639,
+          0,
+          2.1079456132678276
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          2.0081759520302245,
+          0.6300099995136261,
+          0.8743755221366882
+        ],
+        "local_pos": [
+          -0.5768248246832639,
+          0,
+          2.1079456132678276
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000009995102882687235,
+        "height_delta": 0.11999000048637387,
+        "depth_delta": 8.79152772803593e-9
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "bed-1787479187466",
+      "item_id": "bed",
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "canonical": {
+        "cx": 869.8551195199075,
+        "cy": 1407.2965350928478,
+        "w": 149.16775838141075,
+        "h": 249.29185140676006,
+        "rotation": -180
+      },
+      "computed_scene": {
+        "x": 0.019536294557291597,
+        "y": 0,
+        "z": 1.4466299967312777,
+        "width": 1.1967319231627782,
+        "depth": 1.9999999999999998,
+        "rotation_y_deg": 180,
+        "expected_aabb_w": 1.1967319231627784,
+        "expected_aabb_h": 0.5,
+        "expected_aabb_d": 2
+      },
+      "measured_threejs": {
+        "world_pos": [
+          0.019536294557291597,
+          0,
+          1.4466299967312777
+        ],
+        "world_rot_y_deg": 180,
+        "world_bbox_size": [
+          1.1967419385910036,
+          0.8500099897384644,
+          2.029999996125698
+        ],
+        "local_pos": [
+          0.019536294557291597,
+          0,
+          1.4466299967312777
+        ],
+        "local_rot_y_deg": 180
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000010015428225207401,
+        "height_delta": 0.3500099897384644,
+        "depth_delta": 0.029999996125698036
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "side-table-1787479219083",
+      "item_id": "side-table",
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "canonical": {
+        "cx": 1000.2580552917298,
+        "cy": 1494.8113942108155,
+        "w": 108.28871513471032,
+        "h": 75.41020461506496,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": 1.0657232038842936,
+        "y": 0,
+        "z": 2.148737655879535,
+        "width": 0.868770595778678,
+        "depth": 0.6049953433256908,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 0.868770595778678,
+        "expected_aabb_h": 0.55,
+        "expected_aabb_d": 0.6049953433256908
+      },
+      "measured_threejs": {
+        "world_pos": [
+          1.0657232038842936,
+          0,
+          2.148737655879535
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          0.8687806129455566,
+          0.5500049903988838,
+          0.6049953699111938
+        ],
+        "local_pos": [
+          1.0657232038842936,
+          0,
+          2.148737655879535
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.00001001716687865084,
+        "height_delta": 0.000004990398883797376,
+        "depth_delta": 2.658550302125917e-8
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "side-table-1787479220302",
+      "item_id": "side-table",
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "canonical": {
+        "cx": 734.2360663171567,
+        "cy": 1493.072688400525,
+        "w": 111.6892297396642,
+        "h": 74.28017538434187,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -1.068498091143237,
+        "y": 0,
+        "z": 2.1347884970885125,
+        "width": 0.8960519897413343,
+        "depth": 0.5959294294232003,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 0.8960519897413343,
+        "expected_aabb_h": 0.55,
+        "expected_aabb_d": 0.5959294294232003
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -1.068498091143237,
+          0,
+          2.1347884970885125
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          0.8960619568824768,
+          0.5500049903988838,
+          0.5959294438362122
+        ],
+        "local_pos": [
+          -1.068498091143237,
+          0,
+          2.1347884970885125
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000009967141142541713,
+        "height_delta": 0.000004990398883797376,
+        "depth_delta": 1.4413011895086925e-8
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "wardrobe-1787646606853",
+      "item_id": "wardrobe",
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "canonical": {
+        "cx": 1023.6192325522331,
+        "cy": 1241.2170884342315,
+        "w": 237.30844810432785,
+        "h": 73.22621664294726,
+        "rotation": 89.90893298128742
+      },
+      "computed_scene": {
+        "x": 1.2531435076661916,
+        "y": 0,
+        "z": 0.11422024710307431,
+        "width": 1.9038604492300122,
+        "depth": 0.587473808146796,
+        "rotation_y_deg": -89.90893298128742,
+        "expected_aabb_w": 0.5904990973928504,
+        "expected_aabb_h": 2.1,
+        "expected_aabb_d": 1.9047917862386727
+      },
+      "measured_threejs": {
+        "world_pos": [
+          1.2531435076661916,
+          0,
+          0.11422024710307431
+        ],
+        "world_rot_y_deg": -89.90893298128744,
+        "world_bbox_size": [
+          0.6340927084365368,
+          2.1000101566314697,
+          1.9048018003697875
+        ],
+        "local_pos": [
+          1.2531435076661916,
+          0,
+          0.11422024710307431
+        ],
+        "local_rot_y_deg": -89.90893298128742
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.04359361104368631,
+        "height_delta": 0.000010156631469637745,
+        "depth_delta": 0.000010014131114788327
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "dressing-table-1787646652625",
+      "item_id": "dressing-table",
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "canonical": {
+        "cx": 721.3727136073246,
+        "cy": 1110.600186382961,
+        "w": 130.7703963093347,
+        "h": 90.00000000000053,
+        "rotation": 89.91869014797797
+      },
+      "computed_scene": {
+        "x": -1.171697234133622,
+        "y": 0,
+        "z": -0.9336832548701837,
+        "width": 1.049134944214134,
+        "depth": 0.7220452613443104,
+        "rotation_y_deg": -89.91869014797797,
+        "expected_aabb_w": 0.7235333870176291,
+        "expected_aabb_h": 0.8,
+        "expected_aabb_d": 1.0501585596520835
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -1.171697234133622,
+          0,
+          -0.9336832548701837
+        ],
+        "world_rot_y_deg": -89.918690147978,
+        "world_bbox_size": [
+          0.7679080209807827,
+          0.8000099658966064,
+          1.0501684794839612
+        ],
+        "local_pos": [
+          -1.171697234133622,
+          0,
+          -0.9336832548701837
+        ],
+        "local_rot_y_deg": -89.91869014797797
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.044374633963153554,
+        "height_delta": 0.000009965896606400904,
+        "depth_delta": 0.000009919831877702734
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "bed-1787478891845",
+      "item_id": "bed",
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "canonical": {
+        "cx": 504.33538738728373,
+        "cy": 671.776086115616,
+        "w": 155.47377080788036,
+        "h": 281.31892502433715,
+        "rotation": -90.31767451191246
+      },
+      "computed_scene": {
+        "x": -1.079895807689976,
+        "y": 0,
+        "z": -0.025704120421941586,
+        "width": 1.2473233275017859,
+        "depth": 2.2569444082255194,
+        "rotation_y_deg": 90.31767451191246,
+        "expected_aabb_w": 2.263825424406744,
+        "expected_aabb_h": 0.5,
+        "expected_aabb_d": 1.2598176433360255
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -1.079895807689976,
+          0,
+          -0.025704120421941586
+        ],
+        "world_rot_y_deg": 90.31767451191246,
+        "world_bbox_size": [
+          2.2976791318943866,
+          0.8500099897384644,
+          1.2600153062274018
+        ],
+        "local_pos": [
+          -1.079895807689976,
+          0,
+          -0.025704120421941586
+        ],
+        "local_rot_y_deg": 90.31767451191246
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.03385370748764238,
+        "height_delta": 0.3500099897384644,
+        "depth_delta": 0.00019766289137623794
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "side-table-1787478946014",
+      "item_id": "side-table",
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "canonical": {
+        "cx": 402.61011977209665,
+        "cy": 822.1006146711104,
+        "w": 67.49999999999993,
+        "h": 113.75751327278171,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -1.8960096681402785,
+        "y": 0,
+        "z": 1.1803082518815207,
+        "width": 0.541533946008229,
+        "depth": 0.912645260010267,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 0.541533946008229,
+        "expected_aabb_h": 0.55,
+        "expected_aabb_d": 0.912645260010267
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -1.8960096681402785,
+          0,
+          1.1803082518815207
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          0.5415439605712891,
+          0.5500049903988838,
+          0.9126452803611755
+        ],
+        "local_pos": [
+          -1.8960096681402785,
+          0,
+          1.1803082518815207
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000010014563060045667,
+        "height_delta": 0.000004990398883797376,
+        "depth_delta": 2.0350908513933064e-8
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "side-table-1787478947384",
+      "item_id": "side-table",
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "canonical": {
+        "cx": 402.6101197720959,
+        "cy": 541.020905167916,
+        "w": 67.49999999999996,
+        "h": 118.83059241053404,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -1.8960096681402845,
+        "y": 0,
+        "z": -1.0747169959719864,
+        "width": 0.5415339460082292,
+        "depth": 0.9533451794751419,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 0.5415339460082292,
+        "expected_aabb_h": 0.55,
+        "expected_aabb_d": 0.9533451794751419
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -1.8960096681402845,
+          0,
+          -1.0747169959719864
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          0.5415439605712893,
+          0.5500049903988838,
+          0.9533451795578003
+        ],
+        "local_pos": [
+          -1.8960096681402845,
+          0,
+          -1.0747169959719864
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000010014563060045667,
+        "height_delta": 0.000004990398883797376,
+        "depth_delta": 8.265843565169462e-11
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "wardrobe-1787646602167",
+      "item_id": "wardrobe",
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "canonical": {
+        "cx": 675.8158828748886,
+        "cy": 513.2215320910985,
+        "w": 216.85978539907532,
+        "h": 89.99999999999997,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": 0.29584507208556615,
+        "y": 0,
+        "z": -1.297743724843748,
+        "width": 1.7398064491505052,
+        "depth": 0.7220452613443059,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 1.7398064491505052,
+        "expected_aabb_h": 2.1,
+        "expected_aabb_d": 0.7220452613443059
+      },
+      "measured_threejs": {
+        "world_pos": [
+          0.29584507208556615,
+          0,
+          -1.297743724843748
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          1.739816427230835,
+          2.1000101566314697,
+          0.7670452517300805
+        ],
+        "local_pos": [
+          0.29584507208556615,
+          0,
+          -1.297743724843748
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000009978080329764438,
+        "height_delta": 0.000010156631469637745,
+        "depth_delta": 0.044999990385774624
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "dressing-table-1787646642783",
+      "item_id": "dressing-table",
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "canonical": {
+        "cx": 725.7197574682051,
+        "cy": 836.1289559301978,
+        "w": 119.82605348314002,
+        "h": 90,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": 0.6962101406725067,
+        "y": 0,
+        "z": 1.2928537777775746,
+        "width": 0.9613314900343404,
+        "depth": 0.7220452613443061,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 0.9613314900343404,
+        "expected_aabb_h": 0.8,
+        "expected_aabb_d": 0.7220452613443061
+      },
+      "measured_threejs": {
+        "world_pos": [
+          0.6962101406725067,
+          0,
+          1.2928537777775746
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          0.9613414406776428,
+          0.8000099658966064,
+          0.7670452517300805
+        ],
+        "local_pos": [
+          0.6962101406725067,
+          0,
+          1.2928537777775746
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.00000995064330244766,
+        "height_delta": 0.000009965896606400904,
+        "depth_delta": 0.0449999903857744
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "chimney-1787478686293",
+      "item_id": "chimney",
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area",
+      "canonical": {
+        "cx": 1229.5973550114113,
+        "cy": 368.25889298560054,
+        "w": 136.81261989720548,
+        "h": 71.43224451300306,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -0.48700063516751246,
+        "y": 0,
+        "z": -1.8638483825556724,
+        "width": 1.0976100432097438,
+        "depth": 0.5730812628644629,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 1.0976100432097438,
+        "expected_aabb_h": 0.7,
+        "expected_aabb_d": 0.5730812628644629
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -0.48700063516751246,
+          0,
+          -1.8638483825556724
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          1.0976200103759766,
+          0.7000100016593933,
+          0.5730812549591064
+        ],
+        "local_pos": [
+          -0.48700063516751246,
+          0,
+          -1.8638483825556724
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000009967166232804914,
+        "height_delta": 0.000010001659393354956,
+        "depth_delta": 7.905356480542025e-9
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "dining-table-1787478800756",
+      "item_id": "dining-table",
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area",
+      "canonical": {
+        "cx": 1210.714284593772,
+        "cy": 632.9123486593392,
+        "w": 224.99999999999727,
+        "h": 134.99999999999952,
+        "rotation": -89.90775583223486
+      },
+      "computed_scene": {
+        "x": -0.6384943186640386,
+        "y": 0,
+        "z": 0.25939354597342024,
+        "width": 1.8051131533607434,
+        "depth": 1.0830678920164551,
+        "rotation_y_deg": 89.90775583223486,
+        "expected_aabb_w": 1.0859726551061388,
+        "expected_aabb_h": 0.75,
+        "expected_aabb_d": 1.806854513990194
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -0.6384943186640386,
+          0,
+          0.25939354597342024
+        ],
+        "world_rot_y_deg": 89.90775583223487,
+        "world_bbox_size": [
+          1.0859726730704415,
+          0.7500049993395805,
+          1.8068644513637548
+        ],
+        "local_pos": [
+          -0.6384943186640386,
+          0,
+          0.25939354597342024
+        ],
+        "local_rot_y_deg": 89.90775583223486
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 1.7964302712059066e-8,
+        "height_delta": 0.000004999339580535889,
+        "depth_delta": 0.000009937373560919838
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "bed-1787478895814",
+      "item_id": "bed",
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "canonical": {
+        "cx": 1305.5120808756933,
+        "cy": 1257.0788887541864,
+        "w": 145.36773386599717,
+        "h": 196.63013348266125,
+        "rotation": -178.9522417010842
+      },
+      "computed_scene": {
+        "x": 0.11048961927938758,
+        "y": 0,
+        "z": 1.0732712521429715,
+        "width": 1.1662453710033718,
+        "depth": 1.5775095124294882,
+        "rotation_y_deg": 178.9522417010842,
+        "expected_aabb_w": 1.194896419185562,
+        "expected_aabb_h": 0.5,
+        "expected_aabb_d": 1.598571498334395
+      },
+      "measured_threejs": {
+        "world_pos": [
+          0.11048961927938758,
+          0,
+          1.0732712521429715
+        ],
+        "world_rot_y_deg": 178.9522417010842,
+        "world_bbox_size": [
+          1.1953391516797813,
+          0.8500099897384644,
+          1.6222303701712089
+        ],
+        "local_pos": [
+          0.11048961927938758,
+          0,
+          1.0732712521429715
+        ],
+        "local_rot_y_deg": 178.9522417010842
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.00044273249421933336,
+        "height_delta": 0.3500099897384644,
+        "depth_delta": 0.02365887183681381
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "side-table-1787479146522",
+      "item_id": "side-table",
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "canonical": {
+        "cx": 1437.2527822782806,
+        "cy": 1314.5655585439465,
+        "w": 117.41173549561746,
+        "h": 76.54023384578892,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": 1.1674090545450915,
+        "y": 0,
+        "z": 1.5344710022780952,
+        "width": 0.9419620804535739,
+        "depth": 0.6140612572281885,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 0.9419620804535739,
+        "expected_aabb_h": 0.55,
+        "expected_aabb_d": 0.6140612572281885
+      },
+      "measured_threejs": {
+        "world_pos": [
+          1.1674090545450915,
+          0,
+          1.5344710022780952
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          0.9419720768928528,
+          0.5500049903988838,
+          0.6140612363815308
+        ],
+        "local_pos": [
+          1.1674090545450915,
+          0,
+          1.5344710022780952
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000009996439278903146,
+        "height_delta": 0.000004990398883797376,
+        "depth_delta": 2.0846657733386564e-8
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "side-table-1787479147677",
+      "item_id": "side-table",
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "canonical": {
+        "cx": 1166.5942444762668,
+        "cy": 1315.1451271473768,
+        "w": 129.91551446758885,
+        "h": 79.93032153796024,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -1.0040099972584955,
+        "y": 0,
+        "z": 1.5391207218751037,
+        "width": 1.0422764621825575,
+        "depth": 0.6412589989356768,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 1.0422764621825575,
+        "expected_aabb_h": 0.55,
+        "expected_aabb_d": 0.6412589989356768
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -1.0040099972584955,
+          0,
+          1.5391207218751037
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          1.0422865152359009,
+          0.5500049903988838,
+          0.6412590146064758
+        ],
+        "local_pos": [
+          -1.0040099972584955,
+          0,
+          1.5391207218751037
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000010053053343339613,
+        "height_delta": 0.000004990398883797376,
+        "depth_delta": 1.5670798991784807e-8
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "wardrobe-1787646614206",
+      "item_id": "wardrobe",
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "canonical": {
+        "cx": 1148.290324555819,
+        "cy": 1162.0626365407736,
+        "w": 179.99999999999997,
+        "h": 81.32675371412877,
+        "rotation": -91.14295398796757
+      },
+      "computed_scene": {
+        "x": -1.1508573155094388,
+        "y": 0,
+        "z": 0.31098197812752515,
+        "width": 1.444090522688612,
+        "depth": 0.6524621904422458,
+        "rotation_y_deg": 91.14295398796757,
+        "expected_aabb_w": 0.6811376312551793,
+        "expected_aabb_h": 2.1,
+        "expected_aabb_d": 1.4568178600972985
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -1.1508573155094388,
+          0,
+          0.31098197812752515
+        ],
+        "world_rot_y_deg": 91.14295398796759,
+        "world_bbox_size": [
+          0.7127897740463645,
+          2.1000101566314697,
+          1.4568278344569543
+        ],
+        "local_pos": [
+          -1.1508573155094388,
+          0,
+          0.31098197812752515
+        ],
+        "local_rot_y_deg": 91.14295398796757
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.03165214279118511,
+        "height_delta": 0.000010156631469637745,
+        "depth_delta": 0.000009974359655773313
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "dressing-table-1787646647163",
+      "item_id": "dressing-table",
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "canonical": {
+        "cx": 1430.2450458444252,
+        "cy": 953.5498373262348,
+        "w": 125.55690553236633,
+        "h": 89.99999999999994,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": 1.111187911380479,
+        "y": 0,
+        "z": -1.361858895233525,
+        "width": 1.007308540763331,
+        "depth": 0.7220452613443056,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 1.007308540763331,
+        "expected_aabb_h": 0.8,
+        "expected_aabb_d": 0.7220452613443056
+      },
+      "measured_threejs": {
+        "world_pos": [
+          1.111187911380479,
+          0,
+          -1.361858895233525
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          1.0073184967041016,
+          0.8000099658966064,
+          0.7670452517300804
+        ],
+        "local_pos": [
+          1.111187911380479,
+          0,
+          -1.361858895233525
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.000009955940770467464,
+        "height_delta": 0.000009965896606400904,
+        "depth_delta": 0.044999990385774846
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "kitchen-base-1787478607029",
+      "item_id": "kitchen-base",
+      "room_id": "kitchen",
+      "room_label": "Kitchen",
+      "canonical": {
+        "cx": 1604.7921431635318,
+        "cy": 389.1973056943665,
+        "w": 191.43389689744208,
+        "h": 105.51708475166814,
+        "rotation": -89.81128039303478
+      },
+      "computed_scene": {
+        "x": 1.5095330401034484,
+        "y": 0,
+        "z": 0.551781418496068,
+        "width": 1.5358215346163613,
+        "depth": 0.8465345670645279,
+        "rotation_y_deg": 89.81128039303478,
+        "expected_aabb_w": 0.8515886218624966,
+        "expected_aabb_h": 0.9,
+        "expected_aabb_d": 1.5386014958964813
+      },
+      "measured_threejs": {
+        "world_pos": [
+          1.5095330401034484,
+          0,
+          0.551781418496068
+        ],
+        "world_rot_y_deg": 89.81128039303479,
+        "world_bbox_size": [
+          0.8816872597820153,
+          0.9000099989771843,
+          1.5687101535330568
+        ],
+        "local_pos": [
+          1.5095330401034484,
+          0,
+          0.551781418496068
+        ],
+        "local_rot_y_deg": 89.81128039303478
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.030098637919518723,
+        "height_delta": 0.000009998977184233482,
+        "depth_delta": 0.030108657636575442
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    },
+    {
+      "uid": "kitchen-base-1787478608231",
+      "item_id": "kitchen-base",
+      "room_id": "kitchen",
+      "room_label": "Kitchen",
+      "canonical": {
+        "cx": 1395.605443419899,
+        "cy": 243.893072113842,
+        "w": 525.7007594581163,
+        "h": 89.99999999999999,
+        "rotation": 0
+      },
+      "computed_scene": {
+        "x": -0.16871435196482043,
+        "y": 0,
+        "z": -0.6139545071715309,
+        "width": 4.2175526916870645,
+        "depth": 0.722045261344306,
+        "rotation_y_deg": 0,
+        "expected_aabb_w": 4.2175526916870645,
+        "expected_aabb_h": 0.9,
+        "expected_aabb_d": 0.722045261344306
+      },
+      "measured_threejs": {
+        "world_pos": [
+          -0.16871435196482043,
+          0,
+          -0.6139545071715309
+        ],
+        "world_rot_y_deg": 0,
+        "world_bbox_size": [
+          4.247562885284424,
+          0.9000099989771843,
+          0.752045214176178
+        ],
+        "local_pos": [
+          -0.16871435196482043,
+          0,
+          -0.6139545071715309
+        ],
+        "local_rot_y_deg": 0
+      },
+      "deltas": {
+        "position_delta_x": 0,
+        "position_delta_y": 0,
+        "position_delta_z": 0,
+        "pos_delta_total": 0,
+        "rotation_delta": 0,
+        "width_delta": 0.030010193597359347,
+        "height_delta": 0.000009998977184233482,
+        "depth_delta": 0.029999952831871957
+      },
+      "tolerances": {
+        "position_m": 0.001,
+        "rotation_deg": 0.05,
+        "footprint_m": 0.05
+      },
+      "position_status": "PASS",
+      "rotation_status": "PASS",
+      "dimension_status": "INCONCLUSIVE",
+      "identity_status": "PASS",
+      "coverage_status": "PASS",
+      "status": "PASS",
+      "notes": "Deterministic 3D placement matches canonical 2D projection exactly (pos_delta <= 1mm, rot_delta <= 0.05°). Measured bounding box reflects procedural mesh details (headboard, cushions, handles, bevels). Canonical 2D height comparison is marked INCONCLUSIVE because 2D plans do not encode vertical height."
+    }
+  ],
+  "regression_and_safety_checks": {
+    "canonical_mutated": false,
+    "geometry_mutated": false,
+    "camera_mutated": false,
+    "fal_or_ai_called": false,
+    "renderer_behavior_modified": false
+  },
+  "unresolved_limitations": [
+    "Canonical 2D floor plans do not encode vertical 3D height, so height deltas are compared against procedural 3D specs rather than canonical values.",
+    "Three.js bounding boxes measure procedural multi-part mesh extents (pillows, handles, bevels) rather than raw planar bounding boxes.",
+    "Room-grouping anomalies (e.g. combined kitchen-dining-area and duplicate Bedroom 3 labels) remain in the source scene and are documented as read-only anomalies."
+  ]
+}

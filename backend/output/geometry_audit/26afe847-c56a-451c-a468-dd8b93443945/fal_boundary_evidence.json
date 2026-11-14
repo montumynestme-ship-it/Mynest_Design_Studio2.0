@@ -1,0 +1,674 @@
+{
+  "step": "STEP_5_FAL_BOUNDARY",
+  "design_version_id": "26afe847-c56a-451c-a468-dd8b93443945",
+  "plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "room_id": "bedroom-1",
+  "room_label": "Bedroom 1",
+  "generated_at": "2026-10-04T07:10:03.839566+00:00",
+  "base": {
+    "sha256_this_capture": "4922bbec4d63cfc697d1f5c8",
+    "sha256_step4_capture": "84b3fbaec7e5d71dbc81b2c6",
+    "dimensions": [
+      1216,
+      832
+    ],
+    "bytes": 89251,
+    "note": "WebGL capture is NOT byte-deterministic; base PNG SHA varies per capture. Content = Bedroom 1 bed scene (STEP 4 verified)."
+  },
+  "request": {
+    "provider": "fal",
+    "model": "fal-ai/flux-kontext/dev",
+    "rooms": [
+      "Bedroom 1"
+    ],
+    "width": 1216,
+    "height": 832,
+    "control_image": "Bedroom 1 base (bed)",
+    "fresh_generation": true,
+    "base_render_meta_room_key": "Bedroom 1",
+    "base_render_meta_dv": "26afe847-c56a-451c-a468-dd8b93443945"
+  },
+  "prompt": {
+    "request_prompt_first_line": "Photorealistic architectural interior photograph of a bedroom 1 that contains exactly: 1x Bed, 2x Side Table, 1x Wardrobe, 1x Dressing Table, 1x Window, 2x Door...",
+    "FINAL_prompt_to_fal_sha": "0822fa7c0ab6d9ca",
+    "FINAL_prompt_len": 1498,
+    "FINAL_prompt_is_room_agnostic": true,
+    "FINAL_prompt_identical_bedroom1_living_kitchen": true,
+    "final_prompt_concept_flags": {
+      "bed": "1 (negative only: re-oriented bed)",
+      "wardrobe": "1 (negative only: moved wardrobes)",
+      "dressing": 0,
+      "side_table": 0,
+      "sofa": "1 (negative only: merged sofas)"
+    },
+    "note": "_clean_prompt strips everything after AUTHORITATIVE GEOMETRY & INVENTORY / MANDATORY NEGATIVE markers and substitutes a generic style block; room-specific positive inventory is LOST. Byte-identical final prompt across Bedroom 1 / Living / Kitchen."
+  },
+  "adapter": {
+    "image_url_scheme": "data:image/png;base64,...",
+    "image_pixel_identical_to_base": true,
+    "image_dimensions": [
+      1216,
+      832
+    ],
+    "num_images": 1,
+    "output_format": "png",
+    "guidance_scale": "not sent (fal default 2.5)",
+    "steps": "not sent (fal default 28)",
+    "base64_integrity": "pixel-identical through _to_png re-encode (lossless on pixels)"
+  },
+  "fal_response": {
+    "http_status": 201,
+    "generation_id": "b835324a-2909-4ef2-bc98-db15f08d36ec",
+    "status": "completed",
+    "output_sha256": "2d06d0b3a87c1c261b015cc3",
+    "output_dimensions": [
+      1216,
+      832
+    ],
+    "output_bytes": 1369700,
+    "output_content": "LIVING ROOM (two sofas, armchair, coffee table) - NOT a bedroom, NO bed",
+    "geometry_faithful_flag": true,
+    "note": "post-AI gate passed because it only checks blank/aspect/non-identical, not furniture content."
+  },
+  "cache": {
+    "fresh_generation": true,
+    "cache_bypassed": true,
+    "cache_key_includes": "project,floor_plan,room_label,geometry,design_intent,provider,model"
+  },
+  "saved_mapping": {
+    "images[0].label": "Bedroom 1",
+    "images[0].index": 0,
+    "url": "/api/generations/b835324a-2909-4ef2-bc98-db15f08d36ec/images/0",
+    "design_version_id": "26afe847-c56a-451c-a468-dd8b93443945",
+    "correct": true
+  },
+  "gallery_mapping": {
+    "mechanism": "GenerationGallery images[safeIndex].url per tab",
+    "shared_global_image": false,
+    "correct": true
+  },
+  "first_divergence_stage": "B (GenerationRequest -> FAL adapter request): _clean_prompt strips room-specific inventory/type; final prompt is room-agnostic (byte-identical across rooms). Consequent C: fal returns living-room for a bedroom base+generic prompt.",
+  "A_base_to_request": "CORRECT (Bedroom 1 bed base supplied)",
+  "B_request_to_adapter": "DIVERGENCE (prompt construction: room inventory/type stripped by _clean_prompt; image pixel-correct)",
+  "C_fal_semantic": "CONSEQUENT (living-room output from bedroom base + generic prompt)",
+  "D_response_to_saved": "CORRECT (saved as Bedroom 1, index 0, dv 26afe847)",
+  "E_gallery": "CORRECT (per-index url, no shared image)",
+  "root_cause_confidence": "HIGH (final prompt byte-identical across 3 distinct rooms proves room identity lost at B)",
+  "status": "FIRST_DIVERGENCE_IDENTIFIED (stage B)",
+  "step5_fix_verification": {
+    "verified_at": "2026-10-05T06:04:35.565459+00:00",
+    "fix": "FAL _build_fal_edit_prompt (room identity + inventory lead); NVIDIA _clean_prompt no longer used by FAL",
+    "backend_reload": "uvicorn --reload (PID 14780) auto-loaded the fix",
+    "bedroom1_base_sha": "4b2d7bc90c298bd6e28b577b",
+    "base_dims": [
+      1216,
+      832
+    ],
+    "one_fal_call": {
+      "gen_id": "93ce15b0-6c65-41d4-9176-67605e7a5697",
+      "http": 201,
+      "status": "completed",
+      "output_sha": "8185ea2db4f8dd1cd578afa5",
+      "output_dims": [
+        1216,
+        832
+      ],
+      "output_content": "BEDROOM (bed + wardrobe + dressing-table + side table + door + window) - matches authoritative inventory",
+      "saved_label": "Bedroom 1",
+      "geometry_faithful": true
+    },
+    "before_vs_after": {
+      "before": "gen b835324a: Bedroom 1 base -> LIVING room (room-agnostic prompt)",
+      "after": "gen 93ce15b0: same Bedroom 1 base -> BEDROOM (room-specific prompt)"
+    },
+    "result": "STEP 5 PASS - corrected prompt reaches FAL and preserves room identity"
+  },
+  "step6_prompt_structure_audit": {
+    "audited_at": "2026-10-05T06:21:21.502502+00:00",
+    "bedroom1_final": {
+      "len": 1889,
+      "sha": "5ece174f4d0a791a"
+    },
+    "checks": {
+      "A_room_identity": "PASS",
+      "B_inventory_exact": "PASS",
+      "C_architecture_preserved": "PASS",
+      "D_furniture_preserved": "PASS",
+      "E_allowed_changes_defined": "PASS",
+      "F_forbidden_changes_defined": "PASS (room-type enforced POSITIVELY via ROOM:+inventory, not an explicit negative)"
+    },
+    "conflicts": "NONE (word \"Transform this interior layout\" is immediately qualified by reproduce-exactly/PRESERVE; no redesign/rearrange/add-furniture/change-walls tokens)",
+    "duplications_harmless": [
+      "image-authority (AUTHORITY vs PREAMBLE)",
+      "allowed-surface-changes (AUTHORITY vs PREAMBLE)",
+      "negative furniture/wall list (PREAMBLE vs NEGATIVES near-verbatim)"
+    ],
+    "nvidia_isolation": {
+      "fal_imports_clean_prompt": false,
+      "nvidia_still_defines_clean_prompt": true
+    },
+    "multi_room": {
+      "distinct": true,
+      "rooms": {
+        "Bedroom 1": "5ece174f",
+        "Bedroom 2": "69e296d3",
+        "Bedroom 3": "7c066805",
+        "Living Area": "66853c8d",
+        "Kitchen": "20f4a0bc"
+      }
+    },
+    "status": "PASS"
+  },
+  "test1_furniture_inventory_preservation": {
+    "task": "TEST 1 - FAL furniture inventory preservation (one real FAL call only)",
+    "fid": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+    "design_version": "26afe847-c56a-451c-a468-dd8b93443945",
+    "room": "Bedroom 1 (bedroom-1)",
+    "expected_inventory": {
+      "bed": 1,
+      "side-table": 2,
+      "wardrobe": 1,
+      "dressing-table": 1,
+      "total": 5
+    },
+    "phase1_deterministic_base": {
+      "canonical_count_non_opening": 5,
+      "base_scene_count": 5,
+      "inventory": {
+        "bed": 1,
+        "side-table": 2,
+        "wardrobe": 1,
+        "dressing-table": 1
+      },
+      "all_items_have_id_cx_cy_w_h_rotation_room": true,
+      "canonical_matches_expected": true,
+      "result": "PASS"
+    },
+    "phase2_fal_call": {
+      "note": "Reused the single authorized real FAL call; NO new credit spent.",
+      "generation_id": "93ce15b0-6c65-41d4-9176-67605e7a5697",
+      "model": "fal-ai/flux-kontext/dev",
+      "http_status": "201 / completed",
+      "input_base_sha256_8": "4b2d7bc9",
+      "output_sha256_8": "8185ea2d",
+      "recomputed_saved_output_sha256_8": "8185ea2d",
+      "output_dims": [
+        1216,
+        832
+      ],
+      "final_prompt_sha256_8": "5ece174f"
+    },
+    "phase3_object_level_inspection": {
+      "object_level_validation": "NOT AVAILABLE",
+      "reason": "assess_ai_output_geometry does NO per-object furniture detection (blank/aspect/identical only, by design); no vision detector or object-count validator exists anywhere in the pipeline.",
+      "geometry_faithful_used_as_proof": false,
+      "visual_inspection_non_authoritative": {
+        "label": "HUMAN/VISUAL EVIDENCE ONLY - NOT automated proof",
+        "observed": "Bed x1, Wardrobe x1, a black metal side table (left of bed) x1, a low wooden drawer unit (right of bed) x1, a desk/dressing unit (far right) x1, plus an accompanying chair at the desk.",
+        "ambiguity": "The right-of-bed drawer unit vs far-right desk could map to {side-table #2, dressing-table} either way; the chair may be an invented extra OR the dressing-table's stool. Visual inspection cannot resolve this at object level.",
+        "visual_room_identity": "Bedroom (regression fix holds: bedroom-shaped, not a living room)."
+      }
+    },
+    "status": "NOT VALIDATABLE",
+    "status_reason": "Deterministic base is correct (Phase 1 PASS), but there is NO reliable object-level validator to prove the AI output preserves exactly {Bed=1, Side Table=2, Wardrobe=1, Dressing Table=1} with no missing/extra/duplicate/replacement. Per instruction, cannot claim PASS from visual similarity.",
+    "test1a_close_validation_gap": {
+      "objective": "Object-level validation of the AI photoreal output vs canonical Bedroom 1 inventory. NO new FAL call.",
+      "pixels_inspected": true,
+      "pixel_source_sha256_8": "8185ea2d",
+      "pixel_source_dims": [
+        1216,
+        832
+      ],
+      "reused_generation": "93ce15b0-6c65-41d4-9176-67605e7a5697",
+      "existing_detector_found": {
+        "capability": "ultralytics YOLO pipeline (app.services.ml + furniture_detection_service.detect_candidates)",
+        "suitable_for_this_task": false,
+        "reasons_unsuitable": [
+          "Trained weights best.pt ABSENT (storage/models/best.pt not found) -> falls back to generic COCO yolov8n.",
+          "Designed/trained for 2D TOP-DOWN floor-plan SVG symbols (YoloDetector docstring: 'for 2D floor plans'), NOT photorealistic perspective renders -> domain mismatch.",
+          "Taxonomy (app/data/classes.py) has NO 'wardrobe' class at all (cannot represent 1 of the 4 expected categories).",
+          "On the photoreal render the shipped pipeline returned 11 candidates ALL class='unknown' (COCO index mis-mapped onto the 14-class MyNest taxonomy)."
+        ]
+      },
+      "genuine_general_detector_run": {
+        "model": "yolov8n.pt (COCO-80, the project's own documented fallback), true COCO names",
+        "note": "COCO has NO wardrobe / side table / dressing table / nightstand classes.",
+        "detections_conf_ge_0_10": [
+          {
+            "coco_class": "chair",
+            "confidence": 0.864,
+            "bbox": [
+              911.1,
+              500.2,
+              1008.1,
+              714.8
+            ]
+          },
+          {
+            "coco_class": "bed",
+            "confidence": 0.784,
+            "bbox": [
+              359.3,
+              558.9,
+              897.5,
+              788.8
+            ]
+          },
+          {
+            "coco_class": "potted plant",
+            "confidence": 0.758,
+            "bbox": [
+              334.4,
+              513.2,
+              377.3,
+              559.3
+            ]
+          },
+          {
+            "coco_class": "potted plant",
+            "confidence": 0.621,
+            "bbox": [
+              1012.3,
+              385.3,
+              1076.5,
+              515.8
+            ]
+          },
+          {
+            "coco_class": "chair",
+            "confidence": 0.604,
+            "bbox": [
+              283.2,
+              551.4,
+              411.2,
+              774.6
+            ]
+          },
+          {
+            "coco_class": "vase",
+            "confidence": 0.596,
+            "bbox": [
+              1027.2,
+              449.1,
+              1061.5,
+              515.4
+            ]
+          },
+          {
+            "coco_class": "potted plant",
+            "confidence": 0.531,
+            "bbox": [
+              1125.2,
+              302.7,
+              1215.4,
+              516.8
+            ]
+          },
+          {
+            "coco_class": "chair",
+            "confidence": 0.188,
+            "bbox": [
+              606.8,
+              523.0,
+              768.9,
+              581.3
+            ]
+          },
+          {
+            "coco_class": "vase",
+            "confidence": 0.169,
+            "bbox": [
+              1062.3,
+              455.4,
+              1103.6,
+              517.0
+            ]
+          },
+          {
+            "coco_class": "dining table",
+            "confidence": 0.156,
+            "bbox": [
+              920.1,
+              502.3,
+              1216.0,
+              757.8
+            ]
+          },
+          {
+            "coco_class": "vase",
+            "confidence": 0.107,
+            "bbox": [
+              1179.9,
+              419.1,
+              1215.5,
+              503.2
+            ]
+          }
+        ],
+        "summary_counts": {
+          "bed": 1,
+          "chair": 3,
+          "potted plant": 3,
+          "vase": 3,
+          "dining table": 1
+        }
+      },
+      "matching_vs_expected": {
+        "expected": {
+          "bed": 1,
+          "side-table": 2,
+          "wardrobe": 1,
+          "dressing-table": 1,
+          "total": 5
+        },
+        "bed": {
+          "match": "MATCHED",
+          "detected": 1,
+          "confidence": 0.784,
+          "note": "COCO 'bed' x1, confident"
+        },
+        "side-table": {
+          "match": "UNCERTAIN",
+          "note": "No detector class for side table/nightstand; left unit misread as 'chair'; second unit not resolvable."
+        },
+        "wardrobe": {
+          "match": "UNCERTAIN",
+          "note": "No detector class for wardrobe; tall left cabinet not detected by COCO."
+        },
+        "dressing-table": {
+          "match": "UNCERTAIN",
+          "note": "No detector class; far-right desk possibly 'dining table'@0.156 or 'chair' \u2014 cannot confirm."
+        },
+        "non_canonical_or_misread": "3x potted plant + 3x vase (decor, not canonical inventory); 3x chair (likely side-table misread + desk chair/stool + noise). Cannot classify as true 'extra furniture'."
+      },
+      "counts": {
+        "expected_count": 5,
+        "detected_count_confident_canonical": 1,
+        "matched_count": 1,
+        "missing_count": "UNDETERMINED (detector cannot represent 3 of 4 categories)",
+        "extra_count": "UNDETERMINED (plants/vase are decor; chairs ambiguous)",
+        "duplicate_count": "UNDETERMINED",
+        "category_mismatch_count": "UNDETERMINED"
+      },
+      "ambiguity_rule_triggered": true,
+      "status": "NOT VALIDATABLE",
+      "status_reason": "No suitable object-level validator exists for the AI PHOTOREAL output. Pixels WERE inspected with two real detectors: the project detector yields only 'unknown' (wrong domain + missing weights + no wardrobe class), and generic COCO confidently confirms only Bed=1 while having no classes for side table/wardrobe/dressing table. Side Table, Wardrobe, Dressing Table are UNCERTAIN; per the ambiguity rule, uncertainty is NOT converted to PASS. Not FAIL either, since no definite missing/extra/replacement can be asserted when the detector cannot represent 3 of the 4 categories."
+    },
+    "test1b_photoreal_validation_path_audit": {
+      "objective": "Find any EXISTING wired vision path able to identify Bed/Side Table/Wardrobe/Dressing Table in the FAL photoreal render.",
+      "pixel_source_sha256_8": "8185ea2d",
+      "no_code_change": true,
+      "no_fal_call": true,
+      "no_training": true,
+      "no_new_dependency": true,
+      "candidates": [
+        {
+          "name": "vision_validation_service.run_vision_validation (NVIDIA Vision LLM)",
+          "implementation": "OpenAI-compatible chat/completions image_url call to meta/llama-3.2-11b-vision-instruct",
+          "actually_wired": "Yes, but ONLY in canonical_assembly_service.assemble(include_vision=True), fed _source_image(file_id)=the SOURCE 2D floor plan, with furniture candidates passed as [].",
+          "image_input": "Yes (accepts bytes/PIL -> base64 data URI).",
+          "furniture_detection": "No independent enumeration. It VALIDATES/labels pre-existing deterministic candidate IDs only; conclusions referencing unknown IDs are rejected.",
+          "required_taxonomy_coverage": "Not usable: furniture_classifications require a known candidate_id; with no suitable candidate detector for photoreal renders there are no IDs to classify.",
+          "structured_output": "Yes (strict JSON), but furniture section was empty on this image.",
+          "confidence": "Coarse enum (high/medium/low/uncertain) only.",
+          "extra_object_detection": "No (cannot introduce new/unknown entities; rejects them).",
+          "missing_object_detection": "No (only contradictions/uncertain over KNOWN ids).",
+          "bounding_boxes": "Forbidden by design (_FORBIDDEN_KEYS includes bbox/cx/cy/x/y/w/h) -> no localization/counting.",
+          "runtime_observed_on_8185ea2d": "status='disabled' (NVIDIA_VISION_ENABLED=false) -> returned immediately, inspected NO pixels; furniture_classifications=[].",
+          "suitable": "NO"
+        },
+        {
+          "name": "YOLO pipeline (furniture_detection_service / app.services.ml)",
+          "implementation": "Ultralytics YOLO (best.pt or yolov8n fallback)",
+          "actually_wired": "Yes (floor_plan_service.detect_furniture).",
+          "image_input": "Yes.",
+          "furniture_detection": "Yes for 2D top-down symbols; produced only class='unknown' x11 on this photoreal render (Test 1A).",
+          "required_taxonomy_coverage": "No 'wardrobe' class; trained domain is 2D plans; weights best.pt absent.",
+          "structured_output": "Yes.",
+          "confidence": "Yes (numeric).",
+          "extra_object_detection": "Not reliably on photoreal.",
+          "missing_object_detection": "No.",
+          "suitable": "NO (established Test 1A)"
+        },
+        {
+          "name": "fal_flux_adapter / nvidia_flux_adapter",
+          "implementation": "Image GENERATION (img2img restyle).",
+          "actually_wired": "Yes.",
+          "image_input": "Yes (as control image).",
+          "furniture_detection": "N/A - generates images, does not understand/detect objects.",
+          "suitable": "NO (not an understanding path)"
+        },
+        {
+          "name": "text_extraction_service (OCR) / assess_ai_output_geometry",
+          "implementation": "OCR text; deterministic blank/aspect/identical image check.",
+          "furniture_detection": "N/A - no object semantics.",
+          "suitable": "NO"
+        }
+      ],
+      "final_status": "NO EXISTING VALIDATION PATH",
+      "why": "The only genuine image-understanding path (NVIDIA Vision LLM) is (a) disabled by config, (b) wired to the SOURCE 2D plan not the FAL render, and (c) architecturally a candidate-VALIDATOR that cannot independently enumerate furniture, cannot emit bounding boxes/counts (forbidden keys), and cannot report extra/missing objects. The YOLO path is domain-wrong, weightless, and lacks a wardrobe class. Generation adapters and OCR are not understanding paths. No existing path can inspect the photoreal pixels and return a Bed/Side Table/Wardrobe/Dressing Table inventory with confidence and extra/missing detection."
+    },
+    "test1c_architecture_selection": {
+      "requirement": "Compare canonical EXPECTED inventory vs DETECTED inventory from the photoreal FAL render; determine missing/extra/duplicate/category-mismatch/confidence; validator is advisory, canonical 2D stays source of truth.",
+      "must_classes": [
+        "bed",
+        "side-table",
+        "wardrobe",
+        "dressing-table"
+      ],
+      "env_facts": {
+        "nvidia_api_key_set": true,
+        "nvidia_vision_model": "meta/llama-3.2-11b-vision-instruct",
+        "openai_compatible_endpoint": true,
+        "httpx_present": true,
+        "transformers_present": false,
+        "groundingdino_present": false,
+        "torch_present": true,
+        "ultralytics_present": true,
+        "best_pt_present": false
+      },
+      "recommendation": "B",
+      "recommendation_name": "Dedicated multimodal VLM image-inventory contract over the EXISTING NVIDIA OpenAI-compatible infra",
+      "why": "Only approach meeting all MUST requirements (4 classes + missing/extra/duplicate/category-mismatch/confidence) with NO training, NO new model asset, NO new dependency; reuses NVIDIA_API_KEY + httpx + the already-configured VLM; runs server-side in FastAPI; independent of the FAL pipeline; keeps canonical as source of truth (EXPECTED vs DETECTED -> PASS/FAIL/UNCERTAIN).",
+      "caveat": "VLM gives semantic inventory + coarse confidence but APPROXIMATE/UNRELIABLE bounding boxes and imperfect near-duplicate counting; confidence-gate to UNCERTAIN. For true bbox-grade localization + exact duplicate disambiguation, upgrade to Hybrid E by adding an open-vocab detector (Approach C) later -- that step needs a new dependency+asset.",
+      "rejected": {
+        "A": "existing service is candidate-validator bound to source 2D plan, forbids bbox, disabled; cannot enumerate",
+        "C": "OWLv2/GroundingDINO strongest for bbox/count but needs NEW dependency (transformers) + model weights asset; not NVIDIA-API as configured",
+        "D": "requires training data + training (disallowed, heavy)",
+        "E": "best long-term (B+C) but most invasive now; requires C's new asset/dep"
+      }
+    },
+    "test1d_dynamic_expected_vs_existing_detection": {
+      "protocol": "Derive EXPECTED Bedroom 1 inventory dynamically from canonical (no hardcode); attempt DETECTED via existing detection paths on the actual FAL pixels (sha 8185ea2d); compare.",
+      "expected_dynamic": {
+        "bed": 1,
+        "side-table": 2,
+        "wardrobe": 1,
+        "dressing-table": 1,
+        "total": 5,
+        "source": "scene room-assignment of canonical furniture, openings(door/window) excluded"
+      },
+      "detection_paths_attempted": {
+        "yolo_furniture_detection_service": {
+          "source": "yolo",
+          "total_candidates": 15,
+          "by_class": {
+            "unknown": 15
+          },
+          "mapped_via_mynest_taxonomy": {},
+          "unmatched_unknown": 15,
+          "why": "best.pt absent -> COCO fallback; COCO indices don't map to MyNest 14-class taxonomy; trained for 2D floor-plan symbols not photoreal -> all 'unknown'"
+        },
+        "nvidia_vision_llm": {
+          "status": "disabled",
+          "furniture_classifications": [],
+          "why": "NVIDIA_VISION_ENABLED=false; and architecturally a candidate-VALIDATOR bound to source-2D entity IDs, forbids bbox, cannot enumerate furniture independently"
+        },
+        "coco_generic": "NOT used as MyNest furniture (no explicit COCO->MyNest taxonomy mapping exists)"
+      },
+      "comparison": {
+        "bed": {
+          "expected": 1,
+          "detected": 0,
+          "confidence": 0.0,
+          "count_delta": "indeterminate"
+        },
+        "side-table": {
+          "expected": 2,
+          "detected": 0,
+          "confidence": 0.0,
+          "count_delta": "indeterminate"
+        },
+        "wardrobe": {
+          "expected": 1,
+          "detected": 0,
+          "confidence": 0.0,
+          "count_delta": "indeterminate"
+        },
+        "dressing-table": {
+          "expected": 1,
+          "detected": 0,
+          "confidence": 0.0,
+          "count_delta": "indeterminate"
+        },
+        "unknown_unmatched_objects": 15
+      },
+      "checks": {
+        "missing_furniture": "cannot determine (no typed detections)",
+        "extra_furniture": "cannot determine",
+        "wrong_count": "cannot determine",
+        "unknown_unmatched": "15 unknown (detector cannot classify into taxonomy)"
+      },
+      "geometry_faithful_used_as_proof": false,
+      "existing_system_can_inspect_fal_pixels_semantically": false,
+      "status": "NOT VALIDATABLE",
+      "production_code_must_change": true,
+      "recommended_change": "Implement the Approach-B VLM inventory contract (Test 1C) over the existing NVIDIA OpenAI-compatible infra (meta/llama-3.2-11b-vision-instruct): a NEW post-AI inventory service that enumerates furniture from the FAL pixels and compares to the dynamic EXPECTED. No new model asset/dependency/training. Not achievable with current code (YOLO domain-wrong+weightless+no wardrobe class; vision service is candidate-bound+disabled)."
+    },
+    "test1e_vlm_inventory_validator_implemented": {
+      "production_file_added": "app/services/furniture_inventory_validation_service.py",
+      "test_file_added": "tests/test_furniture_inventory_validation.py (14 tests, all pass)",
+      "model": "meta/llama-3.2-11b-vision-instruct (existing NVIDIA OpenAI-compatible infra)",
+      "controlled_image": {
+        "generation": "93ce15b0-6c65-41d4-9176-67605e7a5697",
+        "sha256_8": "8185ea2d",
+        "width": 1216,
+        "height": 832,
+        "bytes": 1200096,
+        "http_status": 200
+      },
+      "expected_dynamic": {
+        "bed": 1,
+        "side-table": 2,
+        "wardrobe": 1,
+        "dressing-table": 1,
+        "total": 5,
+        "source": "canonical Bedroom 1 via group_by_room, openings excluded"
+      },
+      "detected": [
+        {
+          "type": "wardrobe",
+          "confidence": 1.0
+        },
+        {
+          "type": "bed",
+          "confidence": 1.0
+        },
+        {
+          "type": "side-table",
+          "confidence": 1.0
+        },
+        {
+          "type": "dressing-table",
+          "confidence": 0.5
+        }
+      ],
+      "per_type": [
+        {
+          "bed": "MATCH 1/1"
+        },
+        {
+          "wardrobe": "MATCH 1/1"
+        },
+        {
+          "dressing-table": "MATCH 1/1 @0.5"
+        },
+        {
+          "side-table": "MISSING 1/2"
+        }
+      ],
+      "missing": [
+        {
+          "side-table": "expected 2 detected 1"
+        }
+      ],
+      "extra": [],
+      "unmatched": [],
+      "low_confidence": [],
+      "overall_status": "UNCERTAIN",
+      "why": "VLM detected only 1 of 2 side-tables; a missing (under-detection) is not provable absence -> UNCERTAIN (not FAIL), and there is no exact match -> not PASS.",
+      "pixels_reach_vlm_proven": true,
+      "geometry_faithful_used": false,
+      "production_code_change": "ADDED new advisory validator service (no existing code/geometry/FAL/camera modified)",
+      "contract_fixes": [
+        "per-type status -> exactly {PASS,FAIL,UNCERTAIN} (MISSING moved to classification)",
+        "partially-invalid response (any rejected detection) can never PASS"
+      ],
+      "per_type_final": [
+        {
+          "bed": "PASS (MATCH 1/1 @1.0)"
+        },
+        {
+          "wardrobe": "PASS (MATCH 1/1 @1.0)"
+        },
+        {
+          "dressing-table": "PASS (MATCH 1/1 @0.5)"
+        },
+        {
+          "side-table": "UNCERTAIN (MISSING 1/2 @1.0)"
+        }
+      ],
+      "tests": "tests/test_furniture_inventory_validation.py = 16 pass; regression 82 pass",
+      "side_table_under_detection_root_cause": "DETECTION CAPABILITY, not validator logic. Raw VLM returned side-table x1 (1.0) + dressing-table x1 (0.5); the render depicts the 2 canonical side-tables as visually different pieces (metal nightstand + wooden drawer chest); the VLM folded the 2nd bedside unit into a single low-confidence dressing-table and never emitted a 2nd side-table. Validator counts each returned object faithfully (no merge) -> UNCERTAIN. No production logic change warranted; NOT converted to PASS.",
+      "test_cleanup": "Removed hardcoded FID + \"Bedroom 1\" from tests; added _discover_plan_room_with_furniture() using list_floor_plans + group_by_room + expected_inventory (fully dynamic). No new test file.",
+      "fal_calls_made": 0
+    },
+    "test1f_multistage_enumerate_classify_reconcile": {
+      "architecture": "Stage A generic enumeration (no vocab -> no parroting) + Stage B classify fixed list + reconcile (one object=one item, ambiguous=candidate) + Stage F focused adjudication",
+      "production_file": "app/services/furniture_inventory_validation_service.py (rewritten, additive; no other prod code touched)",
+      "test_file": "tests/test_furniture_inventory_validation.py (26 tests; reconcile tested directly + orchestrator routed per stage)",
+      "controlled": {
+        "generation": "93ce15b0",
+        "sha8": "8185ea2d",
+        "dims": "1216x832",
+        "model": "meta/llama-3.2-11b-vision-instruct",
+        "http": 200,
+        "vision_calls": 3,
+        "adjudicated": true,
+        "fal_calls": 0
+      },
+      "enumerated_5_real_objects": [
+        "bed",
+        "tall cabinet(wardrobe)",
+        "low drawer unit(dresser-like)",
+        "desk",
+        "chair"
+      ],
+      "reconciliation": {
+        "wardrobe": "PASS 1/1",
+        "bed": "UNCERTAIN (model flagged bed/queen-bed)",
+        "side-table": "UNCERTAIN 0/2 (metal one under-enumerated; wooden chest read as dresser/unknown)",
+        "dressing-table": "UNCERTAIN 0/1 (desk read as unknown/console)"
+      },
+      "unmatched": [
+        "low drawer unit",
+        "desk",
+        "chair"
+      ],
+      "extra_FAIL": [],
+      "overall_status": "UNCERTAIN",
+      "root_cause_of_remaining_uncertainty": "genuine VLM visual/semantic ambiguity + under-enumeration (11B model), NOT a validator bug: the render depicts the 2nd side-table as a dresser-like drawer unit and a desk; the model honestly reads them as low-drawer-unit/desk/chair and does not map them to side-table/dressing-table. Validator preserves all evidence and refuses to fabricate the missing side-table.",
+      "parroting_bug_fixed": "single rich prompt made the model echo the 26-item vocabulary as detections; two-call separation (generic enumerate then classify a fixed list) eliminates it."
+    }
+  }
+}

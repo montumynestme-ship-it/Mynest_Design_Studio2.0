@@ -1,0 +1,155 @@
+{
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "totals": {
+    "canonical": 33,
+    "scene": 33,
+    "missing_from_3d": [],
+    "extra_in_3d": [],
+    "duplicated_across_rooms": []
+  },
+  "base_render": {
+    "all_items_renderable": true,
+    "note": "every scene item mounts a mesh (explicit spec or generic fallback + default case); windows render as wall openings"
+  },
+  "rooms": [
+    {
+      "room": "Living Area",
+      "validation_status": "CONFIRMED",
+      "furniture_uids": [
+        "console-1787478438948",
+        "lounger-sofa-1787478478712",
+        "lounger-sofa-1787478572349",
+        "door-1787479363147",
+        "window-1788864845791"
+      ],
+      "furniture_types": [
+        "console",
+        "lounger-sofa",
+        "lounger-sofa",
+        "door",
+        "window"
+      ],
+      "count": 5
+    },
+    {
+      "room": "Bedroom 3",
+      "validation_status": "CONFIRMED",
+      "furniture_uids": [
+        "door-1789635571944",
+        "bed-1787479187466",
+        "side-table-1787479219083",
+        "side-table-1787479220302",
+        "wardrobe-1787646606853",
+        "dressing-table-1787646652625",
+        "door-1789215885236"
+      ],
+      "furniture_types": [
+        "door",
+        "bed",
+        "side-table",
+        "side-table",
+        "wardrobe",
+        "dressing-table",
+        "door"
+      ],
+      "count": 7
+    },
+    {
+      "room": "Bedroom 1",
+      "validation_status": "CONFIRMED",
+      "furniture_uids": [
+        "bed-1787478891845",
+        "side-table-1787478946014",
+        "side-table-1787478947384",
+        "wardrobe-1787646602167",
+        "dressing-table-1787646642783",
+        "door-1789215824220",
+        "window-1788864839886"
+      ],
+      "furniture_types": [
+        "bed",
+        "side-table",
+        "side-table",
+        "wardrobe",
+        "dressing-table",
+        "door",
+        "window"
+      ],
+      "count": 7
+    },
+    {
+      "room": "Kitchen",
+      "validation_status": "CONFIRMED",
+      "furniture_uids": [
+        "chimney-1787478686293",
+        "dining-table-1787478800756",
+        "door-1789215945981"
+      ],
+      "furniture_types": [
+        "chimney",
+        "dining-table",
+        "door"
+      ],
+      "count": 3
+    },
+    {
+      "room": "Bedroom 2",
+      "validation_status": "CONFIRMED",
+      "furniture_uids": [
+        "door-1787479359667",
+        "bed-1787478895814",
+        "side-table-1787479146522",
+        "side-table-1787479147677",
+        "wardrobe-1787646614206",
+        "dressing-table-1787646647163",
+        "window-1788864844487"
+      ],
+      "furniture_types": [
+        "door",
+        "bed",
+        "side-table",
+        "side-table",
+        "wardrobe",
+        "dressing-table",
+        "window"
+      ],
+      "count": 7
+    },
+    {
+      "room": "Kitchen",
+      "validation_status": "UNCERTAIN",
+      "furniture_uids": [
+        "kitchen-base-1787478607029",
+        "kitchen-base-1787478608231"
+      ],
+      "furniture_types": [
+        "kitchen-base",
+        "kitchen-base"
+      ],
+      "count": 2
+    },
+    {
+      "room": "Dining Area",
+      "validation_status": "UNCERTAIN",
+      "furniture_uids": [
+        "door-1789635608770"
+      ],
+      "furniture_types": [
+        "door"
+      ],
+      "count": 1
+    },
+    {
+      "room": "Bedroom 3",
+      "validation_status": "UNCERTAIN",
+      "furniture_uids": [
+        "window-1788864843279"
+      ],
+      "furniture_types": [
+        "window"
+      ],
+      "count": 1
+    }
+  ],
+  "ai_render_note": "AI VISUAL EVIDENCE \u2014 NOT DETERMINISTIC (see ai-render-evidence.json; geometry_faithful=False for all rooms)"
+}

@@ -1,0 +1,181 @@
+Photorealistic architectural interior photograph of a kitchen & dining area that contains exactly: 1x Chimney, 1x Dining Table. Render every one of these items and nothing else — no extra, duplicate, missing, or invented furniture or decor.
+STRICT ROOM ISOLATION: render only this kitchen & dining area; do NOT show or bleed in any other room, hallway, corridor, or adjacent space, and do NOT view another room through a doorway.
+KITCHEN LAYOUT LOCK: the cabinets and countertops run ALONG THE PERIMETER WALLS following the exact plan footprint (galley / L-shaped wall run). Absolutely NO central kitchen island, NO peninsula, and NO free-standing counter block — none exist in the plan. Do NOT add a dining table or chairs.
+WINDOWLESS ROOM: NO window in the plan — do NOT render any window, glazing, glass wall, sliding glass door, skylight, or exterior view on any wall; use warm interior cove/recessed lighting only against solid walls.
+This is STRICTLY a kitchen & dining area — render only this one room and only the furniture listed; ignore every other room.
+PIECE APPEARANCE (render each piece true to its real-world type; apply the chosen style/materials as its finish):
+- Chimney: a kitchen chimney / cooker hood mounted above the hob
+- Dining Table: a rectangular dining table
+SPATIAL LAYOUT (authoritative — reproduce these relative positions and rotations exactly; the front of the room is nearest the camera):
+- Chimney: in the back-left corner
+- Dining Table: in the front-right corner, rotated 90° (long side running front-to-back)
+ROOM OPENINGS: this room has 0 door(s) and no exterior window — illuminate with warm ambient interior lighting (cove + recessed downlights), not window daylight. Do not add, remove, or invent any opening.
+APPROXIMATE ROOM DIMENSIONS & PROPORTIONS (estimated from furniture placement — no closed architectural boundary available): 3.9m width × 5.5m depth × 2.7m ceiling height (21.4 m²). Treat the furniture layout below, not this estimate, as the authoritative boundary — do not redesign or expand the room.
+KITCHEN SPECIFICATION: Strictly preserve overhead chimney, exactly as shown. Do not invent an arbitrary kitchen shape or add appliances not listed below.
+Architectural interior photograph of the kitchen & dining area in high-end Modern Luxury style. Camera at standing eye level (1.5m height) at the room's entrance/doorway, facing the room's central axis toward the kitchen cabinetry and countertops on one side and the dining set on the other. Natural 35mm perspective, straight vertical walls, no fisheye or wide-angle distortion, the whole room in frame with every listed piece visible in its correct relative position.
+DETERMINISTIC CAMERA VIEWPOINT: Camera positioned at standing eye level (1.5m height) at the kitchen entrance, oriented along the primary counter run looking toward the cooktop, overhead chimney, and clean countertop workspace. 30mm architectural lens, natural two-point perspective, straight vertical lines without distortion. This room has NO window — render no window, glazing, glass wall, sliding glass door, skylight, or exterior view on any wall.
+AESTHETIC DIRECTION: sophisticated modern Indian urban-home interior — contemporary luxury residential design, professional architectural-interior photography, photorealistic and not CGI-looking. This governs materials/lighting/finish only, never the room's geometry or furniture placement above.
+MATERIAL & LIGHTING PALETTE — Warm modern-luxury kitchen (bright, airy, not dark): flush architectural ceiling with recessed anti-glare downlights and continuous warm 3000K under-cabinet LED task strip lighting.
+CABINETRY & COUNTERTOPS: warm beige and honey-oak flat-panel cabinetry with integrated champagne brass finger pulls, Calacatta white marble countertops and full-height matching marble slab backsplash in warm neutral tones.
+APPLIANCES & FIXTURES: integrated cooktop with overhead architectural chimney hood, undermount sink with champagne-brass gooseneck faucet, warm honey-oak plank or light porcelain flooring.
+STYLE: Modern Luxury.
+
+================================================================================
+AUTHORITATIVE GEOMETRY & INVENTORY CONSTRAINT — NON-NEGOTIABLE
+================================================================================
+
+SOURCE OF TRUTH:
+The supplied 2D floor plan / geometry reference is the AUTHORITATIVE source of
+truth for this render. The generated image is a VISUALIZATION of the supplied design,
+NOT a redesign. Never reinterpret, optimize, beautify, simplify, or redesign the spatial layout.
+
+PRIORITY HIERARCHY:
+1. Room geometry and architectural boundaries
+2. Furniture inventory
+3. Furniture geometry (position, orientation, scale)
+4. Doors and windows
+5. Spatial relationships
+6. Camera
+7. Style references
+8. Visual variation
+9. Creativity
+
+FINAL PRIORITY ORDER:
+LAYOUT & INVENTORY FIDELITY > ARCHITECTURAL FIDELITY > CAMERA > STYLE REFERENCE CONSISTENCY > CONTROLLED VARIATION > CREATIVITY.
+
+STRICT INVENTORY (DO NOT BREAK):
+- Render ONLY the furniture explicitly listed for this room.
+- Do NOT omit any listed furniture.
+- Do NOT add, move, remove, or rotate any furniture.
+- Do NOT invent walls, windows, doors, or architectural features.
+- Do NOT use a generic room layout.
+- Render every listed furniture item exactly once unless its count explicitly says otherwise.
+- Preserve the exact furniture count.
+
+GEOMETRY — ABSOLUTELY FIXED:
+- Preserve the exact room boundary and room shape from the authoritative reference.
+- Preserve wall locations, wall lengths, wall angles, room proportions, and spatial relationships.
+- Do NOT add, move, remove, or rotate any furniture.
+- Do NOT invent walls, windows, doors, or architectural features.
+- Do NOT use a generic room layout.
+- Do NOT add, remove, move, resize, rotate, straighten, curve, or redesign walls.
+- Do NOT change the room dimensions or aspect ratio.
+- Do NOT expand or contract the room.
+- Do NOT create architectural elements that are not present in the reference.
+- Do NOT remove architectural elements that are present in the reference.
+
+DOORS & WINDOWS — ABSOLUTELY FIXED:
+- Preserve every door and window shown in the authoritative reference.
+- Preserve their approximate position, orientation, size, and relationship to walls.
+- Do NOT add, remove, relocate, enlarge, shrink, rotate, or redesign doors/windows.
+- Preserve every door/window opening exactly as represented.
+- Do NOT seal an existing opening or create a new opening.
+- Do NOT invent balconies, arches, partitions, columns, niches, skylights, or openings.
+
+FURNITURE GEOMETRY — ABSOLUTELY FIXED:
+For every furniture item preserve:
+- position
+- orientation
+- relative scale
+- width/depth proportions
+- relationship to walls
+- relationship to other furniture
+- clearance from walls and other objects
+
+Do NOT move furniture.
+Do NOT rotate furniture.
+Do NOT resize furniture.
+Do NOT mirror furniture.
+Do NOT change furniture proportions.
+
+The relative scale between furniture and room must remain physically believable and
+consistent with the supplied geometry. A sofa must not become larger or smaller,
+and a bed, table, chair, cabinet, or other item must not change its intended scale.
+
+SPATIAL RELATIONSHIPS — FIXED:
+- Preserve the exact spatial relationship between all listed furniture pieces.
+- Preserve which furniture is adjacent to, opposite, aligned with, or separated from another furniture item.
+- Preserve circulation spaces and clearances represented by the reference.
+- Do NOT rearrange furniture to create a more aesthetically pleasing composition.
+- Do NOT center furniture merely because it looks better.
+- Do NOT symmetrize an asymmetric layout.
+- Do NOT automatically align furniture to walls unless the reference already does so.
+
+ROOM ISOLATION:
+- Render ONLY the requested target room.
+- Do NOT show any adjacent room, corridor, balcony, bathroom, kitchen, bedroom, living area, dining area, or other space outside the target room.
+- Do NOT reveal adjacent rooms even partially through doors or openings.
+- Do NOT borrow furniture or architectural elements from adjacent rooms.
+
+REFERENCE IMAGE PRIORITY:
+When a geometry/reference image is supplied:
+- Treat it as authoritative for spatial structure.
+- Follow the reference geometry rather than inventing geometry from textual description.
+- Text descriptions explain the reference; they do not override the reference.
+- Never use a generic room template when a reference is available.
+
+CAMERA:
+- Camera may change ONLY to produce a realistic photographic view of the existing geometry.
+- Camera must not cause furniture, walls, doors, or windows to be repositioned.
+- Do not use camera perspective to hide missing furniture or incorrect geometry.
+- Do not crop out required furniture.
+- Every required furniture item must remain visible whenever physically possible.
+- Use natural architectural perspective with straight vertical lines.
+- Avoid fisheye distortion, extreme wide-angle distortion, tilted horizons, or unrealistic perspective.
+
+STYLE MAY CHANGE (VISUAL ONLY):
+The following are allowed ONLY as visual treatment:
+- materials
+- textures
+- finishes
+- colors
+- wood species
+- stone appearance
+- fabric appearance
+- metal finishes
+- wall treatment
+- ceiling treatment
+- realistic lighting
+- shadows
+- reflections
+- exposure
+- photographic quality
+
+STYLE MUST NOT CHANGE:
+- walls
+- room dimensions
+- doors
+- windows
+- openings
+- furniture count
+- furniture position
+- furniture rotation
+- furniture scale
+- major architectural structure
+
+CREATIVE FREEDOM — STRICTLY LIMITED:
+Creativity is allowed only for making the existing design look photorealistic, premium, realistic, and professionally photographed.
+
+FINAL VALIDATION BEFORE OUTPUT:
+Before producing the final render, internally verify:
+[ ] Correct room only
+[ ] Correct room boundary
+[ ] Correct walls
+[ ] Correct doors
+[ ] Correct windows
+[ ] Correct furniture count
+[ ] No extra furniture
+[ ] No missing furniture
+[ ] No furniture moved
+[ ] No furniture rotated
+[ ] No furniture resized
+[ ] Correct spatial relationships
+[ ] Correct furniture-to-room scale
+[ ] No adjacent-room content
+[ ] Camera does not hide or distort required geometry
+
+If any of these conditions cannot be satisfied, prioritize GEOMETRY AND INVENTORY FIDELITY over visual creativity.
+
+FINAL RULE:
+LAYOUT & INVENTORY FIDELITY > ARCHITECTURAL FIDELITY > CAMERA > STYLE REFERENCE CONSISTENCY > CONTROLLED VARIATION > CREATIVITY.
+================================================================================

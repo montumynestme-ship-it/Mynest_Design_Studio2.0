@@ -1,0 +1,156 @@
+{
+  "phase": "2H-4",
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "design_version_id_at_capture": "1831bf84-f9d6-4d4f-aedc-4ad95d6145fe",
+  "base": {
+    "image": "base_render.png",
+    "sha256": "04ea78544057220b2d718dbfa0c0403279910d62787bcfd3600cdcff40f9e0d3",
+    "dims": "1216x832",
+    "all_five_items_visible": true
+  },
+  "ai_output": {
+    "image": "ai_output.png",
+    "sha256": "b6c9580e3e560c2be1e9e8bf8def2f01f3bd12023ef40f2bc471fcae24da5141",
+    "dims": "1216x832",
+    "fal_request_id": "01a133ca-ae45-70b2-a3ed-95dcf5a04daa",
+    "model": "fal-ai/flux-kontext/dev",
+    "seed": 1558158484,
+    "prompt_sha256": "7fe63b11e25998bc4901873139f8da616353444e3231d10e01fdab31db1e11ef",
+    "submitted_base_sha256": "9e670a46a6d93b76b581461ac437c48bd024b92c2fd84776962bd8ddd7c88d92",
+    "base_to_output_mean_abs_diff": 15.47,
+    "note": "strong restyle; room RECOMPOSED (furniture not at base screen positions)"
+  },
+  "totals": {
+    "canonical_items": 5,
+    "distinct_output_objects": 4,
+    "PRESERVED": 3,
+    "AMBIGUOUS": 2,
+    "MISSING": 0,
+    "MISMATCHED": 0,
+    "count_level": "at least ONE of the two side tables is NOT preserved as a distinct identifiable object (5 canonical -> 4 distinct output objects)"
+  },
+  "five_item_table": [
+    {
+      "uid": "bed-1787478891845",
+      "type": "bed",
+      "expected_identity": "a bed",
+      "base": "visible/identifiable (frame, mattress, pillows, headboard)",
+      "ai": "visible/identifiable (bed with mattress, pillow, blanket)",
+      "presence": "PRESERVED",
+      "duplicate": false,
+      "base_box": [
+        446,
+        305,
+        634,
+        438
+      ],
+      "ai_box": "recomposed (not at base box)",
+      "confidence": "HIGH",
+      "evidence": "cmp_bed_1845.png; present as a bed in output"
+    },
+    {
+      "uid": "wardrobe-1787646602167",
+      "type": "wardrobe",
+      "expected_identity": "a two-door wardrobe",
+      "base": "visible 2-door cabinet",
+      "ai": "visible 2-door wardrobe (wood grain, handles)",
+      "presence": "PRESERVED",
+      "duplicate": false,
+      "base_box": [
+        604,
+        225,
+        744,
+        408
+      ],
+      "ai_box": "top-center (shifted)",
+      "confidence": "HIGH",
+      "evidence": "cmp_wardrobe_2167.png"
+    },
+    {
+      "uid": "dressing-table-1787646642783",
+      "type": "dressing-table",
+      "expected_identity": "a dressing table with a large mirror and a stool",
+      "base": "visible as a 3-drawer chest (furniture3d kind 'dresser')",
+      "ai": "visible as a TABLE with 2 drawers + a wall MIRROR (right wall) = dressing table",
+      "presence": "PRESERVED",
+      "duplicate": false,
+      "base_box": [
+        553,
+        402,
+        652,
+        508
+      ],
+      "ai_box": "right wall (relocated)",
+      "confidence": "MEDIUM-HIGH",
+      "evidence": "crop_right_dressing.png; identity matches canonical (mirror); better than Phase 2C bench. Mirror is the canonical dressing-table feature, NOT a decor addition"
+    },
+    {
+      "uid": "side-table-1787478947384",
+      "type": "side_table",
+      "expected_identity": "a small low side/bedside table",
+      "base": "visible side table (top+legs) near bed head",
+      "ai": "no distinct side table bindable to this uid in the recomposed output",
+      "presence": "AMBIGUOUS",
+      "duplicate": false,
+      "base_box": [
+        502,
+        301,
+        568,
+        367
+      ],
+      "ai_box": "not identifiable",
+      "confidence": "LOW",
+      "evidence": "cmp_side-table_7384.png shows wall/wardrobe at base box; positions recomposed so uid cannot be bound"
+    },
+    {
+      "uid": "side-table-1787478946014",
+      "type": "side_table",
+      "expected_identity": "a small low side/bedside table",
+      "base": "visible side table (top+legs) front-left",
+      "ai": "a BENCH appears front-left; whether it is this side table altered-to-bench or a non-canonical addition is unresolved",
+      "presence": "AMBIGUOUS",
+      "duplicate": false,
+      "base_box": [
+        405,
+        365,
+        482,
+        440
+      ],
+      "ai_box": "front-left bench (ambiguous)",
+      "confidence": "LOW",
+      "evidence": "cmp_side-table_6014.png; one bench total; cannot confirm two distinct side tables"
+    }
+  ],
+  "first_proven_divergence": {
+    "canonical_to_scene": "PASS (Phase 2H-2: all 5 transforms exact)",
+    "scene_to_base_render": "PASS (base shows all 5 identifiable items)",
+    "base_to_submitted_fal_input": "PASS (submitted = pixel-identical re-encode of persisted base)",
+    "submitted_to_raw_fal_output": "DIVERGENCE (PROVEN): base has 5 identifiable items; raw FAL output has 4 distinct canonical objects -> >=1 side table not preserved; positions recomposed",
+    "first_stage": "FAL raw output (image-to-image)",
+    "mechanism": "UNPROVEN - a visual difference does not establish the internal model mechanism (drop vs merge vs reposition)"
+  },
+  "confirmed_vs_hypotheses": {
+    "confirmed": [
+      "base render contains all 5 identifiable items",
+      "submitted FAL input is pixel-identical to the persisted base",
+      "raw FAL output preserves bed, wardrobe, and dressing-table (table+mirror) identities",
+      "raw FAL output contains only 4 distinct canonical objects -> at least one side table is not distinctly preserved",
+      "FAL output strongly recomposed furniture positions (diff 15.47) - positions not preserved"
+    ],
+    "hypotheses": [
+      "the front-left bench is a side table altered-to-bench (vs a non-canonical addition + a missing side table)",
+      "FAL furniture preservation is high-variance across seed/prompt (Phase 2C seed 1587969140 dropped a side table AND made dressing->bench; this run seed 1558158484 preserved dressing-with-mirror but lost a side table and recomposed) - needs more runs to establish"
+    ],
+    "evidence_needed": [
+      "2-3 more linked runs (varying only seed) to measure preservation variance per item",
+      "object-level detection on the output to count side tables independently of visual read"
+    ]
+  },
+  "decor_additions": "none non-canonical this run (the mirror is the canonical dressing-table feature; bed pillows are canonical). No lamp/plant this run.",
+  "limitations": [
+    "single FAL run; one seed -> not a universal result",
+    "strong recomposition makes per-uid binding of the two side tables impossible from one image",
+    "image-space evidence supports identity/presence only; NO 3D position/scale/rotation claimed",
+    "mechanism of the side-table loss/recomposition is UNPROVEN"
+  ]
+}

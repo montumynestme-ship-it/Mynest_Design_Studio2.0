@@ -1,0 +1,40 @@
+{
+  "phase": "2K-2",
+  "path": "existing ControlNet (canny) via adapter._build_control_body",
+  "model": "fal-ai/flux-control-lora-canny",
+  "endpoint": "https://queue.fal.run/fal-ai/flux-control-lora-canny",
+  "conditioning": "canny controlnet (control_lora_image_url)",
+  "control_lora_strength": 1.0,
+  "uses_init_image": true,
+  "seed_submitted": 1558158484,
+  "prompt_sha256": "7fe63b11e25998bc4901873139f8da616353444e3231d10e01fdab31db1e11ef",
+  "submitted_base_sha256": "9e670a46a6d93b76b581461ac437c48bd024b92c2fd84776962bd8ddd7c88d92",
+  "payload_keys": [
+    "control_lora_image_url",
+    "control_lora_strength",
+    "image_size",
+    "image_url",
+    "num_images",
+    "output_format",
+    "prompt",
+    "seed"
+  ],
+  "image_size": {
+    "width": 1216,
+    "height": 832
+  },
+  "submit_http": 200,
+  "fal_request_id": "01a134fb-090c-7c52-9bf7-530b9431b701",
+  "request_id_body": "01a134fb-090c-7c52-9bf7-530b9431b701",
+  "poll_http": 400,
+  "no_image": false,
+  "result_head": "{\"status\": \"IN_QUEUE\", \"request_id\": \"01a134fb-090c-7c52-9bf7-530b9431b701\", \"response_url\": \"https://queue.fal.run/fal-ai/flux-control-lora-canny/requests/01a134fb-090c-7c52-9bf7-530b9431b701\", \"status_url\": \"https://queue.fal.run/fal-ai/flux-control-lora-canny/requests/01a134fb-090c-7c52-9bf7-530b9431b701/status\", \"cancel_url\": \"https://queue.fal.run/fal-ai/flux-control-lora-canny/requests/01a13",
+  "elapsed_s": 4.0,
+  "ts_start": "2026-10-13T11:17:07.487881Z",
+  "output_sha256": "d8dcd18fbb0375115177e639901b6a817ac7ec8d7aae50861179eea1758ad800",
+  "output_w": 1216,
+  "output_h": 832,
+  "output_bytes": 742759,
+  "returned_seed": 1558158484,
+  "final_status": "COMPLETED"
+}

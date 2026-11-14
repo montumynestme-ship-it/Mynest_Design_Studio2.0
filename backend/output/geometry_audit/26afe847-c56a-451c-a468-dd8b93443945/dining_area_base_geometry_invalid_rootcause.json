@@ -1,0 +1,30 @@
+{
+  "status": "ROOT CAUSE FOUND",
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "design_version_id": "26afe847-c56a-451c-a468-dd8b93443945",
+  "dining_room_id": "dining-area (fallback)",
+  "first_divergence_stage": "Deterministic scene construction -> ROOM LABELING (architectural_service.reconstruct_rooms._majority open-plan multi-section naming). Upstream PDF->walls->proven polygon->furniture containment all correct.",
+  "exact_failing_rule": "_room_faithful_map requires a room with label 'Dining Area' AND validation_status=='CONFIRMED'; none exists -> _room_faithful('Dining Area')=False -> _gate_code returns BASE_GEOMETRY_INVALID.",
+  "first_failing_rule_detail": {
+    "rule": "room_faithful[label] = OR(validation_status=='CONFIRMED')",
+    "expected": ">=1 CONFIRMED architectural room carrying label 'Dining Area'",
+    "actual": "0 CONFIRMED rooms carry 'Dining'; only room labelled 'Dining Area' is geometry_source='fallback', validation_status='UNCERTAIN'",
+    "delta": "CONFIRMED('Dining Area') = 0 (need >=1)",
+    "threshold": "validation_status must == 'CONFIRMED'",
+    "source_of_expected": "2D source: dining-table centre (1211,633) lies INSIDE the Kitchen wall-proven polygon (open-plan), i.e. Dining is a real section of a proven enclosure",
+    "source_of_actual": "reconstruct_rooms._majority labelled the shared polygon 'Kitchen' ONLY"
+  },
+  "root_cause": "_majority() open-plan section-inclusion threshold max(2, top*0.5). The one wall-proven polygon covering open-plan Kitchen+Dining contains exactly {chimney->'Kitchen':1, dining-table->'Dining Area':1}. top=1 so threshold=max(2,0.5)=2 is unreachable by either section -> multi-section branch yields []; falls through to single max() -> 'Kitchen', silently dropping the 'Dining Area' co-label the docstring intends to keep. Dining then has no CONFIRMED room; its 4 door symbols (wall-band, outside every interior polygon, not uniquely wall-owned) form the UNCERTAIN fallback 'Dining Area'.",
+  "incorrect_transformation": "label assignment only (NOT geometry): shared open-plan polygon should be 'Kitchen & Dining Area' but becomes 'Kitchen'. No coordinate/wall/furniture error.",
+  "evidence": {
+    "scene_rooms": "5 CONFIRMED architectural (Living Area, Bedroom 3, Bedroom 1, Kitchen, Bedroom 2) + 3 UNCERTAIN fallback (Kitchen-2, Dining-area, Bedroom-3-2)",
+    "dining_fallback_items": "1 item = door uid=door-1789635608770 (1059,719), nearest CONFIRMED=Kitchen 52.3px, contained_in_confirmed=[]",
+    "dining_table": "uid=dining-table-1787478800756 (1211,633) contained_in=Kitchen (architectural, CONFIRMED)",
+    "kitchen_poly_contents": "{chimney:'Kitchen', dining-table:'Dining Area'}, counts={Kitchen:1,DiningArea:1}, _majority='Kitchen'",
+    "room_faithful_map": "{'Living Area':True,'Bedroom 3':True,'Bedroom 1':True,'Kitchen':True,'Bedroom 2':True,'Dining Area':False}"
+  },
+  "why_other_rooms_pass": "Each has a CONFIRMED wall-proven polygon labelled with its own name. Kitchen & Bedroom 3 also spawn UNCERTAIN fallback twins, but _room_faithful_map OR-accumulates per label so the CONFIRMED twin keeps them True. Dining Area has NO CONFIRMED twin.",
+  "dining_is_open_plan": "YES (genuine). The sole dining furniture (dining-table) is inside the Kitchen's closed wall loop; there is no separate closed wall loop for Dining in the 2D source. Geometry/extraction is correct; only the open-plan co-label is lost.",
+  "minimal_code_area": "app/services/architectural_service.py reconstruct_rooms._majority (~lines 320-334): the open-plan section-inclusion threshold max(2, top*0.5). (Do NOT change \u00a7L gate, geometry, walls, furniture, or camera.)",
+  "fix_not_implemented": true
+}

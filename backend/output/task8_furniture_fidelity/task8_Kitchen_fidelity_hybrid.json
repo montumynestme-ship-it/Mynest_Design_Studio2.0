@@ -1,0 +1,493 @@
+{
+  "room": "Kitchen",
+  "base_png_sha256": "fe2b02a6d8a6e2eb6a91e81c931fa55b970b5f70a7efe8b67e24ba30e6580be2",
+  "output_png_sha256": null,
+  "overall_status": "UNCERTAIN",
+  "gating_status": "NOT_CALIBRATED",
+  "detector": "injected",
+  "ai_detection_count": 31,
+  "anchor_uid": "kitchen-base-1787478608231",
+  "furniture_overall": "UNCERTAIN",
+  "furniture_counts": {
+    "base_total": 2,
+    "pass": 1,
+    "uncertain": 1,
+    "fail": 0,
+    "missing": 0,
+    "extra_candidates": 3
+  },
+  "tolerances": {
+    "gate_px": 412.5,
+    "pass_center_px": 88.4,
+    "fail_center_px": 294.7,
+    "pass_iou": 0.3,
+    "pass_scale": [
+      0.6,
+      1.7
+    ],
+    "fail_scale": [
+      0.35,
+      3.0
+    ],
+    "weights": {
+      "center": 1.0,
+      "iou": 0.6,
+      "scale": 0.4,
+      "order": 0.3
+    }
+  },
+  "objects": [
+    {
+      "uid": "kitchen-base-1787478607029",
+      "item_id": "kitchen-base",
+      "room": null,
+      "base_bbox": [
+        627.66,
+        374.29,
+        116.3,
+        134.44
+      ],
+      "base_center": [
+        685.8,
+        441.51
+      ],
+      "ai_bbox": [
+        632.2,
+        414.9,
+        113.1,
+        132.3
+      ],
+      "ai_center": [
+        688.8,
+        481.1
+      ],
+      "center_delta": [
+        3.0,
+        39.6
+      ],
+      "iou": 0.521,
+      "width_ratio": 0.972,
+      "height_ratio": 0.984,
+      "area_ratio": 0.957,
+      "relative_position_base": {
+        "dx": 60.49,
+        "dy": 69.32,
+        "horizontal": "right",
+        "vertical": "below"
+      },
+      "relative_position_ai": {
+        "horizontal": "right",
+        "vertical": "below"
+      },
+      "ordering_status": "OK",
+      "rotation_status": "NOT_VALIDATABLE",
+      "match_confidence": 0.515,
+      "missing": false,
+      "status": "PASS",
+      "reason": "within center/IoU/scale tolerances, ordering consistent",
+      "detected_query": "a tall cabinet",
+      "identity_supported": true
+    },
+    {
+      "uid": "kitchen-base-1787478608231",
+      "item_id": "kitchen-base",
+      "room": null,
+      "base_bbox": [
+        484.43,
+        297.6,
+        281.78,
+        149.19
+      ],
+      "base_center": [
+        625.32,
+        372.2
+      ],
+      "ai_bbox": [
+        391.5,
+        194.7,
+        173.2,
+        146.0
+      ],
+      "ai_center": [
+        478.1,
+        267.7
+      ],
+      "center_delta": [
+        -147.2,
+        -104.5
+      ],
+      "iou": 0.054,
+      "width_ratio": 0.615,
+      "height_ratio": 0.979,
+      "area_ratio": 0.602,
+      "relative_position_base": {
+        "dx": 0.0,
+        "dy": 0.0,
+        "horizontal": "center",
+        "vertical": "center"
+      },
+      "relative_position_ai": {
+        "horizontal": "center",
+        "vertical": "center"
+      },
+      "ordering_status": "ANCHOR",
+      "rotation_status": "NOT_VALIDATABLE",
+      "match_confidence": 0.348,
+      "missing": false,
+      "status": "UNCERTAIN",
+      "reason": "matched but delta/IoU/scale/confidence insufficient to confirm preservation",
+      "detected_query": "a tall cabinet",
+      "identity_supported": true
+    }
+  ],
+  "extras": [
+    {
+      "index": 0,
+      "query": "refrigerator",
+      "score": 0.75,
+      "center": [
+        1170.5,
+        481.1
+      ],
+      "dissolved_from_base": false,
+      "classification": "EXTRA_CANDIDATE_REVIEW"
+    },
+    {
+      "index": 1,
+      "query": "oven",
+      "score": 0.645,
+      "center": [
+        193.0,
+        496.5
+      ],
+      "dissolved_from_base": false,
+      "classification": "EXTRA_CANDIDATE_REVIEW"
+    },
+    {
+      "index": 3,
+      "query": "a tall cabinet",
+      "score": 0.504,
+      "center": [
+        520.4,
+        269.5
+      ],
+      "dissolved_from_base": false,
+      "classification": "EXTRA_CANDIDATE_REVIEW"
+    },
+    {
+      "index": 4,
+      "query": "microwave",
+      "score": 0.487,
+      "center": [
+        1024.4,
+        399.6
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 5,
+      "query": "a tall cabinet",
+      "score": 0.47,
+      "center": [
+        305.6,
+        674.2
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 6,
+      "query": "a tall cabinet",
+      "score": 0.46,
+      "center": [
+        983.4,
+        533.3
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 7,
+      "query": "a tall cabinet",
+      "score": 0.453,
+      "center": [
+        433.4,
+        607.4
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 8,
+      "query": "a tall cabinet",
+      "score": 0.451,
+      "center": [
+        943.1,
+        228.7
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 9,
+      "query": "a tall cabinet",
+      "score": 0.419,
+      "center": [
+        172.0,
+        170.7
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 10,
+      "query": "a tall cabinet",
+      "score": 0.416,
+      "center": [
+        1067.7,
+        201.0
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 11,
+      "query": "a tall cabinet",
+      "score": 0.405,
+      "center": [
+        809.0,
+        487.6
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 12,
+      "query": "a tall cabinet",
+      "score": 0.401,
+      "center": [
+        426.8,
+        261.3
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 13,
+      "query": "a tall cabinet",
+      "score": 0.395,
+      "center": [
+        103.6,
+        716.6
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 14,
+      "query": "a tall cabinet",
+      "score": 0.385,
+      "center": [
+        266.6,
+        216.7
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 15,
+      "query": "oven",
+      "score": 0.384,
+      "center": [
+        454.9,
+        461.8
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 16,
+      "query": "potted plant",
+      "score": 0.38,
+      "center": [
+        903.1,
+        382.1
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 17,
+      "query": "a tall cabinet",
+      "score": 0.376,
+      "center": [
+        847.1,
+        253.1
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 18,
+      "query": "a tall cabinet",
+      "score": 0.37,
+      "center": [
+        1115.5,
+        574.5
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 19,
+      "query": "a tall cabinet",
+      "score": 0.364,
+      "center": [
+        1122.3,
+        199.8
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 20,
+      "query": "a tall cabinet",
+      "score": 0.363,
+      "center": [
+        483.5,
+        467.1
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 22,
+      "query": "a tall cabinet",
+      "score": 0.348,
+      "center": [
+        419.9,
+        423.1
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 23,
+      "query": "a tall cabinet",
+      "score": 0.343,
+      "center": [
+        1032.0,
+        213.6
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 24,
+      "query": "a tall cabinet",
+      "score": 0.325,
+      "center": [
+        1185.0,
+        136.3
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 25,
+      "query": "a door",
+      "score": 0.31,
+      "center": [
+        354.3,
+        328.3
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 26,
+      "query": "a tall cabinet",
+      "score": 0.301,
+      "center": [
+        884.2,
+        504.2
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 27,
+      "query": "a tall cabinet",
+      "score": 0.294,
+      "center": [
+        1173.6,
+        474.4
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 28,
+      "query": "a tall cabinet",
+      "score": 0.277,
+      "center": [
+        564.7,
+        476.3
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 29,
+      "query": "a tall cabinet",
+      "score": 0.275,
+      "center": [
+        1027.5,
+        555.6
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 30,
+      "query": "sink",
+      "score": 0.259,
+      "center": [
+        684.4,
+        409.1
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    }
+  ],
+  "openings_overall": "UNCERTAIN",
+  "openings": [
+    {
+      "opening_id": "window_004",
+      "type": "window",
+      "room": "Kitchen",
+      "wall": "wall_032",
+      "base_bbox": [
+        450.83,
+        197.15,
+        53.38,
+        189.97
+      ],
+      "base_center": [
+        477.52,
+        292.14
+      ],
+      "ai_bbox": [
+        474.7,
+        205.9,
+        91.4,
+        127.1
+      ],
+      "normalized_wall_position": null,
+      "ai_wall_association": "NOT_VALIDATABLE",
+      "status": "UNCERTAIN",
+      "reason": "a candidate opening-like box was localized, but wall association remains NOT_VALIDATABLE from pixels"
+    }
+  ]
+}

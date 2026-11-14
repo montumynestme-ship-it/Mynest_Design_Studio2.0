@@ -1,0 +1,27 @@
+TASK 7 — BEDROOM 1 CONTROLLED BASE→FAL VERIFICATION
+============================================================
+room                     : Bedroom 1
+design_version_id        : aa213074-0a1e-4696-aadf-70902287e5b1
+generation_id            : 645a5e5e-c765-46da-8761-4d29a54ad8b2
+model                    : fal-ai/flux-kontext/dev
+fal_request_id           : 01a11af0-ffc5-7b43-a8a3-57e7637fe6fa
+base_png_sha256          : 5580b52f8e403ab98757a8dfc7d4e00afdb6467c15d2ae0dba4980bd7523efa5
+fal_control_image_sha256 : a6b9f19c89a0a77affe0236ccaca15d6909328201b4fb644caf3020f72affe7d
+SHA byte-identical       : False  (adapter _to_png RE-ENCODES)
+PIXEL-identical          : True  <-- authoritative invariant
+output_png_sha256        : 08948732670103c5c67ade817ad1daaa92d740d71458c287bb710ffc8bd78d24
+dimensions               : 1216x832
+prompt_sha256            : 5ece174f4d0a791acb2fd4d81ee768f49dd0f6b7267242ccb5986ad0b51f9686  len=1889
+detector                 : owlv2  ai_detections=4
+furniture tolerances     : {'gate_px': 412.5, 'pass_center_px': 88.4, 'fail_center_px': 294.7}
+
+FURNITURE overall: UNCERTAIN
+  bed              bed-1787478891845            status=UNCERTAIN    dxy=(67.6,-4.0) iou=0.125 scale=2.832 conf=0.145
+  side-table       side-table-1787478946014     status=UNCERTAIN    dxy=(None,None) iou=0.0 scale=None conf=None
+  side-table       side-table-1787478947384     status=UNCERTAIN    dxy=(218.9,140.7) iou=0.0 scale=1.273 conf=0.254
+  wardrobe         wardrobe-1787646602167       status=UNCERTAIN    dxy=(72.6,-23.9) iou=0.086 scale=0.451 conf=0.086
+  dressing-table   dressing-table-1787646642783 status=PASS         dxy=(0.6,37.6) iou=0.372 scale=0.816 conf=0.292
+
+OPENINGS overall: UNCERTAIN
+  window   window-1788864839886         wall=wall_086 norm=0.478858 status=UNCERTAIN ai_wall_assoc=NOT_VALIDATABLE
+  door     door-1789215824220           wall=wall_077 norm=0.8603 status=UNCERTAIN ai_wall_assoc=NOT_VALIDATABLE

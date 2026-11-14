@@ -1,0 +1,101 @@
+OPENING GEOMETRY + 2D->3D AUDIT  design_version_id=26afe847-c56a-451c-a468-dd8b93443945  plan_id=f6b65d2b-4f96-4931-9f08-67dbd09776f6
+walls=179  openings=13  verified=11  unable_to_verify=2  mpp=0.008023  max_wall_relative_delta=0  generated_at=2026-10-04T05:55:00.098787+00:00
+====================================================================================================
+[Bedroom 1] door id=door-1789215824220 repr=editor status=VERIFIED
+    source       cx=862.15 cy=822.92 w=135.00 h=154.90 rot=-179.62
+    wall         id=wall_077 start=(626.4,879.8) end=(900.4,879.8) len=274.0 dir=0.0
+    wall_relative norm=0.8603 from_start=235.8 from_end=38.3 perp=56.9
+    scene(px)    cx=862.15 cy=879.82 wall_angle=0.0 perp_removed=56.9
+    scene_3d(m)  x=1.791 z=1.643 w=1.083 d=1.243 rotY=179.6
+    3d_wall_rel  norm=0.8603  deltas: wall_rel=0 w=-0 h=0 rot=0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Bedroom 1] window id=window-1788864839886 repr=editor status=VERIFIED
+    source       cx=333.56 cy=676.57 w=237.28 h=28.16 rot=-90.53
+    wall         id=wall_086 start=(364.9,656.2) end=(364.9,698.7) len=42.5 dir=90.0
+    wall_relative norm=0.4789 from_start=20.4 from_end=22.2 perp=31.3
+    scene(px)    cx=364.86 cy=676.57 wall_angle=90.0 perp_removed=31.3
+    scene_3d(m)  x=-2.199 z=0.013 w=1.904 d=0.226 rotY=90.5
+    3d_wall_rel  norm=0.4789  deltas: wall_rel=0 w=0 h=-0 rot=-0  first_div=NONE width_exceeds_wall=True
+----------------------------------------------------------------------------------------------------
+[Bedroom 2] door id=door-1787479359667 repr=editor status=VERIFIED
+    source       cx=1161.18 cy=942.40 w=135.00 h=163.27 rot=90.63
+    wall         id=wall_052 start=(1093.8,901.4) end=(1093.8,1374.2) len=472.8 dir=90.0
+    wall_relative norm=0.0868 from_start=41.0 from_end=431.8 perp=67.4
+    scene(px)    cx=1093.80 cy=942.40 wall_angle=90.0 perp_removed=67.4
+    scene_3d(m)  x=-1.588 z=-1.451 w=1.083 d=1.310 rotY=-90.6
+    3d_wall_rel  norm=0.0868  deltas: wall_rel=0 w=-0 h=-0 rot=0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Bedroom 2] window id=window-1788864844487 repr=editor status=VERIFIED
+    source       cx=1290.81 cy=1382.14 w=260.23 h=30.00 rot=0.00
+    wall         id=wall_045 start=(1276.7,1356.2) end=(1319.3,1356.2) len=42.5 dir=0.0
+    wall_relative norm=0.3307 from_start=14.1 from_end=28.5 perp=25.9
+    scene(px)    cx=1290.81 cy=1356.22 wall_angle=0.0 perp_removed=25.9
+    scene_3d(m)  x=-0.007 z=1.869 w=2.088 d=0.241 rotY=-0.0
+    3d_wall_rel  norm=0.3307  deltas: wall_rel=0 w=0 h=-0 rot=0  first_div=NONE width_exceeds_wall=True
+----------------------------------------------------------------------------------------------------
+[Bedroom 3] door id=door-1789215885236 repr=editor status=VERIFIED
+    source       cx=587.74 cy=945.10 w=135.00 h=154.89 rot=91.94
+    wall         id=wall_066 start=(638.9,901.4) end=(638.9,1200.4) len=299.0 dir=90.0
+    wall_relative norm=0.1463 from_start=43.7 from_end=255.3 perp=51.2
+    scene(px)    cx=638.94 cy=945.10 wall_angle=90.0 perp_removed=51.2
+    scene_3d(m)  x=-1.833 z=-2.261 w=1.083 d=1.243 rotY=-91.9
+    3d_wall_rel  norm=0.1463  deltas: wall_rel=0 w=-0 h=-0 rot=-0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Bedroom 3] door id=door-1789635571944 repr=editor status=VERIFIED
+    source       cx=1019.27 cy=944.62 w=135.00 h=154.90 rot=89.29
+    wall         id=wall_055 start=(1081.3,901.4) end=(1081.3,1354.5) len=453.1 dir=90.0
+    wall_relative norm=0.0955 from_start=43.3 from_end=409.9 perp=62.0
+    scene(px)    cx=1081.26 cy=944.62 wall_angle=90.0 perp_removed=62.0
+    scene_3d(m)  x=1.716 z=-2.265 w=1.083 d=1.243 rotY=-89.3
+    3d_wall_rel  norm=0.0955  deltas: wall_rel=0 w=-0 h=-0 rot=0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Bedroom 3] door id=door_007 repr=pdf status=VERIFIED
+    source       cx=647.88 cy=1252.36 w=17.88 h=103.92 rot=90.00
+    wall         id=wall_103 start=(674.8,1223.8) end=(674.8,1266.3) len=42.5 dir=90.0
+    wall_relative norm=0.6714 from_start=28.6 from_end=14.0 perp=26.9
+    scene(px)    cx=674.76 cy=1252.36 wall_angle=90.0 perp_removed=26.9
+    scene_3d(m)  x=-1.546 z=0.204 w=0.143 d=0.834 rotY=-90.0
+    3d_wall_rel  norm=0.6714  deltas: wall_rel=0 w=0 h=-0 rot=0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Bedroom 3] window id=window-1788864843279 repr=editor status=UNABLE_TO_VERIFY
+    source       cx=875.43 cy=1546.53 w=234.50 h=30.00 rot=0.00
+    wall         NONE (no structured wall qualified (perp>max or rotation mismatch); production renders at authored position, verified=false)  first_div=wall_association (no supporting wall; verified=false)
+    scene        cx=875.43 cy=1546.53 verified=False  (UNABLE_TO_VERIFY)
+----------------------------------------------------------------------------------------------------
+[Dining Area] door id=door-1789635608770 repr=editor status=VERIFIED
+    source       cx=1058.90 cy=718.71 w=135.00 h=135.00 rot=-89.53
+    wall         id=wall_031 start=(1117.1,466.1) end=(1117.1,734.7) len=268.6 dir=90.0
+    wall_relative norm=0.9403 from_start=252.6 from_end=16.0 perp=58.2
+    scene(px)    cx=1117.08 cy=718.71 wall_angle=90.0 perp_removed=58.2
+    scene_3d(m)  x=0.467 z=-0.000 w=1.083 d=1.083 rotY=89.5
+    3d_wall_rel  norm=0.9403  deltas: wall_rel=0 w=-0 h=-0 rot=-0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Kitchen] door id=door-1789215945981 repr=editor status=UNABLE_TO_VERIFY
+    source       cx=1105.23 cy=417.08 w=135.00 h=176.28 rot=-178.28
+    wall         NONE (no structured wall qualified (perp>max or rotation mismatch); production renders at authored position, verified=false)  first_div=wall_association (no supporting wall; verified=false)
+    scene        cx=1105.23 cy=417.08 verified=False  (UNABLE_TO_VERIFY)
+----------------------------------------------------------------------------------------------------
+[Kitchen] window id=window_004 repr=pdf status=VERIFIED
+    source       cx=1127.85 cy=281.65 w=21.54 h=93.18 rot=90.00
+    wall         id=wall_032 start=(1138.6,310.3) end=(1138.6,360.5) len=50.2 dir=90.0
+    wall_relative norm=0.0000 from_start=0.0 from_end=50.2 perp=30.6
+    scene(px)    cx=1138.62 cy=310.30 wall_angle=90.0 perp_removed=30.6
+    scene_3d(m)  x=-2.230 z=-0.081 w=0.173 d=0.748 rotY=-90.0
+    3d_wall_rel  norm=0.0000  deltas: wall_rel=0 w=0 h=-0 rot=0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Living Area] door id=door-1787479363147 repr=editor status=VERIFIED
+    source       cx=1890.93 cy=568.68 w=135.00 h=191.59 rot=90.12
+    wall         id=wall_001 start=(1966.0,493.0) end=(1966.0,1198.7) len=705.7 dir=90.0
+    wall_relative norm=0.1073 from_start=75.7 from_end=630.0 perp=75.1
+    scene(px)    cx=1966.02 cy=568.68 wall_angle=90.0 perp_removed=75.1
+    scene_3d(m)  x=1.755 z=-2.310 w=1.083 d=1.537 rotY=-90.1
+    3d_wall_rel  norm=0.1073  deltas: wall_rel=0 w=-0 h=-0 rot=0  first_div=NONE width_exceeds_wall=False
+----------------------------------------------------------------------------------------------------
+[Living Area] window id=window-1788864845791 repr=editor status=VERIFIED
+    source       cx=1813.33 cy=1204.54 w=312.24 h=27.44 rot=0.00
+    wall         id=wall_017 start=(1789.2,1184.3) end=(1831.7,1184.3) len=42.5 dir=0.0
+    wall_relative norm=0.5680 from_start=24.1 from_end=18.3 perp=20.2
+    scene(px)    cx=1813.33 cy=1184.32 wall_angle=0.0 perp_removed=20.2
+    scene_3d(m)  x=0.530 z=2.629 w=2.505 d=0.220 rotY=-0.0
+    3d_wall_rel  norm=0.5680  deltas: wall_rel=0 w=0 h=0 rot=0  first_div=NONE width_exceeds_wall=True
+----------------------------------------------------------------------------------------------------

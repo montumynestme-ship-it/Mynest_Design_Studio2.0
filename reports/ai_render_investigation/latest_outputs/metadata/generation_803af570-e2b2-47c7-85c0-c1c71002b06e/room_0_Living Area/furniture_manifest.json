@@ -1,0 +1,223 @@
+{
+  "room_label": "Living Area",
+  "authoritative_manifest": {
+    "schema_version": "mynest.furniture_manifest/1.1",
+    "room_label": "Living Area",
+    "design_version_id": "85759b78-210e-4daf-a2d1-9e8ea906fee5",
+    "geometry_fingerprint": "49f3226afcc32532",
+    "units": "plan_units",
+    "coordinate_system": "2d_top_down:origin=top_left,x=right,y=down",
+    "manifest_fingerprint": "e1e9a98661f799f1",
+    "furniture_count": 3,
+    "counts": {
+      "Console": 1,
+      "Loungers Sofa": 2
+    },
+    "items": [
+      {
+        "uid": "console-1787478438948",
+        "item_id": "console",
+        "name": "Console",
+        "cx": 1666.0932089015632,
+        "cy": 549.9573969075061,
+        "w": 253.6357981850792,
+        "h": 52.500000000000014,
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "lounger-sofa-1787478478712",
+        "item_id": "lounger-sofa",
+        "name": "Loungers Sofa",
+        "cx": 1872.0411120970357,
+        "cy": 1032.8089322685635,
+        "w": 285.0000000000001,
+        "h": 135.00000000000338,
+        "rotation": -90.13445741521568,
+        "is_opening": false
+      },
+      {
+        "uid": "lounger-sofa-1787478572349",
+        "item_id": "lounger-sofa",
+        "name": "Loungers Sofa",
+        "cx": 1675.3611357586647,
+        "cy": 1119.4068322981475,
+        "w": 250.30970466722255,
+        "h": 108.98734527327566,
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "door-1787479363147",
+        "item_id": "door",
+        "name": "Door",
+        "cx": 1905.31799110483,
+        "cy": 547.3884080761452,
+        "w": 108.80797742975467,
+        "h": 167.68632643850222,
+        "rotation": 90.1233706203643,
+        "is_opening": true
+      },
+      {
+        "uid": "window-1788864845791",
+        "item_id": "window",
+        "name": "Window",
+        "cx": 1813.3306713989946,
+        "cy": 1204.5369713102616,
+        "w": 312.2417008323678,
+        "h": 27.440196015216916,
+        "rotation": 0.0,
+        "is_opening": true
+      }
+    ],
+    "door_count": 1,
+    "window_count": 1
+  },
+  "postgen_fidelity": {
+    "status": "OK",
+    "reason": null
+  },
+  "furniture_dictionary": {
+    "schema_version": "mynest.furniture_dictionary/1.0",
+    "dictionary_version": "1.0",
+    "manifest_schema_version": "mynest.furniture_manifest/1.1",
+    "design_version_id": "85759b78-210e-4daf-a2d1-9e8ea906fee5",
+    "room_label": "Living Area",
+    "units": "plan_units",
+    "coordinate_system": "2d_top_down:origin=top_left,x=right,y=down",
+    "manifest_fingerprint": "e1e9a98661f799f1",
+    "expected_furniture_count": 3,
+    "counts": {
+      "Console": 1,
+      "Loungers Sofa": 2
+    },
+    "items": [
+      {
+        "uid": "console-1787478438948",
+        "item_id": "console",
+        "type": "console",
+        "name": "Console",
+        "category": "furniture",
+        "catalog_room_type": "Living Room",
+        "dimensions": {
+          "w": 253.6357981850792,
+          "h": 52.500000000000014,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1666.0932089015632,
+          "cy": 549.9573969075061
+        },
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "lounger-sofa-1787478478712",
+        "item_id": "lounger-sofa",
+        "type": "lounger-sofa",
+        "name": "Loungers Sofa",
+        "category": "furniture",
+        "catalog_room_type": "Living Room",
+        "dimensions": {
+          "w": 285.0000000000001,
+          "h": 135.00000000000338,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1872.0411120970357,
+          "cy": 1032.8089322685635
+        },
+        "rotation": -90.13445741521568,
+        "is_opening": false
+      },
+      {
+        "uid": "lounger-sofa-1787478572349",
+        "item_id": "lounger-sofa",
+        "type": "lounger-sofa",
+        "name": "Loungers Sofa",
+        "category": "furniture",
+        "catalog_room_type": "Living Room",
+        "dimensions": {
+          "w": 250.30970466722255,
+          "h": 108.98734527327566,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1675.3611357586647,
+          "cy": 1119.4068322981475
+        },
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "door-1787479363147",
+        "item_id": "door",
+        "type": "door",
+        "name": "Door",
+        "category": "opening",
+        "catalog_room_type": "Other",
+        "dimensions": {
+          "w": 108.80797742975467,
+          "h": 167.68632643850222,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1905.31799110483,
+          "cy": 547.3884080761452
+        },
+        "rotation": 90.1233706203643,
+        "is_opening": true
+      },
+      {
+        "uid": "window-1788864845791",
+        "item_id": "window",
+        "type": "window",
+        "name": "Window",
+        "category": "opening",
+        "catalog_room_type": "Other",
+        "dimensions": {
+          "w": 312.2417008323678,
+          "h": 27.440196015216916,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1813.3306713989946,
+          "cy": 1204.5369713102616
+        },
+        "rotation": 0.0,
+        "is_opening": true
+      }
+    ],
+    "synonyms": {
+      "console": [
+        "console",
+        "cabinet",
+        "sideboard"
+      ],
+      "lounger-sofa": [
+        "sofa",
+        "couch",
+        "lounger",
+        "settee"
+      ]
+    },
+    "opening_item_ids": [
+      "bay-window-seat",
+      "door",
+      "window"
+    ],
+    "preservation_constraints": [
+      "Render every expected furniture item exactly once (respect per-type counts).",
+      "Do not add, remove, duplicate, merge, substitute, or invent furniture or decor.",
+      "Do not move furniture between rooms; preserve room assignment.",
+      "Preserve each item's identity, type, position, dimensions, orientation.",
+      "Preserve walls, room boundaries, doors, and windows; invent no openings.",
+      "Openings (door/window) are architecture, never counted as furniture.",
+      "Improve only materials, textures, lighting, shadows, and finishes."
+    ],
+    "dictionary_fingerprint": "5ed48a35731b622b"
+  },
+  "dictionary_valid": true,
+  "dictionary_issues": [],
+  "system_prompt_md": "# SYSTEM \u2014 Canonical Furniture Preservation\n\nYou are rendering a photorealistic interior for an EXISTING 2D design. The design is the\nsole source of truth. Reproduce it exactly; only improve its visual presentation.\n\n## 1. PRESERVE THE CANONICAL DESIGN (highest priority)\n- Render EVERY expected furniture item below \u2014 no omissions.\n- Do NOT add, remove, duplicate, merge, substitute, or invent furniture or decor.\n- Do NOT move furniture between rooms.\n- Preserve each item's identity, type, count, position, dimensions, orientation, and\n  spatial relationships.\n- Preserve walls, room boundaries, doors, and windows exactly; invent no openings.\n\n## 2. DICTIONARY-BASED INTERPRETATION\n- Recognized synonyms map detector/label terms to canonical types only (below).\n- Repeated items of the same type are SEPARATE objects \u2014 keep each.\n- Do not invent furniture to fill empty space; do not read decorative/stylistic language\n  as additional inventory; do not count doors/windows/walls as furniture.\n\n## 3. VISUAL ENHANCEMENT (lowest priority)\n- Improve materials, textures, lighting, shadows, depth, and surface detail only.\n- Never let styling obscure, change, add, or remove a required object.\n- Never prioritize photorealism over the canonical design contract.\n\n---\n\nRoom: Living Area\nDesign version: 85759b78-210e-4daf-a2d1-9e8ea906fee5\nManifest fingerprint: e1e9a98661f799f1\n\n## EXPECTED FURNITURE (render each exactly; no more, no fewer)\n- 1\u00d7 Console\n- 2\u00d7 Loungers Sofa\n\n## OPENINGS (architecture \u2014 preserve, do NOT count as furniture)\n- 1\u00d7 Door\n- 1\u00d7 Window\n\n## RECOGNIZED SYNONYMS (normalize to canonical type only)\n- console, cabinet, sideboard \u2192 Console (`console`)\n- sofa, couch, lounger, settee \u2192 Loungers Sofa (`lounger-sofa`)\n"
+}

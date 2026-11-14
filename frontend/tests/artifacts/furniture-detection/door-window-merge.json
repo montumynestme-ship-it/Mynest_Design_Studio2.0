@@ -1,0 +1,19 @@
+{
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "editor": {
+    "doors": 7,
+    "windows": 4
+  },
+  "pdf_detected": {
+    "doors": 8,
+    "windows": 5
+  },
+  "supplemental_added": {
+    "doors": 1,
+    "windows": 1
+  },
+  "rendered_after_merge": {
+    "doors": 8,
+    "windows": 5
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "fixture": "kitchen-dining-v84",
+  "design_version_id": "62ef3454-7c52-4760-9333-d40570bb6ded",
+  "design_version_number": 84,
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "room_id": "kitchen-dining-area",
+  "room_label": "Kitchen & Dining Area",
+  "capture": {
+    "width": 1216,
+    "height": 832,
+    "dpr": 1,
+    "source": "version-pinned harness.tsx (file_id+version+room_id; structural=1 for the wireframe pass); offline, no fal call"
+  },
+  "base_png": {
+    "bytes": 143122,
+    "width": 1216,
+    "height": 832,
+    "sha256": "f9bcd81670d88e6b716b3425b95298ecb81ba9aa34a16f5c1b4e29f70c9bc17d"
+  },
+  "structural_png": {
+    "bytes": 42842,
+    "width": 1216,
+    "height": 832,
+    "sha256": "056fbc4099516aa495f5154c79e9da674a3ac4b4d62e4ae9937476293a92d7ff"
+  },
+  "prompt_txt": {
+    "bytes": 10581,
+    "sha256": "acca95371aeb8ec9a6fde5711a9f9c0ccd134e775e44387f9fe70844ab000543",
+    "newline": "LF"
+  },
+  "pairing_guarantees": {
+    "same_design_version": true,
+    "same_room": true,
+    "same_dimensions": true,
+    "same_camera": "guaranteed by construction (both passes render the same version-pinned RoomScene3D room with the deterministic AI camera; structural is the wireframe pass of that frame)",
+    "base_distinct_from_structural": true
+  },
+  "note": "Arm C uses structural.png as control_lora_image_url; base.png is the separate image_url init. No live fal call made.",
+  "room_inventory": [
+    {
+      "item_id": "chimney",
+      "name": "Chimney"
+    },
+    {
+      "item_id": "dining-table",
+      "name": "Dining Table"
+    }
+  ]
+}

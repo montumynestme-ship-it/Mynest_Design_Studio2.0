@@ -1,0 +1,260 @@
+{
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "openings": [
+    {
+      "room": "Living Area",
+      "id": "door-1787479363147",
+      "kind": "door",
+      "source": "editor",
+      "authored": {
+        "cx": 1890.9,
+        "cy": 568.7
+      },
+      "final3d_onwall": {
+        "cx": 1890.9,
+        "cy": 568.7
+      },
+      "wall_id": null,
+      "verified": false,
+      "wall_relative": null
+    },
+    {
+      "room": "Living Area",
+      "id": "window-1788864845791",
+      "kind": "window",
+      "source": "editor",
+      "authored": {
+        "cx": 1813.3,
+        "cy": 1204.5
+      },
+      "final3d_onwall": {
+        "cx": 1813.3,
+        "cy": 1184.3
+      },
+      "wall_id": "wall_017",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.568,
+        "along_px": 24.13,
+        "perp_removed_px": 20.22,
+        "wall_len_px": 42.48
+      }
+    },
+    {
+      "room": "Bedroom 3",
+      "id": "door-1789635571944",
+      "kind": "door",
+      "source": "editor",
+      "authored": {
+        "cx": 1019.3,
+        "cy": 944.6
+      },
+      "final3d_onwall": {
+        "cx": 1019.3,
+        "cy": 944.6
+      },
+      "wall_id": null,
+      "verified": false,
+      "wall_relative": null
+    },
+    {
+      "room": "Bedroom 3",
+      "id": "door-1789215885236",
+      "kind": "door",
+      "source": "editor",
+      "authored": {
+        "cx": 587.7,
+        "cy": 945.1
+      },
+      "final3d_onwall": {
+        "cx": 638.9,
+        "cy": 945.1
+      },
+      "wall_id": "wall_066",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.1463,
+        "along_px": 43.74,
+        "perp_removed_px": 51.2,
+        "wall_len_px": 299.04
+      }
+    },
+    {
+      "room": "Bedroom 3",
+      "id": "door_007",
+      "kind": "door",
+      "source": "pdf",
+      "authored": "pdf-supplemental",
+      "final3d_onwall": {
+        "cx": 674.8,
+        "cy": 1252.4
+      },
+      "wall_id": "wall_103",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.6714,
+        "along_px": 28.56,
+        "perp_removed_px": 26.88,
+        "wall_len_px": 42.54
+      }
+    },
+    {
+      "room": "Bedroom 1",
+      "id": "door-1789215824220",
+      "kind": "door",
+      "source": "editor",
+      "authored": {
+        "cx": 862.2,
+        "cy": 822.9
+      },
+      "final3d_onwall": {
+        "cx": 862.2,
+        "cy": 879.8
+      },
+      "wall_id": "wall_077",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.8603,
+        "along_px": 235.75,
+        "perp_removed_px": 56.9,
+        "wall_len_px": 274.02
+      }
+    },
+    {
+      "room": "Bedroom 1",
+      "id": "window-1788864839886",
+      "kind": "window",
+      "source": "editor",
+      "authored": {
+        "cx": 333.6,
+        "cy": 676.6
+      },
+      "final3d_onwall": {
+        "cx": 364.9,
+        "cy": 676.6
+      },
+      "wall_id": "wall_086",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.4789,
+        "along_px": 20.37,
+        "perp_removed_px": 31.3,
+        "wall_len_px": 42.54
+      }
+    },
+    {
+      "room": "Kitchen",
+      "id": "door-1789215945981",
+      "kind": "door",
+      "source": "editor",
+      "authored": {
+        "cx": 1105.2,
+        "cy": 417.1
+      },
+      "final3d_onwall": {
+        "cx": 1105.2,
+        "cy": 417.1
+      },
+      "wall_id": null,
+      "verified": false,
+      "wall_relative": null
+    },
+    {
+      "room": "Bedroom 2",
+      "id": "door-1787479359667",
+      "kind": "door",
+      "source": "editor",
+      "authored": {
+        "cx": 1161.2,
+        "cy": 942.4
+      },
+      "final3d_onwall": {
+        "cx": 1161.2,
+        "cy": 942.4
+      },
+      "wall_id": null,
+      "verified": false,
+      "wall_relative": null
+    },
+    {
+      "room": "Bedroom 2",
+      "id": "window-1788864844487",
+      "kind": "window",
+      "source": "editor",
+      "authored": {
+        "cx": 1290.8,
+        "cy": 1382.1
+      },
+      "final3d_onwall": {
+        "cx": 1290.8,
+        "cy": 1356.2
+      },
+      "wall_id": "wall_045",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.3307,
+        "along_px": 14.07,
+        "perp_removed_px": 25.92,
+        "wall_len_px": 42.54
+      }
+    },
+    {
+      "room": "Kitchen",
+      "id": "window_004",
+      "kind": "window",
+      "source": "pdf",
+      "authored": "pdf-supplemental",
+      "final3d_onwall": {
+        "cx": 1138.6,
+        "cy": 310.3
+      },
+      "wall_id": "wall_032",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.0,
+        "along_px": 0.0,
+        "perp_removed_px": 30.61,
+        "wall_len_px": 50.16
+      }
+    },
+    {
+      "room": "Dining Area",
+      "id": "door-1789635608770",
+      "kind": "door",
+      "source": "editor",
+      "authored": {
+        "cx": 1058.9,
+        "cy": 718.7
+      },
+      "final3d_onwall": {
+        "cx": 1117.1,
+        "cy": 718.7
+      },
+      "wall_id": "wall_031",
+      "verified": true,
+      "wall_relative": {
+        "normalized": 0.9403,
+        "along_px": 252.59,
+        "perp_removed_px": 58.18,
+        "wall_len_px": 268.62
+      }
+    },
+    {
+      "room": "Bedroom 3",
+      "id": "window-1788864843279",
+      "kind": "window",
+      "source": "editor",
+      "authored": {
+        "cx": 875.4,
+        "cy": 1546.5
+      },
+      "final3d_onwall": {
+        "cx": 875.4,
+        "cy": 1546.5
+      },
+      "wall_id": null,
+      "verified": false,
+      "wall_relative": null
+    }
+  ]
+}

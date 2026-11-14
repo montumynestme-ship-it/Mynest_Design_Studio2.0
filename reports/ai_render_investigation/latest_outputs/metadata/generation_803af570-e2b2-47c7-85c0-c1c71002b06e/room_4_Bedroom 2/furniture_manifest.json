@@ -1,0 +1,300 @@
+{
+  "room_label": "Bedroom 2",
+  "authoritative_manifest": {
+    "schema_version": "mynest.furniture_manifest/1.1",
+    "room_label": "Bedroom 2",
+    "design_version_id": "85759b78-210e-4daf-a2d1-9e8ea906fee5",
+    "geometry_fingerprint": "49f3226afcc32532",
+    "units": "plan_units",
+    "coordinate_system": "2d_top_down:origin=top_left,x=right,y=down",
+    "manifest_fingerprint": "e66dbb33d452a55e",
+    "furniture_count": 5,
+    "counts": {
+      "Bed": 1,
+      "Side Table": 2,
+      "Wardrobe": 1,
+      "Dressing Table": 1
+    },
+    "items": [
+      {
+        "uid": "bed-1787478895814",
+        "item_id": "bed",
+        "name": "Bed",
+        "cx": 1305.5120808756933,
+        "cy": 1257.0788887541864,
+        "w": 145.36773386599717,
+        "h": 196.63013348266125,
+        "rotation": -178.9522417010842,
+        "is_opening": false
+      },
+      {
+        "uid": "side-table-1787479146522",
+        "item_id": "side-table",
+        "name": "Side Table",
+        "cx": 1437.2527822782806,
+        "cy": 1314.5655585439465,
+        "w": 117.41173549561746,
+        "h": 76.54023384578892,
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "side-table-1787479147677",
+        "item_id": "side-table",
+        "name": "Side Table",
+        "cx": 1166.5942444762668,
+        "cy": 1315.1451271473768,
+        "w": 129.91551446758885,
+        "h": 79.93032153796024,
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "door-1787479359667",
+        "item_id": "door",
+        "name": "Door",
+        "cx": 1161.1796177794702,
+        "cy": 942.3998104152522,
+        "w": 135.0000000000006,
+        "h": 163.2704317794349,
+        "rotation": 90.62571576985808,
+        "is_opening": true
+      },
+      {
+        "uid": "wardrobe-1787646614206",
+        "item_id": "wardrobe",
+        "name": "Wardrobe",
+        "cx": 1137.1017479502161,
+        "cy": 1162.0626365407609,
+        "w": 179.99999999999827,
+        "h": 81.32675371412829,
+        "rotation": -89.86205992705739,
+        "is_opening": false
+      },
+      {
+        "uid": "dressing-table-1787646647163",
+        "item_id": "dressing-table",
+        "name": "Dressing Table",
+        "cx": 1430.2450458444252,
+        "cy": 947.3339614342402,
+        "w": 125.55690553236633,
+        "h": 89.99999999999994,
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "window-1788864844487",
+        "item_id": "window",
+        "name": "Window",
+        "cx": 1293.491671155265,
+        "cy": 1384.8199763904029,
+        "w": 260.23192868914623,
+        "h": 29.99999999999995,
+        "rotation": 0.0,
+        "is_opening": true
+      }
+    ],
+    "door_count": 1,
+    "window_count": 1
+  },
+  "postgen_fidelity": {
+    "status": "OK",
+    "reason": null
+  },
+  "furniture_dictionary": {
+    "schema_version": "mynest.furniture_dictionary/1.0",
+    "dictionary_version": "1.0",
+    "manifest_schema_version": "mynest.furniture_manifest/1.1",
+    "design_version_id": "85759b78-210e-4daf-a2d1-9e8ea906fee5",
+    "room_label": "Bedroom 2",
+    "units": "plan_units",
+    "coordinate_system": "2d_top_down:origin=top_left,x=right,y=down",
+    "manifest_fingerprint": "e66dbb33d452a55e",
+    "expected_furniture_count": 5,
+    "counts": {
+      "Bed": 1,
+      "Side Table": 2,
+      "Wardrobe": 1,
+      "Dressing Table": 1
+    },
+    "items": [
+      {
+        "uid": "bed-1787478895814",
+        "item_id": "bed",
+        "type": "bed",
+        "name": "Bed",
+        "category": "furniture",
+        "catalog_room_type": "Bedroom",
+        "dimensions": {
+          "w": 145.36773386599717,
+          "h": 196.63013348266125,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1305.5120808756933,
+          "cy": 1257.0788887541864
+        },
+        "rotation": -178.9522417010842,
+        "is_opening": false
+      },
+      {
+        "uid": "side-table-1787479146522",
+        "item_id": "side-table",
+        "type": "side-table",
+        "name": "Side Table",
+        "category": "furniture",
+        "catalog_room_type": "Bedroom",
+        "dimensions": {
+          "w": 117.41173549561746,
+          "h": 76.54023384578892,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1437.2527822782806,
+          "cy": 1314.5655585439465
+        },
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "side-table-1787479147677",
+        "item_id": "side-table",
+        "type": "side-table",
+        "name": "Side Table",
+        "category": "furniture",
+        "catalog_room_type": "Bedroom",
+        "dimensions": {
+          "w": 129.91551446758885,
+          "h": 79.93032153796024,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1166.5942444762668,
+          "cy": 1315.1451271473768
+        },
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "door-1787479359667",
+        "item_id": "door",
+        "type": "door",
+        "name": "Door",
+        "category": "opening",
+        "catalog_room_type": "Other",
+        "dimensions": {
+          "w": 135.0000000000006,
+          "h": 163.2704317794349,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1161.1796177794702,
+          "cy": 942.3998104152522
+        },
+        "rotation": 90.62571576985808,
+        "is_opening": true
+      },
+      {
+        "uid": "wardrobe-1787646614206",
+        "item_id": "wardrobe",
+        "type": "wardrobe",
+        "name": "Wardrobe",
+        "category": "furniture",
+        "catalog_room_type": "Bedroom",
+        "dimensions": {
+          "w": 179.99999999999827,
+          "h": 81.32675371412829,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1137.1017479502161,
+          "cy": 1162.0626365407609
+        },
+        "rotation": -89.86205992705739,
+        "is_opening": false
+      },
+      {
+        "uid": "dressing-table-1787646647163",
+        "item_id": "dressing-table",
+        "type": "dressing-table",
+        "name": "Dressing Table",
+        "category": "furniture",
+        "catalog_room_type": "Bedroom",
+        "dimensions": {
+          "w": 125.55690553236633,
+          "h": 89.99999999999994,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1430.2450458444252,
+          "cy": 947.3339614342402
+        },
+        "rotation": 0.0,
+        "is_opening": false
+      },
+      {
+        "uid": "window-1788864844487",
+        "item_id": "window",
+        "type": "window",
+        "name": "Window",
+        "category": "opening",
+        "catalog_room_type": "Other",
+        "dimensions": {
+          "w": 260.23192868914623,
+          "h": 29.99999999999995,
+          "units": "plan_units"
+        },
+        "position": {
+          "cx": 1293.491671155265,
+          "cy": 1384.8199763904029
+        },
+        "rotation": 0.0,
+        "is_opening": true
+      }
+    ],
+    "synonyms": {
+      "bed": [
+        "bed"
+      ],
+      "dressing-table": [
+        "dressing table",
+        "dresser",
+        "chest of drawers",
+        "vanity",
+        "console"
+      ],
+      "side-table": [
+        "side table",
+        "bedside",
+        "nightstand",
+        "night stand",
+        "end table"
+      ],
+      "wardrobe": [
+        "wardrobe",
+        "armoire",
+        "closet",
+        "tall cabinet",
+        "cabinet"
+      ]
+    },
+    "opening_item_ids": [
+      "bay-window-seat",
+      "door",
+      "window"
+    ],
+    "preservation_constraints": [
+      "Render every expected furniture item exactly once (respect per-type counts).",
+      "Do not add, remove, duplicate, merge, substitute, or invent furniture or decor.",
+      "Do not move furniture between rooms; preserve room assignment.",
+      "Preserve each item's identity, type, position, dimensions, orientation.",
+      "Preserve walls, room boundaries, doors, and windows; invent no openings.",
+      "Openings (door/window) are architecture, never counted as furniture.",
+      "Improve only materials, textures, lighting, shadows, and finishes."
+    ],
+    "dictionary_fingerprint": "ad8912c8fa2392ec"
+  },
+  "dictionary_valid": true,
+  "dictionary_issues": [],
+  "system_prompt_md": "# SYSTEM \u2014 Canonical Furniture Preservation\n\nYou are rendering a photorealistic interior for an EXISTING 2D design. The design is the\nsole source of truth. Reproduce it exactly; only improve its visual presentation.\n\n## 1. PRESERVE THE CANONICAL DESIGN (highest priority)\n- Render EVERY expected furniture item below \u2014 no omissions.\n- Do NOT add, remove, duplicate, merge, substitute, or invent furniture or decor.\n- Do NOT move furniture between rooms.\n- Preserve each item's identity, type, count, position, dimensions, orientation, and\n  spatial relationships.\n- Preserve walls, room boundaries, doors, and windows exactly; invent no openings.\n\n## 2. DICTIONARY-BASED INTERPRETATION\n- Recognized synonyms map detector/label terms to canonical types only (below).\n- Repeated items of the same type are SEPARATE objects \u2014 keep each.\n- Do not invent furniture to fill empty space; do not read decorative/stylistic language\n  as additional inventory; do not count doors/windows/walls as furniture.\n\n## 3. VISUAL ENHANCEMENT (lowest priority)\n- Improve materials, textures, lighting, shadows, depth, and surface detail only.\n- Never let styling obscure, change, add, or remove a required object.\n- Never prioritize photorealism over the canonical design contract.\n\n---\n\nRoom: Bedroom 2\nDesign version: 85759b78-210e-4daf-a2d1-9e8ea906fee5\nManifest fingerprint: e66dbb33d452a55e\n\n## EXPECTED FURNITURE (render each exactly; no more, no fewer)\n- 1\u00d7 Bed\n- 2\u00d7 Side Table\n- 1\u00d7 Wardrobe\n- 1\u00d7 Dressing Table\n\n## OPENINGS (architecture \u2014 preserve, do NOT count as furniture)\n- 1\u00d7 Door\n- 1\u00d7 Window\n\n## RECOGNIZED SYNONYMS (normalize to canonical type only)\n- bed \u2192 Bed (`bed`)\n- dressing table, dresser, chest of drawers, vanity, console \u2192 Dressing Table (`dressing-table`)\n- side table, bedside, nightstand, night stand, end table \u2192 Side Table (`side-table`)\n- wardrobe, armoire, closet, tall cabinet, cabinet \u2192 Wardrobe (`wardrobe`)\n"
+}

@@ -1,0 +1,42 @@
+{
+  "fixture": "bedroom-1",
+  "design_version_id": "12a625b9-409d-4542-bb9d-4ab7ff36afe5",
+  "design_version_number": 18,
+  "floor_plan_id": "9de9d0b0-a0d8-41c1-8548-8e4a4503625e",
+  "project_id": "ce25a434-d7b7-4575-b7bd-5b1efb7bae75",
+  "room_id": "bedroom-1",
+  "room_label": "Bedroom 1",
+  "capture": {
+    "width": 1216,
+    "height": 832,
+    "dpr": 1,
+    "source": "dev Paired Capture (DevPairedCapture) \u2014 same RoomScene3D scene/camera, base then structuralPass; offline, no fal call"
+  },
+  "base_png": {
+    "bytes": 90134,
+    "width": 1216,
+    "height": 832,
+    "sha256": "c443d1b68d63254ee33711ef9e33b05a3eea7b4198fa9f34988997c5a1b41b76"
+  },
+  "structural_png": {
+    "bytes": 39746,
+    "width": 1216,
+    "height": 832,
+    "sha256": "ec1b6ab52ea889da605adf0329c2dbfca345fcabbef551574bddd5c3bc62198f"
+  },
+  "prompt_txt": {
+    "bytes": 10228,
+    "sha256": "ab09f2ebf7fc0e44464038173a65e0d5659c2190a0ba78595e333e19d82ba49b",
+    "newline": "LF",
+    "hash_basis": "raw on-disk file bytes"
+  },
+  "pairing_guarantees": {
+    "same_design_version": true,
+    "same_room": true,
+    "same_dimensions": true,
+    "same_camera": "guaranteed by construction (both passes render the same scene room with the deterministic fixed camera; structural is the wireframe pass of that frame)",
+    "base_distinct_from_structural": true
+  },
+  "note": "Structural image is a geometry reference captured for the A/B/C benchmark. No live fal call was made. Arm C uses structural.png as control_lora_image_url; Arms A/B use base.png.",
+  "hash_note": "All sha256 are of the raw on-disk file bytes; prompt.txt normalized to LF so the hash is reproducible cross-platform (the earlier CRLF write made the file-byte hash differ from the recorded content hash)."
+}

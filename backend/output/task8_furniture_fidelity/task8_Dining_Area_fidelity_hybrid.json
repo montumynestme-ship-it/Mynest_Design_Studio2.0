@@ -1,0 +1,93 @@
+{
+  "room": "Dining Area",
+  "base_png_sha256": "4feaec01fe2ec1189908758b60774a92d7d2af52a21d7b3fd26b3af0ffc6a750",
+  "output_png_sha256": null,
+  "overall_status": "UNCERTAIN",
+  "gating_status": "NOT_CALIBRATED",
+  "detector": "injected",
+  "ai_detection_count": 2,
+  "anchor_uid": null,
+  "furniture_overall": "NOT_VALIDATABLE",
+  "furniture_counts": {
+    "base_total": 0,
+    "pass": 0,
+    "uncertain": 0,
+    "fail": 0,
+    "missing": 0,
+    "extra_candidates": 0
+  },
+  "tolerances": {
+    "gate_px": 412.5,
+    "pass_center_px": 88.4,
+    "fail_center_px": 294.7,
+    "pass_iou": 0.3,
+    "pass_scale": [
+      0.6,
+      1.7
+    ],
+    "fail_scale": [
+      0.35,
+      3.0
+    ],
+    "weights": {
+      "center": 1.0,
+      "iou": 0.6,
+      "scale": 0.4,
+      "order": 0.3
+    }
+  },
+  "objects": [],
+  "extras": [
+    {
+      "index": 0,
+      "query": "a door",
+      "score": 0.204,
+      "center": [
+        808.2,
+        279.3
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    },
+    {
+      "index": 1,
+      "query": "a tall cabinet",
+      "score": 0.149,
+      "center": [
+        498.6,
+        339.7
+      ],
+      "dissolved_from_base": false,
+      "classification": "AMBIGUOUS_IGNORED"
+    }
+  ],
+  "openings_overall": "UNCERTAIN",
+  "openings": [
+    {
+      "opening_id": "door-1789635608770",
+      "type": "door",
+      "room": "Dining Area",
+      "wall": "wall_031",
+      "base_bbox": [
+        637.76,
+        -107.21,
+        305.64,
+        665.64
+      ],
+      "base_center": [
+        790.58,
+        225.61
+      ],
+      "ai_bbox": [
+        640.9,
+        6.8,
+        334.6,
+        544.9
+      ],
+      "normalized_wall_position": null,
+      "ai_wall_association": "NOT_VALIDATABLE",
+      "status": "UNCERTAIN",
+      "reason": "a candidate opening-like box was localized, but wall association remains NOT_VALIDATABLE from pixels"
+    }
+  ]
+}

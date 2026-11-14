@@ -1,0 +1,58 @@
+{
+  "generation_id": "803af570-e2b2-47c7-85c0-c1c71002b06e",
+  "room_label": "Bedroom 3",
+  "provider": "fal",
+  "model": "fal-ai/flux-kontext/dev",
+  "width": 1216,
+  "height": 832,
+  "prompt_length": 12545,
+  "seed": 1958449702,
+  "cache_hit": false,
+  "prompt_hash": "93e2eb6fe435796a",
+  "geometry_hash": "49f3226afcc32532",
+  "style_reference_hash": "5039ebd2ab7cb699",
+  "geometry_faithful": null,
+  "geometry_status": "UNVERIFIED",
+  "input_geometry_locked": true,
+  "conditioning_mode": "edit",
+  "output_inventory_assessment": {
+    "overall_status": "NOT_VALIDATABLE",
+    "advisory": true,
+    "reason": "NO_BOXES",
+    "manifest_binding": {
+      "schema_version": "mynest.furniture_manifest/1.1",
+      "design_version_id": "85759b78-210e-4daf-a2d1-9e8ea906fee5",
+      "geometry_fingerprint": "49f3226afcc32532",
+      "manifest_fingerprint": "d677af830d1b194d",
+      "room_label": "Bedroom 3",
+      "units": "plan_units",
+      "coordinate_system": "2d_top_down:origin=top_left,x=right,y=down"
+    },
+    "expected_inventory": {
+      "furniture_count": 5,
+      "counts": {
+        "Bed": 1,
+        "Side Table": 2,
+        "Wardrobe": 1,
+        "Dressing Table": 1
+      },
+      "furniture_uids": [
+        "bed-1787479187466",
+        "dressing-table-1787646652625",
+        "side-table-1787479219083",
+        "side-table-1787479220302",
+        "wardrobe-1787646606853"
+      ],
+      "opening_count": 2
+    }
+  },
+  "postgen_status": "OK",
+  "postgen_reason": null,
+  "inventory_status": "MATCH",
+  "inventory_reason": {
+    "base_room_id": "bedroom-3",
+    "base_room_label": "Bedroom 3",
+    "base_room_status": "CONFIRMED",
+    "expected_count": 5
+  }
+}

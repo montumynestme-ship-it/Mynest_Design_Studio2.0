@@ -1,0 +1,135 @@
+{
+  "phase": "2H-3",
+  "mode": "audit_only_no_fal_no_edits",
+  "artifact_integrity": {
+    "p2h2_json_exists": true,
+    "p2h2_md_exists": true,
+    "p2h2_consistency": {
+      "items": 22,
+      "unique_uids": 22,
+      "captured": 22,
+      "PASS": 22,
+      "MISMATCH": 0,
+      "INCONCLUSIVE": 0,
+      "NOT_CAPTURED": 0,
+      "rooms_covered": 8,
+      "missing": [],
+      "unexpected": [],
+      "duplicate": [],
+      "fields_present": true,
+      "result": "CONSISTENT"
+    }
+  },
+  "design_version_lifecycle": {
+    "scene_endpoint_behavior": "GET /scene returns the LATEST DesignVersion id (read-only select via get_latest_version_info); it does NOT create or mutate a version",
+    "source": "floor_plans.py:114 -> floor_plan_service.get_latest_version_info -> _latest_version (ORDER BY version_number DESC)",
+    "versioning": "save_layout is append-only; a new version is minted only when _furniture_fingerprint differs; identical layout = no-op",
+    "observed_change": "2H-1 aa213074... (2026-10-10) -> 2H-2 1831bf84... (2026-10-12)",
+    "content_check": "bedroom-1 furniture identical across both /scene reads (5 uids + coords match); full 22-item diff of the two versions NOT possible without DB version history",
+    "conclusion": "NOT a proven defect. A new append-only version was created between the reads (a real edit to some room, OR a functionally-identical re-save the fingerprint treated as changed). Cannot distinguish without version history/timestamps.",
+    "impact": {
+      "reproducibility": "/scene 'latest' is not a stable pin across time; pin a specific design_version_id (get_version_canonical) to reproduce",
+      "ai_pairing": "generations bind to a FROZEN snapshot (capture_generation_snapshot records the exact version); but an audit reading 'latest' at a different time may audit a DIFFERENT version than a given generation used"
+    }
+  },
+  "br1_pair_verification": {
+    "requested": {
+      "base": "p2b2_ref_bedroom1.png",
+      "ai": "p2c_b1_output.png",
+      "fal_request_id": "01a12526...",
+      "prompt_hash": "bc254455..."
+    },
+    "on_disk": "NONE \u2014 both prior session scratchpads (87104d1f, 82e0bbde) are PURGED; the base PNG, AI output, and p2c_fal_result.json no longer exist",
+    "furniture_missing_artifacts": "NOT a substitute: bedroom-1-ai.png is 1280x720 (not the 1216x832 FAL output), carries no FAL request/seed/base-hash linkage, and asserts 'faithful' (conflicts with the Phase 2C pixel analysis)",
+    "status": "UNVERIFIED \u2014 no verified same-attempt base<->AI FAL pair exists on disk this phase",
+    "prior_recorded_metadata_unverifiable": {
+      "model": "fal-ai/flux-kontext/dev",
+      "seed": 1587969140,
+      "base_sha_sent": "3a21d5bf...",
+      "base_file_sha": "1ada0117...",
+      "output_sha": "c9b75286...",
+      "note": "from Phase 2C report; cannot be re-verified now"
+    }
+  },
+  "five_item_table": [
+    {
+      "uid": "bed-1787478891845",
+      "type": "bed",
+      "canonical": "504.3,671.8 155.5x281.3 rot-90.3",
+      "det_scene": "PASS (dX=dZ=0, dRot=0)",
+      "base_prior": "visible/identifiable (post-cutaway)",
+      "ai_prior": "visible, identity preserved",
+      "status_this_phase": "det PASS; base/AI INCONCLUSIVE (pair purged)"
+    },
+    {
+      "uid": "side-table-1787478947384",
+      "type": "side_table",
+      "canonical": "402.6,541.0 67.5x118.8 rot0",
+      "det_scene": "PASS",
+      "base_prior": "visible",
+      "ai_prior": "visible as bedside table (lamp added)",
+      "status_this_phase": "det PASS; base/AI INCONCLUSIVE"
+    },
+    {
+      "uid": "side-table-1787478946014",
+      "type": "side_table",
+      "canonical": "402.6,822.1 67.5x113.8 rot0",
+      "det_scene": "PASS",
+      "base_prior": "visible, not occluded",
+      "ai_prior": "NOT identifiable (absent)",
+      "status_this_phase": "det PASS; base/AI INCONCLUSIVE (pair purged; prior:absent)"
+    },
+    {
+      "uid": "wardrobe-1787646602167",
+      "type": "wardrobe",
+      "canonical": "675.8,513.2 216.9x90.0 rot0",
+      "det_scene": "PASS",
+      "base_prior": "visible",
+      "ai_prior": "visible (2-door)",
+      "status_this_phase": "det PASS; base/AI INCONCLUSIVE"
+    },
+    {
+      "uid": "dressing-table-1787646642783",
+      "type": "dresser(render)/dressing-table",
+      "canonical": "725.7,836.1 119.8x90.0 rot0",
+      "det_scene": "PASS",
+      "base_prior": "visible as 3-drawer chest",
+      "ai_prior": "reads as a BENCH (identity not preserved)",
+      "status_this_phase": "det PASS; base/AI INCONCLUSIVE (pair purged; prior:bench)"
+    }
+  ],
+  "first_proven_divergence": {
+    "deterministic_stages": "canonical -> scene: NO divergence (2H-2 PASS, re-verified this phase)",
+    "base_and_fal_stages": "NOT re-provable this phase (verified pair purged). Prior (now-unavailable) Phase 2C evidence located the divergence at the FAL image-to-image OUTPUT for side-table-...6014 (absent) and dressing-table-...2783 (bench), with the base showing both post-cutaway. This phase classifies that FAL-stage divergence as UNPROVEN-THIS-PHASE (not guessing).",
+    "per_item": {
+      "bed": "no divergence (det PASS; AI prior-preserved)",
+      "side-table-7384": "no divergence (det PASS; AI prior-preserved)",
+      "side-table-6014": "det PASS; FAL-output absence reported by prior evidence only -> cause UNPROVEN this phase",
+      "wardrobe": "no divergence (det PASS; AI prior-preserved)",
+      "dressing-table": "det PASS; FAL-output identity change (bench) reported by prior evidence only -> cause UNPROVEN this phase"
+    }
+  },
+  "confirmed_vs_hypotheses": {
+    "confirmed": [
+      "2H-2 JSON internally consistent (22/22 PASS, 8 rooms)",
+      "Deterministic 2D->3D transform faithful for all 5 BR1 items (exact)",
+      "/scene returns latest append-only version (read-only); dvid changed via a new appended version with bedroom-1 content unchanged",
+      "No verified same-attempt FAL pair survives on disk"
+    ],
+    "hypotheses": [
+      "FAL image-to-image drops low/front-corner furniture (side-table-6014) and alters the dresser-form dressing table to a bench (Phase 2C/2D) \u2014 plausible, NOT re-proven here",
+      "dvid change came from a functionally-identical re-save the fingerprint didn't dedup \u2014 plausible, needs version history"
+    ],
+    "evidence_needed": [
+      "a freshly generated, PERSISTED verified base<->AI pair (base capture + 1 FAL call) stored under backend/output to survive scratchpad purges",
+      "DB design-version history (ids, version_numbers, timestamps, canonical diffs) to resolve the dvid lifecycle",
+      "pixel-level base vs FAL-output per-item analysis on the fresh pair to re-prove the FAL-stage divergence"
+    ]
+  },
+  "limitations": [
+    "Purged scratchpads -> Steps 3-5 preservation conclusions are INCONCLUSIVE this phase",
+    "No FAL call made (not approved); cannot regenerate the pair",
+    "No DB version-history access to exhaustively diff the two design versions",
+    "AI image-space cannot prove exact 3D position/scale/rotation (only identity presence/absence)"
+  ]
+}

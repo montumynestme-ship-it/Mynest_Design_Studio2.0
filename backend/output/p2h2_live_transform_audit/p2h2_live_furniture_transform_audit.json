@@ -1,0 +1,1120 @@
+{
+  "phase": "2H-2",
+  "floor_plan_id": "f6b65d2b-4f96-4931-9f08-67dbd09776f6",
+  "design_version_id": "1831bf84-f9d6-4d4f-aedc-4ad95d6145fe",
+  "mpp": 0.008022725126047845,
+  "mpp_source": "first bed in scene order (bedroom-3)",
+  "tolerances": {
+    "position_m": 0.005,
+    "rotation_deg": 0.5,
+    "dim_overhang_m": [
+      -0.01,
+      0.08
+    ]
+  },
+  "totals": {
+    "canonical_instances": 22,
+    "captured_uids": 22,
+    "PASS": 22,
+    "MISMATCH": 0,
+    "INCONCLUSIVE": 0,
+    "NOT_CAPTURED": 0
+  },
+  "missing_canonical_uids": [],
+  "unexpected_scene_uids": [],
+  "duplicate_captured_uids": [],
+  "room_coverage": [
+    {
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "canonical_count": 3,
+      "captured_count": 3,
+      "blank": false
+    },
+    {
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "canonical_count": 5,
+      "captured_count": 5,
+      "blank": false
+    },
+    {
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "canonical_count": 5,
+      "captured_count": 5,
+      "blank": false
+    },
+    {
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area",
+      "canonical_count": 2,
+      "captured_count": 2,
+      "blank": false
+    },
+    {
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "canonical_count": 5,
+      "captured_count": 5,
+      "blank": false
+    },
+    {
+      "room_id": "kitchen",
+      "room_label": "Kitchen",
+      "canonical_count": 2,
+      "captured_count": 2,
+      "blank": false
+    },
+    {
+      "room_id": "dining-area",
+      "room_label": "Dining Area",
+      "canonical_count": 0,
+      "captured_count": 0,
+      "blank": false
+    },
+    {
+      "room_id": "bedroom-3-2",
+      "room_label": "Bedroom 3",
+      "canonical_count": 0,
+      "captured_count": 0,
+      "blank": false
+    }
+  ],
+  "items": [
+    {
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "uid": "console-1787478438948",
+      "item_id": "console",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1700.9841944938116,
+        "cy": 684.1534953392287,
+        "w": 253.6357981850792,
+        "h": 52.500000000000014,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -0.3713,
+        "Z": -1.384,
+        "rot_y": -0.0,
+        "fp": [
+          0.4212,
+          2.0349
+        ]
+      },
+      "measured_world": {
+        "X": -0.3713,
+        "Y": 0,
+        "Z": -1.384,
+        "rot_y": 0,
+        "bbox": [
+          2.0349,
+          0.8,
+          0.4662
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.045,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "uid": "lounger-sofa-1787478478712",
+      "item_id": "lounger-sofa",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1872.0411120970357,
+        "cy": 1032.8089322685635,
+        "w": 285.0000000000001,
+        "h": 135.00000000000338,
+        "rotation": -90.13445741521568
+      },
+      "expected_world": {
+        "X": 1.0011,
+        "Z": 1.4132,
+        "rot_y": 90.134,
+        "fp": [
+          1.0831,
+          2.2865
+        ]
+      },
+      "measured_world": {
+        "X": 1.0011,
+        "Y": 0,
+        "Z": 1.4132,
+        "rot_y": 90.134,
+        "bbox": [
+          1.0884,
+          0.63,
+          2.289
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0054,
+        "dDim_hi": 0.0025
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "living-area",
+      "room_label": "Living Area",
+      "uid": "lounger-sofa-1787478572349",
+      "item_id": "lounger-sofa",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1675.3611357586647,
+        "cy": 1119.4068322981475,
+        "w": 250.30970466722255,
+        "h": 108.98734527327566,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -0.5768,
+        "Z": 2.1079,
+        "rot_y": -0.0,
+        "fp": [
+          0.8744,
+          2.0082
+        ]
+      },
+      "measured_world": {
+        "X": -0.5768,
+        "Y": 0,
+        "Z": 2.1079,
+        "rot_y": 0,
+        "bbox": [
+          2.0082,
+          0.63,
+          0.8744
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "uid": "bed-1787479187466",
+      "item_id": "bed",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 869.8551195199075,
+        "cy": 1407.2965350928478,
+        "w": 149.16775838141075,
+        "h": 249.29185140676006,
+        "rotation": -180.0
+      },
+      "expected_world": {
+        "X": 0.0195,
+        "Z": 1.4466,
+        "rot_y": 180.0,
+        "fp": [
+          1.1967,
+          2.0
+        ]
+      },
+      "measured_world": {
+        "X": 0.0195,
+        "Y": 0,
+        "Z": 1.4466,
+        "rot_y": 180,
+        "bbox": [
+          1.1967,
+          0.85,
+          2.03
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0,
+        "dDim_hi": 0.03
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "uid": "side-table-1787479219083",
+      "item_id": "side-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1000.2580552917298,
+        "cy": 1494.8113942108155,
+        "w": 108.28871513471032,
+        "h": 75.41020461506496,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": 1.0657,
+        "Z": 2.1487,
+        "rot_y": -0.0,
+        "fp": [
+          0.605,
+          0.8688
+        ]
+      },
+      "measured_world": {
+        "X": 1.0657,
+        "Y": 0,
+        "Z": 2.1487,
+        "rot_y": 0,
+        "bbox": [
+          0.8688,
+          0.55,
+          0.605
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "uid": "side-table-1787479220302",
+      "item_id": "side-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 734.2360663171567,
+        "cy": 1493.072688400525,
+        "w": 111.6892297396642,
+        "h": 74.28017538434187,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -1.0685,
+        "Z": 2.1348,
+        "rot_y": -0.0,
+        "fp": [
+          0.5959,
+          0.8961
+        ]
+      },
+      "measured_world": {
+        "X": -1.0685,
+        "Y": 0,
+        "Z": 2.1348,
+        "rot_y": 0,
+        "bbox": [
+          0.8961,
+          0.55,
+          0.5959
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "uid": "wardrobe-1787646606853",
+      "item_id": "wardrobe",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1023.6192325522331,
+        "cy": 1241.2170884342315,
+        "w": 237.30844810432785,
+        "h": 73.22621664294726,
+        "rotation": 89.90893298128742
+      },
+      "expected_world": {
+        "X": 1.2531,
+        "Z": 0.1142,
+        "rot_y": -89.909,
+        "fp": [
+          0.5875,
+          1.9039
+        ]
+      },
+      "measured_world": {
+        "X": 1.2531,
+        "Y": 0,
+        "Z": 0.1142,
+        "rot_y": -89.909,
+        "bbox": [
+          0.6341,
+          2.1,
+          1.9048
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0466,
+        "dDim_hi": 0.0009
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-3",
+      "room_label": "Bedroom 3",
+      "uid": "dressing-table-1787646652625",
+      "item_id": "dressing-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 721.3727136073246,
+        "cy": 1110.600186382961,
+        "w": 130.7703963093347,
+        "h": 90.00000000000053,
+        "rotation": 89.91869014797797
+      },
+      "expected_world": {
+        "X": -1.1717,
+        "Z": -0.9337,
+        "rot_y": -89.919,
+        "fp": [
+          0.722,
+          1.0491
+        ]
+      },
+      "measured_world": {
+        "X": -1.1717,
+        "Y": 0,
+        "Z": -0.9337,
+        "rot_y": -89.919,
+        "bbox": [
+          0.7679,
+          0.8,
+          1.0502
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": -0.0,
+        "dDim_lo": 0.0459,
+        "dDim_hi": 0.001
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "uid": "bed-1787478891845",
+      "item_id": "bed",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 504.33538738728373,
+        "cy": 671.776086115616,
+        "w": 155.47377080788036,
+        "h": 281.31892502433715,
+        "rotation": -90.31767451191246
+      },
+      "expected_world": {
+        "X": -1.0799,
+        "Z": -0.0257,
+        "rot_y": 90.318,
+        "fp": [
+          1.2473,
+          2.2569
+        ]
+      },
+      "measured_world": {
+        "X": -1.0799,
+        "Y": 0,
+        "Z": -0.0257,
+        "rot_y": 90.318,
+        "bbox": [
+          2.2977,
+          0.85,
+          1.26
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0127,
+        "dDim_hi": 0.0407
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "uid": "side-table-1787478946014",
+      "item_id": "side-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 402.61011977209665,
+        "cy": 822.1006146711104,
+        "w": 67.49999999999993,
+        "h": 113.75751327278171,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -1.896,
+        "Z": 1.1803,
+        "rot_y": -0.0,
+        "fp": [
+          0.5415,
+          0.9126
+        ]
+      },
+      "measured_world": {
+        "X": -1.896,
+        "Y": 0,
+        "Z": 1.1803,
+        "rot_y": 0,
+        "bbox": [
+          0.5415,
+          0.55,
+          0.9126
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "uid": "side-table-1787478947384",
+      "item_id": "side-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 402.6101197720959,
+        "cy": 541.020905167916,
+        "w": 67.49999999999996,
+        "h": 118.83059241053404,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -1.896,
+        "Z": -1.0747,
+        "rot_y": -0.0,
+        "fp": [
+          0.5415,
+          0.9533
+        ]
+      },
+      "measured_world": {
+        "X": -1.896,
+        "Y": 0,
+        "Z": -1.0747,
+        "rot_y": 0,
+        "bbox": [
+          0.5415,
+          0.55,
+          0.9533
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "uid": "wardrobe-1787646602167",
+      "item_id": "wardrobe",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 675.8158828748886,
+        "cy": 513.2215320910985,
+        "w": 216.85978539907532,
+        "h": 89.99999999999997,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": 0.2958,
+        "Z": -1.2977,
+        "rot_y": -0.0,
+        "fp": [
+          0.722,
+          1.7398
+        ]
+      },
+      "measured_world": {
+        "X": 0.2958,
+        "Y": 0,
+        "Z": -1.2977,
+        "rot_y": 0,
+        "bbox": [
+          1.7398,
+          2.1,
+          0.767
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.045,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-1",
+      "room_label": "Bedroom 1",
+      "uid": "dressing-table-1787646642783",
+      "item_id": "dressing-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 725.7197574682051,
+        "cy": 836.1289559301978,
+        "w": 119.82605348314002,
+        "h": 90.0,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": 0.6962,
+        "Z": 1.2929,
+        "rot_y": -0.0,
+        "fp": [
+          0.722,
+          0.9613
+        ]
+      },
+      "measured_world": {
+        "X": 0.6962,
+        "Y": 0,
+        "Z": 1.2929,
+        "rot_y": 0,
+        "bbox": [
+          0.9613,
+          0.8,
+          0.767
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.045,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area",
+      "uid": "chimney-1787478686293",
+      "item_id": "chimney",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1229.5973550114113,
+        "cy": 368.25889298560054,
+        "w": 136.81261989720548,
+        "h": 71.43224451300306,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -0.487,
+        "Z": -1.8638,
+        "rot_y": -0.0,
+        "fp": [
+          0.5731,
+          1.0976
+        ]
+      },
+      "measured_world": {
+        "X": -0.487,
+        "Y": 0,
+        "Z": -1.8638,
+        "rot_y": 0,
+        "bbox": [
+          1.0976,
+          0.7,
+          0.5731
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": -0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "kitchen-dining-area",
+      "room_label": "Kitchen & Dining Area",
+      "uid": "dining-table-1787478800756",
+      "item_id": "dining-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1210.714284593772,
+        "cy": 632.9123486593392,
+        "w": 224.99999999999727,
+        "h": 134.99999999999952,
+        "rotation": -89.90775583223486
+      },
+      "expected_world": {
+        "X": -0.6385,
+        "Z": 0.2594,
+        "rot_y": 89.908,
+        "fp": [
+          1.0831,
+          1.8051
+        ]
+      },
+      "measured_world": {
+        "X": -0.6385,
+        "Y": 0,
+        "Z": 0.2594,
+        "rot_y": 89.908,
+        "bbox": [
+          1.086,
+          0.75,
+          1.8069
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0029,
+        "dDim_hi": 0.0018
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "uid": "bed-1787478895814",
+      "item_id": "bed",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1305.5120808756933,
+        "cy": 1257.0788887541864,
+        "w": 145.36773386599717,
+        "h": 196.63013348266125,
+        "rotation": -178.9522417010842
+      },
+      "expected_world": {
+        "X": 0.1105,
+        "Z": 1.0733,
+        "rot_y": 178.952,
+        "fp": [
+          1.1662,
+          1.5775
+        ]
+      },
+      "measured_world": {
+        "X": 0.1105,
+        "Y": 0,
+        "Z": 1.0733,
+        "rot_y": 178.952,
+        "bbox": [
+          1.1953,
+          0.85,
+          1.6222
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0291,
+        "dDim_hi": 0.0447
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "uid": "side-table-1787479146522",
+      "item_id": "side-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1437.2527822782806,
+        "cy": 1314.5655585439465,
+        "w": 117.41173549561746,
+        "h": 76.54023384578892,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": 1.1674,
+        "Z": 1.5345,
+        "rot_y": -0.0,
+        "fp": [
+          0.6141,
+          0.942
+        ]
+      },
+      "measured_world": {
+        "X": 1.1674,
+        "Y": 0,
+        "Z": 1.5345,
+        "rot_y": 0,
+        "bbox": [
+          0.942,
+          0.55,
+          0.6141
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": -0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "uid": "side-table-1787479147677",
+      "item_id": "side-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1166.5942444762668,
+        "cy": 1315.1451271473768,
+        "w": 129.91551446758885,
+        "h": 79.93032153796024,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -1.004,
+        "Z": 1.5391,
+        "rot_y": -0.0,
+        "fp": [
+          0.6413,
+          1.0423
+        ]
+      },
+      "measured_world": {
+        "X": -1.004,
+        "Y": 0,
+        "Z": 1.5391,
+        "rot_y": 0,
+        "bbox": [
+          1.0423,
+          0.55,
+          0.6413
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "uid": "wardrobe-1787646614206",
+      "item_id": "wardrobe",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1148.290324555819,
+        "cy": 1162.0626365407736,
+        "w": 179.99999999999997,
+        "h": 81.32675371412877,
+        "rotation": -91.14295398796757
+      },
+      "expected_world": {
+        "X": -1.1509,
+        "Z": 0.311,
+        "rot_y": 91.143,
+        "fp": [
+          0.6525,
+          1.4441
+        ]
+      },
+      "measured_world": {
+        "X": -1.1509,
+        "Y": 0,
+        "Z": 0.311,
+        "rot_y": 91.143,
+        "bbox": [
+          0.7128,
+          2.1,
+          1.4568
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0603,
+        "dDim_hi": 0.0127
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "bedroom-2",
+      "room_label": "Bedroom 2",
+      "uid": "dressing-table-1787646647163",
+      "item_id": "dressing-table",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1430.2450458444252,
+        "cy": 953.5498373262348,
+        "w": 125.55690553236633,
+        "h": 89.99999999999994,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": 1.1112,
+        "Z": -1.3619,
+        "rot_y": -0.0,
+        "fp": [
+          0.722,
+          1.0073
+        ]
+      },
+      "measured_world": {
+        "X": 1.1112,
+        "Y": 0,
+        "Z": -1.3619,
+        "rot_y": 0,
+        "bbox": [
+          1.0073,
+          0.8,
+          0.767
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.045,
+        "dDim_hi": 0.0
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "kitchen",
+      "room_label": "Kitchen",
+      "uid": "kitchen-base-1787478607029",
+      "item_id": "kitchen-base",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1604.7921431635318,
+        "cy": 389.1973056943665,
+        "w": 191.43389689744208,
+        "h": 105.51708475166814,
+        "rotation": -89.81128039303478
+      },
+      "expected_world": {
+        "X": 1.5095,
+        "Z": 0.5518,
+        "rot_y": 89.811,
+        "fp": [
+          0.8465,
+          1.5358
+        ]
+      },
+      "measured_world": {
+        "X": 1.5095,
+        "Y": 0,
+        "Z": 0.5518,
+        "rot_y": 89.811,
+        "bbox": [
+          0.8817,
+          0.9,
+          1.5687
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.0352,
+        "dDim_hi": 0.0329
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    },
+    {
+      "room_id": "kitchen",
+      "room_label": "Kitchen",
+      "uid": "kitchen-base-1787478608231",
+      "item_id": "kitchen-base",
+      "item_type_match": true,
+      "canonical": {
+        "cx": 1395.605443419899,
+        "cy": 243.893072113842,
+        "w": 525.7007594581163,
+        "h": 89.99999999999999,
+        "rotation": 0.0
+      },
+      "expected_world": {
+        "X": -0.1687,
+        "Z": -0.614,
+        "rot_y": -0.0,
+        "fp": [
+          0.722,
+          4.2176
+        ]
+      },
+      "measured_world": {
+        "X": -0.1687,
+        "Y": 0,
+        "Z": -0.614,
+        "rot_y": 0,
+        "bbox": [
+          4.2476,
+          0.9,
+          0.752
+        ]
+      },
+      "delta": {
+        "dX": 0.0,
+        "dZ": 0.0,
+        "dRot": 0.0,
+        "dDim_lo": 0.03,
+        "dDim_hi": 0.03
+      },
+      "checks": {
+        "pos": true,
+        "rot": true,
+        "dim": true
+      },
+      "status": "PASS"
+    }
+  ]
+}
