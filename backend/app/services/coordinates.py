@@ -57,6 +57,41 @@ def three_to_world(m: float, mpp: float = DEFAULT_MPP) -> float:
     return float(m) / mpp
 
 
+# ── Metric scale calibration (Phase B) ───────────────────────────────────────
+# ``FLOOR_PLANS.scale_mm_per_px`` is DEFINED as millimetres per CANONICAL WORLD
+# pixel (world = pdf_pt × DEFAULT_WORLD_SCALE) — the frame walls/rooms/openings and
+# the 2D calibration canvas share. It is NULL (uncalibrated) until a designer measures
+# a known distance; the uncalibrated assumption remains DEFAULT_MPP (0.01 m/px = 10
+# mm/px). The renderer's ``mpp`` (metres per world px) is ``scale_mm_per_px / 1000``.
+
+
+def mpp_from_scale_mm_per_px(scale_mm_per_px: float) -> float:
+    """Metres per WORLD px from the calibration field (mm per WORLD px)."""
+    return float(scale_mm_per_px) / 1000.0
+
+
+def pixel_distance(p1: tuple[float, float], p2: tuple[float, float]) -> float:
+    """Euclidean WORLD-pixel distance between two picked calibration points."""
+    import math
+
+    return math.hypot(float(p2[0]) - float(p1[0]), float(p2[1]) - float(p1[1]))
+
+
+def scale_mm_per_px_from_measurement(known_distance_mm: float, pixel_dist: float) -> float:
+    """Calibration factor (mm per WORLD px) from a known real distance (mm) and its
+    measured WORLD-pixel span. Raises ``ValueError`` on non-positive / non-finite
+    input (never fabricates a scale)."""
+    import math
+
+    if not (math.isfinite(known_distance_mm) and math.isfinite(pixel_dist)):
+        raise ValueError("calibration inputs must be finite")
+    if known_distance_mm <= 0:
+        raise ValueError("known_distance_mm must be > 0")
+    if pixel_dist <= 0:
+        raise ValueError("pixel_dist must be > 0")
+    return known_distance_mm / pixel_dist
+
+
 def normalize_angle(deg: float) -> float:
     """Normalize any degree angle into [0, 360)."""
     return float(deg) % 360.0

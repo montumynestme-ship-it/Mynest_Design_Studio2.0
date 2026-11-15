@@ -492,6 +492,15 @@ def build_scene(file_id: str, canonical: dict[str, Any] | None = None) -> dict[s
         except Exception as _rwexc:  # noqa: BLE001 — derived layer is best-effort
             logger.warning("[option2] reconstructed_walls skipped: %s", _rwexc)
 
+    # Metric calibration (Phase B, additive): mm per WORLD px when the designer has
+    # measured a known distance on this plan, else uncalibrated (null). Read-only
+    # metadata — it NEVER changes walls/rooms/openings/furniture. A consumer that
+    # ignores it renders exactly as before (relative proportions).
+    try:
+        _cal = floor_plan_service.get_floor_plan_scale(file_id)
+    except Exception:  # noqa: BLE001 — calibration is best-effort metadata
+        _cal = {"scale_mm_per_px": None, "mpp": None, "calibrated": False, "source": None}
+
     scene: dict[str, Any] = {
         "page": page,
         "walls": walls,
@@ -501,6 +510,10 @@ def build_scene(file_id: str, canonical: dict[str, Any] | None = None) -> dict[s
         "doors": doors,
         "windows": windows,
         "rooms": rooms,
+        "scale_mm_per_px": _cal["scale_mm_per_px"],
+        "mpp": _cal["mpp"],
+        "scale_calibrated": _cal["calibrated"],
+        "scale_source": _cal["source"],
     }
     # Self-validate the reconstruction against the authoritative canonical plan
     # (spec §L): every furniture item preserved, openings room-specific, and

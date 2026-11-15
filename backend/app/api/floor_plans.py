@@ -6,12 +6,15 @@ from fastapi.responses import FileResponse, Response
 
 from app.core.config import MEDIA_TYPES
 from app.schemas.floor_plan import (
+    CalibrationRequest,
+    CalibrationResponse,
     FloorPlanDetectionResponse,
     FloorPlanResponse,
     LayoutPayload,
 )
 from app.schemas.generation import GenerationRequestBody, GenerationResponse
 from app.services import (
+    coordinates,
     diagnostics_service,
     generation_service,
     geometry_extraction_service,
@@ -89,6 +92,44 @@ def put_layout(file_id: str, payload: LayoutPayload) -> LayoutPayload:
         return service.save_layout(file_id, payload)
     except FloorPlanError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
+
+
+@router.get("/{file_id}/calibration", response_model=CalibrationResponse)
+def get_calibration(file_id: str) -> CalibrationResponse:
+    """Read a floor plan's metric calibration (Phase B). Uncalibrated plans return
+    ``calibrated: false`` with null scale — the renderer keeps relative proportions."""
+    try:
+        data = service.get_floor_plan_scale(file_id)
+    except FloorPlanError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
+    return CalibrationResponse(file_id=file_id, **data)
+
+
+@router.put("/{file_id}/calibration", response_model=CalibrationResponse)
+def put_calibration(file_id: str, body: CalibrationRequest) -> CalibrationResponse:
+    """Set a floor plan's metric scale from a known measured distance (Phase B).
+
+    Accepts a precomputed ``scale_mm_per_px`` OR two WORLD-px points + ``known_distance_mm``.
+    Never overwrites an existing calibration unless ``overwrite`` is true (409 otherwise);
+    the prior value is preserved on any validation error. Does NOT touch canonical geometry.
+    """
+    try:
+        if body.scale_mm_per_px is not None:
+            smpp = body.scale_mm_per_px
+        elif body.p1 is not None and body.p2 is not None and body.known_distance_mm is not None:
+            dist = coordinates.pixel_distance(body.p1, body.p2)
+            smpp = coordinates.scale_mm_per_px_from_measurement(body.known_distance_mm, dist)
+        else:
+            raise HTTPException(
+                status_code=422,
+                detail="Provide scale_mm_per_px, or p1 + p2 + known_distance_mm",
+            )
+        data = service.set_floor_plan_scale(file_id, smpp, overwrite=body.overwrite)
+    except ValueError as exc:  # invalid measurement (zero/negative/non-finite)
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FloorPlanError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
+    return CalibrationResponse(file_id=file_id, **data)
 
 
 @router.post("/{file_id}/validate")

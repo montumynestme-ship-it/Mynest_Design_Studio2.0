@@ -168,6 +168,53 @@ def get_floor_plan(file_id: str) -> FloorPlanResponse:
         return _to_response(_get_or_404(db, file_id))
 
 
+def get_floor_plan_scale(file_id: str) -> dict[str, Any]:
+    """Read the metric calibration for a floor plan (Phase B).
+
+    ``scale_mm_per_px`` is millimetres per CANONICAL WORLD pixel (see
+    ``coordinates`` — mm per world px). NULL ⇒ uncalibrated: ``calibrated`` is
+    False and ``mpp``/``source`` are None, so the renderer keeps its honest
+    uncalibrated fallback. Never fabricates a value.
+    """
+    with session_scope() as db:
+        fp = _get_or_404(db, file_id)
+        raw = fp.scale_mm_per_px
+        smpp = float(raw) if raw is not None else None
+    calibrated = smpp is not None and smpp > 0
+    return {
+        "scale_mm_per_px": smpp if calibrated else None,
+        "mpp": (smpp / 1000.0) if calibrated else None,
+        "calibrated": calibrated,
+        "source": "user_measurement" if calibrated else None,
+    }
+
+
+def set_floor_plan_scale(
+    file_id: str, scale_mm_per_px: float, *, overwrite: bool = False
+) -> dict[str, Any]:
+    """Persist a metric calibration (mm per WORLD px) for a floor plan (Phase B).
+
+    Validates a positive, finite factor. Does NOT overwrite an existing calibration
+    unless ``overwrite`` is True (409 otherwise) — so a calibration is never replaced
+    without an explicit user action. On any validation failure NOTHING is written, so
+    the previous calibration is preserved. Additive: a plan that was never calibrated
+    simply gains a value; the canonical geometry/furniture are untouched.
+    """
+    import math
+
+    if not math.isfinite(scale_mm_per_px) or scale_mm_per_px <= 0:
+        raise FloorPlanError(422, "scale_mm_per_px must be a positive, finite number")
+    with session_scope() as db:
+        fp = _get_or_404(db, file_id)
+        existing = float(fp.scale_mm_per_px) if fp.scale_mm_per_px is not None else None
+        if existing is not None and existing > 0 and not overwrite:
+            raise FloorPlanError(
+                409, "Floor plan is already calibrated; pass overwrite=true to replace it"
+            )
+        fp.scale_mm_per_px = scale_mm_per_px
+    return get_floor_plan_scale(file_id)
+
+
 def get_floor_plan_file(file_id: str) -> tuple[Path, str, str]:
     """Returns (absolute path, file_type, original_filename) or raises."""
     with session_scope() as db:

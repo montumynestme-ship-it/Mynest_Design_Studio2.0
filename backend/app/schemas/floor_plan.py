@@ -82,6 +82,27 @@ class FloorPlanResponse(BaseModel):
     updated_at: datetime
 
 
+class CalibrationRequest(BaseModel):
+    """Set a floor plan's metric scale (Phase B). Provide EITHER a precomputed
+    ``scale_mm_per_px`` (mm per WORLD px) OR two picked WORLD-px points plus the known
+    real distance in mm (the backend computes ``known_distance_mm / |p2 − p1|``)."""
+
+    scale_mm_per_px: float | None = None
+    p1: tuple[float, float] | None = None  # WORLD px
+    p2: tuple[float, float] | None = None  # WORLD px
+    known_distance_mm: float | None = None
+    # Must be explicitly true to replace an existing calibration (never silent).
+    overwrite: bool = False
+
+
+class CalibrationResponse(BaseModel):
+    file_id: str
+    scale_mm_per_px: float | None = None
+    mpp: float | None = None  # metres per WORLD px (scale_mm_per_px / 1000)
+    calibrated: bool = False
+    source: str | None = None
+
+
 class PositionPayload(BaseModel):
     cx: float
     cy: float
