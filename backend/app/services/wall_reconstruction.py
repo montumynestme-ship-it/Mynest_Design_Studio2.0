@@ -42,6 +42,11 @@ def _overlap(a0: float, a1: float, b0: float, b1: float) -> float:
     return max(0.0, min(a1, b1) - max(a0, b0))
 
 
+# Non-degeneracy floor for an emitted interval — the same ``> 1e-6`` the items builder uses
+# to drop zero-length faces (DEF-2 reuses it for unmatched tails; not a new invented threshold).
+_TAIL_EPS = 1e-6
+
+
 def measure_tolerances(walls: list[Seg]) -> dict[str, float]:
     """Derive every tolerance from the plan's own geometry (scale-invariant)."""
     lengths = [_length(w) for w in walls if _length(w) > 0]
@@ -309,31 +314,105 @@ def build_reconstructed_walls(
 
     id_const: dict[str, float] = {f"wall_{i + 1:03d}": _perp(s) for i, s in enumerate(segs)}
 
+    def _face_lon(wid: str, axis_h: bool) -> tuple[float, float, float] | None:
+        """(perp const, longitudinal a0, a1) of ONE original face stroke, or None."""
+        try:
+            idx = int(wid.split("_")[1]) - 1
+        except (ValueError, IndexError):
+            return None
+        if not (0 <= idx < len(segs)):
+            return None
+        s = segs[idx]
+        if axis_h:
+            return (_perp(s), min(s[0], s[2]), max(s[0], s[2]))
+        return (_perp(s), min(s[1], s[3]), max(s[1], s[3]))
+
+    def _seg_for(axis_h: bool, const: float, a0: float, a1: float) -> Seg:
+        return (a0, const, a1, const) if axis_h else (const, a0, const, a1)
+
     out: list[dict[str, Any]] = []
-    for k, band in enumerate(repair_walls(segs, tol)):
+
+    def _emit(
+        seg: Seg, ids_e: list[str], thickness_px: float, source: str, confidence: str
+    ) -> None:
+        out.append(
+            {
+                "id": f"rwall_{len(out) + 1:03d}",
+                "seg": (round(seg[0], 2), round(seg[1], 2), round(seg[2], 2), round(seg[3], 2)),
+                "orientation": "h" if abs(seg[1] - seg[3]) < 1e-9 else "v",
+                "source_wall_ids": list(ids_e),
+                "thickness_px": round(thickness_px, 2),
+                "thickness_source": source,
+                "thickness_confidence": confidence,
+                "thickness_units": "px",
+            }
+        )
+
+    for band in repair_walls(segs, tol):
         ids: list[str] = list(band.get("source_wall_ids") or [])
         consts = sorted(id_const[i] for i in ids if i in id_const)
-        thickness_px: float = 10.0            # configured fallback (px) — same as face strokes
-        source, confidence = "CONFIGURED_FALLBACK", "none"
-        if len(consts) >= 2:
-            spread = consts[-1] - consts[0]
-            if th > 0 and lo <= spread <= hi:
-                # Genuine double-line pair: the separation IS the measured wall thickness.
-                thickness_px = round(spread, 2)
-                source, confidence = "MEASURED_FROM_PAIRED_FACES", "high"
-            elif spread > 1e-6:
-                # A separation exists but is implausible (noise / mis-pair) — do not trust it.
-                source, confidence = "UNVERIFIED", "low"
-        out.append({
-            "id": f"rwall_{k + 1:03d}",
-            "seg": band.get("seg"),
-            "orientation": band.get("orientation"),
-            "source_wall_ids": ids,
-            "thickness_px": thickness_px,
-            "thickness_source": source,
-            "thickness_confidence": confidence,
-            "thickness_units": "px",
-        })
+        axis_h = str(band.get("orientation")) == "h"
+        band_seg = band.get("seg")
+        spread = consts[-1] - consts[0] if len(consts) >= 2 else 0.0
+        measured = len(consts) >= 2 and th > 0 and lo <= spread <= hi
+
+        if measured:
+            # DEF-2: a MEASURED paired centreline is valid ONLY over the longitudinal interval
+            # BOTH faces actually share (their intersection) — never the union, which would
+            # claim measured double-line support where a single face exists. The unmatched
+            # tails are preserved as separate single-face CONFIGURED_FALLBACK bands at each
+            # face's own centreline, so no real wall portion is discarded or over-measured.
+            cmid = (consts[0] + consts[-1]) / 2.0
+            fe = {w: _face_lon(w, axis_h) for w in ids}
+            a_ids = [w for w in ids if fe[w] and fe[w][0] <= cmid]
+            b_ids = [w for w in ids if fe[w] and fe[w][0] > cmid]
+            a = [(fe[w][1], fe[w][2]) for w in a_ids]
+            b = [(fe[w][1], fe[w][2]) for w in b_ids]
+            if a and b:
+                sa0, sa1 = min(e[0] for e in a), max(e[1] for e in a)
+                sb0, sb1 = min(e[0] for e in b), max(e[1] for e in b)
+                const_a = sum(fe[w][0] for w in a_ids) / len(a_ids)
+                const_b = sum(fe[w][0] for w in b_ids) / len(b_ids)
+                ov0, ov1 = max(sa0, sb0), min(sa1, sb1)
+                if ov1 - ov0 > _TAIL_EPS:
+                    _emit(
+                        _seg_for(axis_h, (const_a + const_b) / 2.0, ov0, ov1),
+                        ids,
+                        spread,
+                        "MEASURED_FROM_PAIRED_FACES",
+                        "high",
+                    )
+                    for side_ids, s0, s1, side_const in (
+                        (a_ids, sa0, sa1, const_a),
+                        (b_ids, sb0, sb1, const_b),
+                    ):
+                        if s0 < ov0 - _TAIL_EPS:
+                            _emit(
+                                _seg_for(axis_h, side_const, s0, ov0),
+                                side_ids,
+                                10.0,
+                                "CONFIGURED_FALLBACK",
+                                "none",
+                            )
+                        if s1 > ov1 + _TAIL_EPS:
+                            _emit(
+                                _seg_for(axis_h, side_const, ov1, s1),
+                                side_ids,
+                                10.0,
+                                "CONFIGURED_FALLBACK",
+                                "none",
+                            )
+                    continue
+            # Could not resolve two sides / overlap — keep the whole band measured (prior behavior).
+            _emit(band_seg, ids, spread, "MEASURED_FROM_PAIRED_FACES", "high")
+            continue
+
+        # Non-measured bands are unchanged: an implausible separation is UNVERIFIED, a
+        # single-face / unpaired band keeps the configured fallback thickness.
+        if len(consts) >= 2 and spread > 1e-6:
+            _emit(band_seg, ids, 10.0, "UNVERIFIED", "low")
+        else:
+            _emit(band_seg, ids, 10.0, "CONFIGURED_FALLBACK", "none")
     return out
 
 
