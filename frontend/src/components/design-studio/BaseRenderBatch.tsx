@@ -258,6 +258,7 @@ export default function BaseRenderBatch({ scene, rooms, onComplete, onProgress, 
         <RoomScene3D
           room={room}
           walls={scene.walls}
+          reconstructedWalls={scene.reconstructed_walls}
           wallColors={scene.wall_colors}
           mpp={mpp}
           preset="perspective"

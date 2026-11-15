@@ -138,12 +138,34 @@ export interface GeometryValidation {
   mismatches?: string[];
 }
 
+/** A DERIVED, additive wall CENTERLINE (backend `reconstructed_walls`). Each entry
+ * collapses a double-line face pair into one centerline and reports a per-wall thickness
+ * in WORLD PX (uncalibrated — no mm claim). It never replaces the authoritative
+ * face-stroke `walls`; it is an optional render-fidelity source for the 3D shell. */
+export interface ReconstructedWall {
+  id: string;
+  /** Centerline endpoints in world px. */
+  seg: [number, number, number, number];
+  orientation?: string;
+  source_wall_ids?: string[];
+  /** Per-wall thickness in world px. */
+  thickness_px: number;
+  /** "MEASURED_FROM_PAIRED_FACES" (high confidence) | "CONFIGURED_FALLBACK" | "UNVERIFIED". */
+  thickness_source: string;
+  thickness_confidence?: string;
+  thickness_units?: string;
+}
+
 export interface Scene {
   page: { width: number; height: number; scale?: number };
   walls: [number, number, number, number][];
   /** Source colour of each wall (parallel to `walls`). Structural walls are
    * "#141414"; drafter-coloured lines (windows/features) keep their hue. */
   wall_colors?: string[];
+  /** Additive derived centerline layer with per-wall measured thickness (world px).
+   * Consumed by the 3D renderer (high-confidence bands) to draw single measured-thickness
+   * walls instead of doubled face strokes; absent/empty = renderer keeps face strokes. */
+  reconstructed_walls?: ReconstructedWall[];
   rooms: SceneRoom[];
   /** Deterministic geometry-fidelity report and hard invalid flag from the
    * backend. `geometry_invalid` is true when walls exist but the scene is not

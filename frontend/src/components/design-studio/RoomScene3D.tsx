@@ -8,7 +8,8 @@ import { solveAiCamera, solveEyeLevelCamera, AI_FOV, ENCLOSED_FOV, baseCaptureFo
 import { BASE_CAPTURE_W, BASE_CAPTURE_H } from '../../lib/scene';
 import { projectFurnitureBoxes, type FurnitureBox } from '../../lib/furnitureBoxes';
 import { carveWallSegment, type CarveOpening } from '../../lib/wallCarve';
-import type { SceneRoom } from '../../lib/scene';
+import { selectReconstructedShell, type ShellWall } from '../../lib/measuredWalls';
+import type { SceneRoom, ReconstructedWall } from '../../lib/scene';
 
 /** Read-only diagnostic: the ACTUAL world transform of one furniture group, measured
  * from the live Three.js scene (never reconstructed). Emitted only when the capture
@@ -62,6 +63,18 @@ export type CameraPreset = 'perspective' | 'top' | 'eye';
 interface RoomScene3DProps {
   room: SceneRoom;
   walls: [number, number, number, number][]; // plan wall segments (world px)
+  /** Phase 2 Step 1 (additive): the backend's derived centerline layer with per-wall
+   * MEASURED thickness. When high-confidence bands are present for this room, the solid
+   * shell is drawn from them (one wall at its measured thickness) instead of the doubled
+   * face strokes; absent/empty or low-confidence → the existing face-stroke shell is kept,
+   * byte-identical. Never changes canonical geometry, openings, or furniture. */
+  reconstructedWalls?: ReconstructedWall[];
+  /** DEF-3 follow-on (additive): per-room architectural floor polygons (world px) for the
+   * COMBINED full-plan view, where `room` is a synthetic span with no single boundary. Each
+   * polygon is rendered as its own polygon floor (replacing the rectangular fallback) so the
+   * dollhouse shows real room shapes. Empty/omitted → unchanged single-room floor behaviour.
+   * Only architectural (wall-proven) room boundaries belong here — never a furniture-hull. */
+  roomFloors?: Array<Array<[number, number]>>;
   mpp: number; // metres per plan pixel
   preset: CameraPreset;
   /** Draw the cove ceiling. Off for the whole-plan dollhouse view so the rooms
@@ -285,7 +298,7 @@ function StructuralOverride({ enabled }: { enabled: boolean }) {
  * reflections, skirting, a cove ceiling with warm LED, contact shadows and a rug.
  * No AI decides any placement (CLAUDE.md RULE #1).
  */
-export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, aiRenderMode: aiRenderModeBase = false, structuralPass = false, enclosed = false, onCaptureReady, onFurnitureBoxes, onOpeningBoxes, onFurnitureTransforms, onCameraInfo, dpr = [1, 2] }: RoomScene3DProps) {
+export default function RoomScene3D({ room, walls, reconstructedWalls = [], roomFloors = [], mpp, preset, ceiling = true, aiRenderMode: aiRenderModeBase = false, structuralPass = false, enclosed = false, onCaptureReady, onFurnitureBoxes, onOpeningBoxes, onFurnitureTransforms, onCameraInfo, dpr = [1, 2] }: RoomScene3DProps) {
   // The structural pass is an aiRenderMode VARIANT: by folding it into aiRenderMode here,
   // the camera, dollhouse cutaway, window handling and capture flow stay byte-identical to
   // the base render — only the shading (wireframe override + white bg below) differs.
@@ -415,9 +428,26 @@ export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, 
         };
       });
   }, [room.opening_placements, cx, cy, mpp]);
-  // Solid shell: prefer the guaranteed-closed boundary polygon; else the real
-  // plan segments; the generic 3-wall fallback is used only when neither exists.
-  const solidWalls = boundaryWalls.length >= 3 ? boundaryWalls : realWalls.filter((w) => !w.isWindow);
+  // Phase 2: the COMPLETE reconstructed centerline shell (one segment per physical wall —
+  // measured thickness where high-confidence, configured-fallback otherwise). Unlike the
+  // earlier Step 1 selection it NEVER drops a wall, so a plan whose measured coverage is
+  // partial (most plans ≈35%) still renders every wall once. Pure selection
+  // (lib/measuredWalls); no canonical geometry, opening, or furniture change.
+  const reconstructedShell = useMemo<ShellWall[]>(
+    () => selectReconstructedShell(reconstructedWalls, { bx, by, bw, bh, cx, cy }, mpp),
+    [reconstructedWalls, bx, by, bw, bh, cx, cy, mpp],
+  );
+  // Solid-shell preference: a guaranteed-closed architectural boundary polygon (complete,
+  // per-room) FIRST — so architectural per-room renders are unchanged — then the complete
+  // reconstructed centerline shell (collapses double-line faces + measured thickness, used
+  // by the boundary-less combined view), then the raw face segments as the final fallback.
+  // The generic 3-wall fallback runs only when none of these exist.
+  const solidWalls: Array<{ lenM: number; angle: number; midx: number; midz: number; thicknessM?: number }> =
+    boundaryWalls.length >= 3
+      ? boundaryWalls
+      : reconstructedShell.length >= 3
+        ? reconstructedShell
+        : realWalls.filter((w) => !w.isWindow);
   const hasRealShell = solidWalls.length > 0;
 
   // Polygon floor from the ACTUAL room boundary (spec §D) — never a rectangular
@@ -437,6 +467,25 @@ export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, 
     shape.closePath();
     return shape;
   }, [room.boundary, room.geometry_source, cx, cy, mpp]);
+
+  // DEF-3 follow-on: per-room polygon floors for the combined view. Same world→metre mapping
+  // as the single-room floor, one THREE.Shape per supplied architectural room boundary. Used
+  // only when there is no single `floorShape` (i.e. the synthetic combined room).
+  const extraFloorShapes = useMemo(() => {
+    return roomFloors
+      .filter((poly) => Array.isArray(poly) && poly.length >= 4)
+      .map((poly) => {
+        const shape = new THREE.Shape();
+        poly.forEach(([px, py], i) => {
+          const mx = (px - cx) * mpp;
+          const mz = (py - cy) * mpp;
+          if (i === 0) shape.moveTo(mx, mz);
+          else shape.lineTo(mx, mz);
+        });
+        shape.closePath();
+        return shape;
+      });
+  }, [roomFloors, cx, cy, mpp]);
 
   // AIR-03 Step 2M.1 / 2N.2 — minimal floor patch under each EXPLICITLY render-included
   // item whose footprint lies outside the room's authoritative floor polygon. Render-only:
@@ -592,13 +641,16 @@ export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, 
   // With no opening it returns exactly one full box — byte-identical to the previous
   // single-box shell. Purely a rendering decision; wall data/positions are unchanged.
   const buildWallPieces = (
-    w: { lenM: number; angle: number; midx: number; midz: number },
+    w: { lenM: number; angle: number; midx: number; midz: number; thicknessM?: number },
     keyPrefix: string,
   ): ReactElement[] => {
+    // Per-wall thickness: the MEASURED value (from reconstructed_walls) when this segment
+    // carries one, else the existing constant — so unmeasured shells are unchanged.
+    const t = w.thicknessM ?? WALL_THICKNESS;
     const { solids, headers, sills } = carveWallSegment(
       { lenM: w.lenM, angle: w.angle, midx: w.midx, midz: w.midz },
       carveOpenings,
-      { wallHeight: WALL_HEIGHT, wallThickness: WALL_THICKNESS, perpTol: CARVE_PERP_TOL, angleTol: CARVE_ANGLE_TOL },
+      { wallHeight: WALL_HEIGHT, wallThickness: t, perpTol: CARVE_PERP_TOL, angleTol: CARVE_ANGLE_TOL },
     );
     const dirx = Math.cos(w.angle);
     const dirz = Math.sin(w.angle);
@@ -609,7 +661,7 @@ export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, 
       const [px, , pz] = at(s.offset);
       pieces.push(
         <mesh key={`${keyPrefix}-solid${i}`} position={[px, WALL_HEIGHT / 2, pz]} rotation={[0, -w.angle, 0]} castShadow receiveShadow>
-          <boxGeometry args={[s.length, WALL_HEIGHT, WALL_THICKNESS]} />
+          <boxGeometry args={[s.length, WALL_HEIGHT, t]} />
           {mat()}
         </mesh>,
       );
@@ -618,7 +670,7 @@ export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, 
       const [px, , pz] = at(hd.offset);
       pieces.push(
         <mesh key={`${keyPrefix}-head${i}`} position={[px, hd.yCenter, pz]} rotation={[0, -w.angle, 0]} castShadow receiveShadow>
-          <boxGeometry args={[hd.length, hd.height, WALL_THICKNESS]} />
+          <boxGeometry args={[hd.length, hd.height, t]} />
           {mat()}
         </mesh>,
       );
@@ -627,7 +679,7 @@ export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, 
       const [px, , pz] = at(sl.offset);
       pieces.push(
         <mesh key={`${keyPrefix}-sill${i}`} position={[px, sl.height / 2, pz]} rotation={[0, -w.angle, 0]} castShadow receiveShadow>
-          <boxGeometry args={[sl.length, sl.height, WALL_THICKNESS]} />
+          <boxGeometry args={[sl.length, sl.height, t]} />
           {mat()}
         </mesh>,
       );
@@ -727,6 +779,22 @@ export default function RoomScene3D({ room, walls, mpp, preset, ceiling = true, 
             envMapIntensity={1.0}
           />
         </mesh>
+      ) : extraFloorShapes.length > 0 ? (
+        // Combined view: a polygon floor per architectural room (real shapes, not a rectangle).
+        extraFloorShapes.map((shape, i) => (
+          <mesh key={`room-floor-${i}`} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
+            <shapeGeometry args={[shape]} />
+            <meshPhysicalMaterial
+              map={wood}
+              side={THREE.DoubleSide}
+              roughness={0.32}
+              metalness={0.05}
+              clearcoat={0.5}
+              clearcoatRoughness={0.35}
+              envMapIntensity={1.0}
+            />
+          </mesh>
+        ))
       ) : (
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[roomW, roomD]} />

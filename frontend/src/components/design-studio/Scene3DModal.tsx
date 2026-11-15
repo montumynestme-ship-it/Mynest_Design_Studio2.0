@@ -3,6 +3,7 @@ import { Download, Pencil, X } from 'lucide-react';
 import RoomScene3D, { type CameraPreset } from './RoomScene3D';
 import RoomSection2D from './RoomSection2D';
 import { computeMpp, fetchScene, isWebGLAvailable, type Scene, type SceneRoom } from '../../lib/scene';
+import { buildCombinedRoom, collectRoomFloors } from '../../lib/combinedScene';
 
 interface Scene3DModalProps {
   planId: string;
@@ -54,17 +55,14 @@ export default function Scene3DModal({ planId, onClose }: Scene3DModalProps) {
   // ONE connected room = the entire floor plan (every room's furniture together,
   // spanning the full plan bbox). Combined with ALL walls, RoomScene3D renders
   // the rooms joined into a single connected house instead of separate sections.
-  const combined = useMemo<SceneRoom | null>(() => {
-    if (!scene) return null;
-    const furniture = scene.rooms.flatMap((r) => r.furniture);
-    if (furniture.length === 0) return null;
-    const xs = furniture.flatMap((f) => [f.cx - f.w / 2, f.cx + f.w / 2]);
-    const ys = furniture.flatMap((f) => [f.cy - f.h / 2, f.cy + f.h / 2]);
-    const x0 = Math.min(...xs);
-    const y0 = Math.min(...ys);
-    const bbox: [number, number, number, number] = [x0, y0, Math.max(...xs) - x0, Math.max(...ys) - y0];
-    return { id: 'floor-plan', label: 'Floor Plan', bbox, furniture };
-  }, [scene]);
+  // DEF-3 (slice): build the full-plan room from the ARCHITECTURE (walls + boundaries),
+  // rendering even with zero furniture and spanning walls outside the furniture bounds, with
+  // every room's opening placements aggregated. Pure/testable (lib/combinedScene); furniture
+  // is passed through unchanged. Per-room boundary/floor preservation is a separate follow-on.
+  const combined = useMemo<SceneRoom | null>(() => buildCombinedRoom(scene), [scene]);
+  // DEF-3 follow-on: per-room architectural floor polygons for the combined view (real room
+  // shapes instead of one rectangle). Only wall-proven rooms; furniture-hull rooms excluded.
+  const roomFloors = useMemo(() => collectRoomFloors(scene), [scene]);
 
   // Calibrate metres-per-pixel from a real room (bed/side-table) so the whole
   // house is at human scale.
@@ -164,7 +162,7 @@ export default function Scene3DModal({ planId, onClose }: Scene3DModalProps) {
               </div>
               <div ref={stageRef} className="gallery__pane-content scene3d__stage" style={{ minHeight: 380 }}>
                 {webglOk ? (
-                  <RoomScene3D room={combined} walls={scene.walls} wallColors={scene.wall_colors} mpp={mpp} preset={preset} ceiling={false} />
+                  <RoomScene3D room={combined} walls={scene.walls} reconstructedWalls={scene.reconstructed_walls} roomFloors={roomFloors} wallColors={scene.wall_colors} mpp={mpp} preset={preset} ceiling={false} />
                 ) : (
                   <div className="scene3d__error" role="alert">
                     <span>
