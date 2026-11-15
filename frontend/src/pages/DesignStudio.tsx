@@ -1,6 +1,6 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Box, Check, Crop, Layers, Maximize2, Menu, Minimize2, Save, Sparkles, Trash2, Upload } from 'lucide-react';
+import { Box, Check, Crop, Layers, Maximize2, Menu, Minimize2, Ruler, Save, Sparkles, Trash2, Upload } from 'lucide-react';
 import Button from '../components/ui/Button';
 import UploadModal from '../components/floor-plans/UploadModal';
 import FurnitureLibrary from '../components/design-studio/FurnitureLibrary';
@@ -19,6 +19,7 @@ import {
   type StructuralRequestFields,
 } from '../lib/generations';
 import { fetchScene, BASE_CAPTURE_W, BASE_CAPTURE_H, type Scene, type SceneRoom, type SceneFurniture } from '../lib/scene';
+import { buildArchitecturalView } from '../lib/architecturalView';
 import RegionSelectionPanel from '../components/design-studio/RegionSelectionPanel';
 import {
   selectRegion,
@@ -160,6 +161,12 @@ export default function DesignStudio() {
   const [layoutError, setLayoutError] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const [show3D, setShow3D] = useState(false);
+  // Phase 1 additive ARCHITECTURAL VIEW (read-only overlay of extracted walls/rooms/
+  // openings from /scene). Transient UI state — never a canonical/furniture edit.
+  const [showArchitecture, setShowArchitecture] = useState(false);
+  const [archScene, setArchScene] = useState<Scene | null>(null);
+  const [archLoading, setArchLoading] = useState(false);
+  const [archError, setArchError] = useState(false);
   const [planSnapshot, setPlanSnapshot] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [generation, setGeneration] = useState<Generation | null>(null);
@@ -238,6 +245,44 @@ export default function DesignStudio() {
   }, []);
 
   const activePlanId = activePlan?.id ?? null;
+
+  // Load the authoritative scene while the Architectural view is ON, so the overlay draws
+  // from live backend architecture. Read-only (never edits canonical); cleared when off.
+  // An unavailable backend surfaces an honest error state (handled in the stage hint).
+  useEffect(() => {
+    if (!showArchitecture || !activePlanId) {
+      setArchScene(null);
+      setArchError(false);
+      setArchLoading(false);
+      return;
+    }
+    let active = true;
+    setArchLoading(true);
+    setArchError(false);
+    fetchScene(activePlanId)
+      .then((s) => {
+        if (active) {
+          setArchScene(s);
+          setArchLoading(false);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setArchScene(null);
+          setArchError(true);
+          setArchLoading(false);
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [showArchitecture, activePlanId]);
+
+  // Pure, memoized render view for the architectural overlay (null when the view is off).
+  const architecturalView = useMemo(
+    () => (showArchitecture ? buildArchitecturalView(archScene) : null),
+    [showArchitecture, archScene],
+  );
   const activePlanRef = useRef<FloorPlan | null>(activePlan);
   activePlanRef.current = activePlan;
   const skipSaveRef = useRef(false);
@@ -1206,6 +1251,16 @@ export default function DesignStudio() {
             </Button>
             <Button
               size="sm"
+              variant={showArchitecture ? 'primary' : 'ghost'}
+              icon={<Ruler size={16} />}
+              onClick={() => setShowArchitecture((on) => !on)}
+              disabled={!activePlan}
+              title="Architectural view — overlay the extracted walls, room boundaries, doors and windows (read-only; works with zero furniture)"
+            >
+              {showArchitecture ? 'Hide Architecture' : 'Architecture'}
+            </Button>
+            <Button
+              size="sm"
               variant="ghost"
               icon={<Sparkles size={16} />}
               onClick={generating ? cancelGeneration : () => { setThemeText(''); setThemeDialogOpen(true); }}
@@ -1273,6 +1328,25 @@ export default function DesignStudio() {
               </span>
             </div>
           )}
+          {showArchitecture &&
+            (archLoading || archError || (architecturalView != null && !architecturalView.available)) && (
+              <div className="placing-hint">
+                <span>
+                  {archLoading
+                    ? 'Loading architectural geometry…'
+                    : archError
+                    ? 'Architectural data is unavailable — the backend may be offline.'
+                    : 'No architectural geometry was extracted for this plan.'}
+                </span>
+                <button
+                  type="button"
+                  className="placing-hint__done"
+                  onClick={() => setShowArchitecture(false)}
+                >
+                  Hide
+                </button>
+              </div>
+            )}
 
           {activePlan ? (
             <>
@@ -1288,6 +1362,7 @@ export default function DesignStudio() {
                 regionMode={regionMode}
                 region={region}
                 onRegionChange={setRegion}
+                architecture={architecturalView}
               />
               {regionMode &&
                 (() => {

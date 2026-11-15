@@ -17,6 +17,8 @@ import { iconUrlForItem, useFurnitureIcons } from '../../lib/furnitureIcons';
 import type { PlacedItem } from '../../types/design';
 import type { PlanImage } from '../../lib/loadPlanImage';
 import { normalizeRegion, type Region } from '../../lib/regionSelection';
+import ArchitecturalLayer from './ArchitecturalLayer';
+import type { ArchitecturalView } from '../../lib/architecturalView';
 
 interface DesignCanvasProps {
   plan: PlanImage | null;
@@ -35,6 +37,11 @@ interface DesignCanvasProps {
   region?: Region | null;
   /** Report a new/updated/cleared region as the user draws, moves or resizes it. */
   onRegionChange?: (region: Region | null) => void;
+  /** Phase 1 additive ARCHITECTURAL VIEW: when provided and `available`, a read-only,
+   * non-interactive overlay draws the extracted walls / room boundaries / door+window
+   * openings (world px, in the Stage transform). Null/undefined = overlay off (default),
+   * so the existing PDF-based view and furniture editing are completely unchanged. */
+  architecture?: ArchitecturalView | null;
 }
 
 const GRID_STEP = 50; // world px
@@ -45,7 +52,7 @@ export interface DesignCanvasHandle {
 }
 
 const DesignCanvas = forwardRef<DesignCanvasHandle, DesignCanvasProps>(function DesignCanvas(
-  { plan, placed, selectedUid, placing, onSelect, onChange, onPlace, regionMode = false, region = null, onRegionChange },
+  { plan, placed, selectedUid, placing, onSelect, onChange, onPlace, regionMode = false, region = null, onRegionChange, architecture = null },
   ref,
 ) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -409,6 +416,13 @@ const DesignCanvas = forwardRef<DesignCanvasHandle, DesignCanvasProps>(function 
               );
             })}
           </Layer>
+
+          {/* Architectural overlay (additive, read-only, non-interactive): extracted
+              walls / rooms / openings in world px. Above furniture so it reads as an
+              architectural view; listening is off so furniture editing is unaffected. */}
+          {architecture && architecture.available && (
+            <ArchitecturalLayer view={architecture} scale={scale} />
+          )}
 
           {/* Layer 4: Draw Area region (world px; transient — never a furniture edit) */}
           {regionMode && region && (
