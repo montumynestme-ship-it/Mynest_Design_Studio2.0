@@ -2,8 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Download, Pencil, X } from 'lucide-react';
 import RoomScene3D, { type CameraPreset } from './RoomScene3D';
 import RoomSection2D from './RoomSection2D';
-import { computeMpp, fetchScene, isWebGLAvailable, type Scene, type SceneRoom } from '../../lib/scene';
+import CalibrationOverlay from './CalibrationOverlay';
+import { fetchScene, isWebGLAvailable, type Scene, type SceneRoom } from '../../lib/scene';
 import { buildCombinedRoom, collectRoomFloors } from '../../lib/combinedScene';
+import { calibrateScale } from '../../lib/calibration';
 
 interface Scene3DModalProps {
   planId: string;
@@ -64,9 +66,19 @@ export default function Scene3DModal({ planId, onClose }: Scene3DModalProps) {
   // shapes instead of one rectangle). Only wall-proven rooms; furniture-hull rooms excluded.
   const roomFloors = useMemo(() => collectRoomFloors(scene), [scene]);
 
-  // Calibrate metres-per-pixel from a real room (bed/side-table) so the whole
-  // house is at human scale.
-  const mpp = useMemo(() => (scene?.rooms.length ? computeMpp(scene.rooms) : 0.01), [scene]);
+  // Calibrate metres-per-pixel WITH provenance: a known drawing dimension / stored
+  // scale (high confidence) → a furniture proxy (bed ≈2.0 m / side table; medium) →
+  // the UNCALIBRATED fallback (0.01) for an empty plan with no evidence. The scene
+  // still renders either way (every element scales by the same factor), but an
+  // uncalibrated scale is LABELLED as such so no metric accuracy is implied.
+  // A SAVED backend calibration (scale_mm_per_px, surfaced as scene.mpp) wins — high
+  // confidence. Otherwise fall back to the furniture proxy, then UNCALIBRATED.
+  const calibration = useMemo(
+    () => calibrateScale(scene?.rooms ?? [], { storedMpp: scene?.scale_calibrated ? scene?.mpp ?? null : null }),
+    [scene],
+  );
+  const mpp = calibration.mpp;
+  const [calibrating, setCalibrating] = useState(false);
 
   // Nudge a resize so react-three-fiber measures the real container size.
   useEffect(() => {
@@ -134,9 +146,32 @@ export default function Scene3DModal({ planId, onClose }: Scene3DModalProps) {
           <div className="gallery__body">
             {/* Left — exact 2D plan (whole floor) */}
             <div className="gallery__pane">
-              <div className="gallery__pane-label">2D Floor Plan</div>
-              <div className="gallery__pane-content scene3d__stage--2d">
+              <div
+                className="gallery__pane-label"
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}
+              >
+                <span>2D Floor Plan</span>
+                <button
+                  type="button"
+                  className={`scene3d__preset${calibrating ? ' scene3d__preset--on' : ''}`}
+                  onClick={() => setCalibrating((v) => !v)}
+                >
+                  {calibrating ? 'Cancel calibrate' : 'Calibrate scale'}
+                </button>
+              </div>
+              <div className="gallery__pane-content scene3d__stage--2d" style={{ position: 'relative' }}>
                 <RoomSection2D room={combined} walls={scene.walls} wallColors={scene.wall_colors} />
+                {calibrating && (
+                  <CalibrationOverlay
+                    room={combined}
+                    planId={planId}
+                    onSaved={() => {
+                      setCalibrating(false);
+                      setReloadKey((k) => k + 1);
+                    }}
+                    onClose={() => setCalibrating(false)}
+                  />
+                )}
               </div>
             </div>
 
@@ -181,7 +216,15 @@ export default function Scene3DModal({ planId, onClose }: Scene3DModalProps) {
           <span />
           <span className="gallery__counter">
             {combined
-              ? `Full floor plan · ${combined.furniture.length} pieces · ${scene?.walls.length ?? 0} walls`
+              ? `Full floor plan · ${combined.furniture.length} pieces · ${scene?.walls.length ?? 0} walls · ${
+                  calibration.conflict
+                    ? 'scale: conflicting dimensions'
+                    : !calibration.calibrated
+                      ? 'scale: uncalibrated (relative proportions)'
+                      : calibration.confidence === 'high'
+                        ? 'scale: calibrated'
+                        : 'scale: approx. (from furniture)'
+                }`
               : ''}
           </span>
           <div className="gallery__footer-right">

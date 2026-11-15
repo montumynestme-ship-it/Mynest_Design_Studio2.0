@@ -3,6 +3,7 @@
  * Every value is authoritative geometry from the 2D plan — the 3D renderer only
  * skins it; it never moves, adds, or removes anything (CLAUDE.md RULE #1).
  */
+import { calibrateScale } from './calibration';
 
 /**
  * Build the scene endpoint URL. When `version` (a design_version_id) is supplied the
@@ -176,6 +177,51 @@ export interface Scene {
    * bind each base-render capture to the exact version it represents, so a stale
    * capture is rejected by the backend base-render contract (Handoff #12). */
   design_version_id?: string | null;
+  /** Metric calibration (Phase B): millimetres per WORLD px, or null when the plan
+   * has not been calibrated. Additive — a consumer that ignores it renders exactly
+   * as before (relative proportions). */
+  scale_mm_per_px?: number | null;
+  /** Metres per WORLD px (`scale_mm_per_px / 1000`), null when uncalibrated. */
+  mpp?: number | null;
+  scale_calibrated?: boolean;
+  scale_source?: string | null;
+}
+
+export interface CalibrationResult {
+  file_id: string;
+  scale_mm_per_px: number | null;
+  mpp: number | null;
+  calibrated: boolean;
+  source: string | null;
+}
+
+/**
+ * Persist a metric calibration for a plan (Phase B): two WORLD-px points the designer
+ * picked on the 2D plan + the known real distance in mm. The backend computes
+ * `known_distance_mm / |p2 − p1|` (mm per world px) and stores it. Never overwrites an
+ * existing calibration unless `overwrite` is true. Throws on a non-2xx response with
+ * the backend's detail message.
+ */
+export async function putCalibration(
+  planId: string,
+  body: { p1: [number, number]; p2: [number, number]; known_distance_mm: number; overwrite?: boolean },
+): Promise<CalibrationResult> {
+  const res = await fetch(`/api/floor-plans/${planId}/calibration`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    let detail = `Calibration failed (${res.status})`;
+    try {
+      const j = (await res.json()) as { detail?: string };
+      if (j?.detail) detail = String(j.detail);
+    } catch {
+      /* keep the generic message */
+    }
+    throw new Error(detail);
+  }
+  return (await res.json()) as CalibrationResult;
 }
 
 /** Fixed deterministic base-render capture dimensions. Single source of truth for
@@ -290,17 +336,13 @@ export function matchSceneRoom(
 
 /**
  * Metres per plan pixel — calibrated from a bed's real length (~2.0 m), else a
- * side table (~0.45 m), else a sane constant. Keeps the whole scene at a real
- * human scale without needing the plan's absolute drawing scale.
+ * side table (~0.45 m), else the uncalibrated fallback (0.01). Keeps the whole scene
+ * at a real human scale without needing the plan's absolute drawing scale.
+ *
+ * Thin wrapper over {@link calibrateScale}: returns only the numeric factor so every
+ * existing caller is byte-identical, while the richer provenance/confidence (needed to
+ * honestly label an UNCALIBRATED empty plan) is available via `calibrateScale`.
  */
 export function computeMpp(rooms: SceneRoom[]): number {
-  for (const r of rooms) {
-    const bed = r.furniture.find((f) => f.item_id.includes('bed'));
-    if (bed) return 2.0 / Math.max(bed.w, bed.h);
-  }
-  for (const r of rooms) {
-    const st = r.furniture.find((f) => f.item_id === 'side-table');
-    if (st) return 0.45 / Math.max(st.w, st.h);
-  }
-  return 0.01;
+  return calibrateScale(rooms).mpp;
 }
