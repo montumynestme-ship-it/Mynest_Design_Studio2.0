@@ -9,6 +9,7 @@ import { BASE_CAPTURE_W, BASE_CAPTURE_H } from '../../lib/scene';
 import { projectFurnitureBoxes, type FurnitureBox } from '../../lib/furnitureBoxes';
 import { carveWallSegment, type CarveOpening } from '../../lib/wallCarve';
 import { selectReconstructedShell, type ShellWall } from '../../lib/measuredWalls';
+import { windowCaptureStyle, AI_WINDOW_FRAME_THICKNESS_M, AI_WINDOW_FRAME_COLOR } from '../../lib/aiCaptureStyle';
 import type { SceneRoom, ReconstructedWall } from '../../lib/scene';
 
 /** Read-only diagnostic: the ACTUAL world transform of one furniture group, measured
@@ -303,6 +304,11 @@ export default function RoomScene3D({ room, walls, reconstructedWalls = [], room
   // the camera, dollhouse cutaway, window handling and capture flow stay byte-identical to
   // the base render — only the shading (wireframe override + white bg below) differs.
   const aiRenderMode = aiRenderModeBase || structuralPass;
+  // AI-capture-only window legibility: a crisper pane + a thin opaque frame so the opening
+  // is visible to the image-conditioned model (base edit input AND the structural wireframe
+  // pass). The interactive/deterministic viewer (aiRenderMode false) is byte-identical — same
+  // translucent pane, no frame. Visual only; never changes window geometry/position/size.
+  const winStyle = windowCaptureStyle(aiRenderMode);
   const [bx, by, bw, bh] = room.bbox;
   const padPx = Math.max(bw, bh) * 0.18;
   const roomW = (bw + padPx * 2) * mpp;
@@ -955,10 +961,34 @@ export default function RoomScene3D({ room, walls, reconstructedWalls = [], room
               metalness={0}
               transmission={0.85}
               transparent
-              opacity={0.45}
+              opacity={winStyle.paneOpacity}
               envMapIntensity={1.3}
             />
           </mesh>
+          {/* AI-capture-only frame ring around the pane (same window position/size; drawn
+              only when aiRenderMode). Makes the opening read as a crisp rectangle for the
+              image-conditioned model; the interactive viewer draws no frame. Pane spans
+              y∈[0.9, 2.2] (centre 1.55, height 1.3). */}
+          {winStyle.frame && (
+            <>
+              <mesh position={[0, 2.2 + AI_WINDOW_FRAME_THICKNESS_M / 2, 0]}>
+                <boxGeometry args={[w.lenM + AI_WINDOW_FRAME_THICKNESS_M * 2, AI_WINDOW_FRAME_THICKNESS_M, WALL_THICKNESS]} />
+                <meshStandardMaterial color={AI_WINDOW_FRAME_COLOR} roughness={0.6} />
+              </mesh>
+              <mesh position={[0, 0.9 - AI_WINDOW_FRAME_THICKNESS_M / 2, 0]}>
+                <boxGeometry args={[w.lenM + AI_WINDOW_FRAME_THICKNESS_M * 2, AI_WINDOW_FRAME_THICKNESS_M, WALL_THICKNESS]} />
+                <meshStandardMaterial color={AI_WINDOW_FRAME_COLOR} roughness={0.6} />
+              </mesh>
+              <mesh position={[-(w.lenM / 2 + AI_WINDOW_FRAME_THICKNESS_M / 2), 1.55, 0]}>
+                <boxGeometry args={[AI_WINDOW_FRAME_THICKNESS_M, 1.3, WALL_THICKNESS]} />
+                <meshStandardMaterial color={AI_WINDOW_FRAME_COLOR} roughness={0.6} />
+              </mesh>
+              <mesh position={[w.lenM / 2 + AI_WINDOW_FRAME_THICKNESS_M / 2, 1.55, 0]}>
+                <boxGeometry args={[AI_WINDOW_FRAME_THICKNESS_M, 1.3, WALL_THICKNESS]} />
+                <meshStandardMaterial color={AI_WINDOW_FRAME_COLOR} roughness={0.6} />
+              </mesh>
+            </>
+          )}
         </group>
       ))}
 
