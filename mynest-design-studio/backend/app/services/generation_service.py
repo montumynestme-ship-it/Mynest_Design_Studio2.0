@@ -2238,6 +2238,11 @@ def generate(
                     containment_map=containment_map,
                     base_boxes=base_boxes,
                     base_render_meta=base_render_meta,
+                    # Path B: same artifact + semantics as the concurrent _worker (None unless
+                    # FAL_USE_CONTROLNET and FAL_CONTROL_STRUCTURAL are both on).
+                    structural_render=(
+                        _lookup_structural(room_label) if structural_enabled else None
+                    ),
                     explicit_manifest=region_manifest,
                 )
                 indexed_results.append((idx, res))
